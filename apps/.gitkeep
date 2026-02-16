@@ -1,0 +1,2 @@
+# Sample Django app structure
+# Create your apps using: python manage.py startapp app_name apps/app_name
