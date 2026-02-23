@@ -15,7 +15,6 @@ frontend/.env
 # IDE things
 .vscode/
 # vim
-.*~
 *.swp
 
 # OS files

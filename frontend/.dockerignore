@@ -1,0 +1,11 @@
+node_modules/
+build/
+.env
+
+*.log
+*.tmp
+*.swp
+
+.vscode/
+.DS_Store
+Thumbs.db
