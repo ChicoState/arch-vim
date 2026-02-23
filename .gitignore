@@ -17,6 +17,7 @@ frontend/.env
 .vscode/
 # vim
 *.swp
+*.*~
 
 # OS files
 .DS_Store
