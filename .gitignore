@@ -12,10 +12,18 @@ frontend/node_modules/
 frontend/build/
 frontend/.env
 
-# VS Code
+# IDE things
 .vscode/
+# vim
+.*~
+*.swp
 
 # OS files
 .DS_Store
 Thumbs.db
 
+# Docker files
+*.log
+
+# Other
+*.tmp
