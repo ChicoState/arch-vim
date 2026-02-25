@@ -18,8 +18,26 @@ export default function VimEditor(){
 		statusNode.style.fontSize = "12px";
 	
 		editor.getDomNode().appendChild(statusNode);
-
 		vimModeRef.current = initVimMode(editor, statusNode);
+
+
+		const cursorPosNode = document.createElement("div");
+		cursorPosNode.style.position = "absolute";
+		cursorPosNode.style.bottom = "0";
+		cursorPosNode.style.right = "250px";
+		cursorPosNode.style.background = "#1e1e1e";
+		cursorPosNode.padding = "4px 8px";
+		cursorPosNode.style.fontSize = "12px";
+
+		editor.getDomNode().appendChild(cursorPosNode);
+
+		
+		editor.onDidChangeCursorSelection(e => {
+			console.log("Cursor line: ", e.selection.positionLineNumber);
+			console.log("Cursor Column: ", e.selection.positionColumn);
+			cursorPosNode.innerText = `Ln ${e.selection.positionLineNumber}, Col ${e.selection.positionColumn}`;
+		});
+	
 
 		editor.onKeyDown((e) => {
 			console.log("Key pressed: ", e.browserEvent.key);
