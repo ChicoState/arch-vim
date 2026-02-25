@@ -28,9 +28,10 @@ export default function VimEditor(){
 	}
 
 	function checkAnswer() {
-		const expectedSolution = `function App() {
-		return <h1> Goodbye React </h1> 
-		}`;
+		const expectedSolution = 
+`function App() {
+	return <h1> Goodbye React </h1> 
+}`;
 		const userCode = editorRef.current.getValue();
 		console.log("User code: ", userCode);
 
@@ -48,9 +49,17 @@ export default function VimEditor(){
 		height = "500px"
 		width = "1000px"
 		defaultLanguage="javascript" //This is for highlighting
-		defaultValue={`function App() {
-		return <h1> Hello React </h1> 
-		}`} //This is where example code goes
+		defaultValue=
+{ //Code that appears on screen
+`function App() {
+	return <h1> Hello React </h1> 
+
+
+
+
+	awdadwad
+}`
+}
 		onMount={handleMount}
 		/>
 
