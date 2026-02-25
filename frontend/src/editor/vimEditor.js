@@ -12,9 +12,8 @@ export default function VimEditor(){
 		const statusNode = document.createElement("div");
 		statusNode.style.position = "absolute";
 		statusNode.style.bottom = "0";
-		statusNode.style.right = "10px";
+		statusNode.style.right = "150px";
 		statusNode.style.background = "#1e1e1e";
-		statusNode.color = "white";
 		statusNode.padding = "4px 8px";
 		statusNode.style.fontSize = "12px";
 	
@@ -48,16 +47,12 @@ export default function VimEditor(){
 		<Editor
 		height = "500px"
 		width = "1000px"
+		theme = "vs-dark"
 		defaultLanguage="javascript" //This is for highlighting
 		defaultValue=
 { //Code that appears on screen
 `function App() {
 	return <h1> Hello React </h1> 
-
-
-
-
-	awdadwad
 }`
 }
 		onMount={handleMount}
