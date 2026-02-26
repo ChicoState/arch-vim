@@ -15,7 +15,7 @@ export default function VimEditor(){
 		const statusNode = document.createElement("div");
 		statusNode.style.position = "absolute";
 		statusNode.style.bottom = "0";
-		statusNode.style.right = "150px";
+		statusNode.style.right = "50px";
 		statusNode.style.background = "#1e1e1e";
 		statusNode.padding = "4px 8px";
 		statusNode.style.fontSize = "12px";
@@ -27,7 +27,7 @@ export default function VimEditor(){
 		const cursorPosNode = document.createElement("div");
 		cursorPosNode.style.position = "absolute";
 		cursorPosNode.style.bottom = "0";
-		cursorPosNode.style.left = "50px";
+		cursorPosNode.style.left = "35px";
 		cursorPosNode.style.background = "#1e1e1e";
 		cursorPosNode.padding = "4px 8px";
 		cursorPosNode.style.fontSize = "12px";
@@ -68,13 +68,16 @@ export default function VimEditor(){
 		height = "500px"
 		width = "1000px"
 		theme = "vs-dark"
-		defaultLanguage="javascript" //This is for highlighting
+		defaultLanguage="c" //This is for highlighting
 		defaultValue=
 { //Code that appears on screen
-`function App() {
-	return <h1> Hello React </h1> 
+`void main() {
+	return 0; 
 }`
 }
+		options = {{
+			minimap: { enabled: false }
+		}}
 		onMount={handleMount}
 		/>
 
