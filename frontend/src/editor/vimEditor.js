@@ -8,6 +8,8 @@ export default function VimEditor(){
 
 	function handleMount(editor, monaco) {	
 		editorRef.current = editor;
+		const editorDom = editor.getDomNode();
+		editorDom.style.position = "relative";
 		
 		//Vim current mode at bottom
 		const statusNode = document.createElement("div");
@@ -25,7 +27,7 @@ export default function VimEditor(){
 		const cursorPosNode = document.createElement("div");
 		cursorPosNode.style.position = "absolute";
 		cursorPosNode.style.bottom = "0";
-		cursorPosNode.style.right = "270px";
+		cursorPosNode.style.left = "50px";
 		cursorPosNode.style.background = "#1e1e1e";
 		cursorPosNode.padding = "4px 8px";
 		cursorPosNode.style.fontSize = "12px";
