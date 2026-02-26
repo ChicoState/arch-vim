@@ -8,7 +8,8 @@ export default function VimEditor(){
 
 	function handleMount(editor, monaco) {	
 		editorRef.current = editor;
-
+		
+		//Vim current mode at bottom
 		const statusNode = document.createElement("div");
 		statusNode.style.position = "absolute";
 		statusNode.style.bottom = "0";
@@ -20,30 +21,29 @@ export default function VimEditor(){
 		editor.getDomNode().appendChild(statusNode);
 		vimModeRef.current = initVimMode(editor, statusNode);
 
-
+		//Cursor line info at bottom
 		const cursorPosNode = document.createElement("div");
 		cursorPosNode.style.position = "absolute";
 		cursorPosNode.style.bottom = "0";
-		cursorPosNode.style.right = "250px";
+		cursorPosNode.style.right = "270px";
 		cursorPosNode.style.background = "#1e1e1e";
 		cursorPosNode.padding = "4px 8px";
 		cursorPosNode.style.fontSize = "12px";
 
 		editor.getDomNode().appendChild(cursorPosNode);
-
 		
 		editor.onDidChangeCursorSelection(e => {
-			console.log("Cursor line: ", e.selection.positionLineNumber);
-			console.log("Cursor Column: ", e.selection.positionColumn);
+			console.log("Cursor Info: ", e);
 			cursorPosNode.innerText = `Ln ${e.selection.positionLineNumber}, Col ${e.selection.positionColumn}`;
 		});
 	
-
+		//Key logger (use for checking for certain key presses)
 		editor.onKeyDown((e) => {
 			console.log("Key pressed: ", e.browserEvent.key);
 		});
 	}
 
+	//Editor saves to memory, checks against that
 	function checkAnswer() {
 		const expectedSolution = 
 `function App() {
@@ -59,7 +59,7 @@ export default function VimEditor(){
 			alert("Nope");
 		}
 	}
-
+	//Build text box and check button
 	return(
 		<>
 		<Editor
