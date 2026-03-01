@@ -71,7 +71,10 @@ export default function VimEditor(){
 		defaultLanguage="c" //This is for highlighting
 		defaultValue=
 { //Code that appears on screen
-`void main() {
+`#include <stdio.h>
+
+void main() {
+	printf("Hello World");
 	return 0; 
 }`
 }
