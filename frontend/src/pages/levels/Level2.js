@@ -1,20 +1,59 @@
 import { Link } from "react-router-dom";
 import Editor from "@monaco-editor/react";
-import { useRef, useState } from "react";
-import { initVimMode } from "monaco-vim";
+import { useRef, useState, useEffect } from "react";
+import { initVimMode, VimMode} from "monaco-vim";
+
+//used to include quit
+let onQuit = null;
+
+
+//defineEx, defines a global command
+//_cm contains command called, params contains any charactars after like !
+VimMode.Vim.defineEx("quit", "q", (_cm, params) => {
+  //if ! is present, bang is set to true
+  const arg = params?.argString?.trim();
+  const bang = arg === "!";
+  //if the handler 'onQuit' is installed, call the function and pass it bang
+  if (onQuit) onQuit({ bang });
+});
 
 export default function Level2() {
 
-  //Passed Flag
+  //Flag used to close editor on quit
   const [showEditor, setShowEditor] = useState(true);
+
   const editorRef = useRef(null);
 	const vimModeRef = useRef(null);
+
+//Implements Handlers for console commands
+  useEffect(() => {
+    //iplements onQuit function
+    onQuit = ({ bang }) => {
+
+      //currently q! and q do the same thing since write isn't implemented.
+      setShowEditor(false);
+    };
+    // code to run when this component unmounts.
+    // Since the quit vim command is a global
+    // onQuit is set to null since the setShowEditor is not defined on other levels
+    //
+    return () => {
+      onQuit = null;
+      vimModeRef.current?.dispose?.();
+    };
+  }, []);
+
+
+
 
 
   function handleMount(editor, monaco) {	
 		editorRef.current = editor;
 		const editorDom = editor.getDomNode();
 		editorDom.style.position = "relative";
+
+
+    
 		
 		//Vim current mode at bottom
 		const statusNode = document.createElement("div");
@@ -37,16 +76,13 @@ export default function Level2() {
 		cursorPosNode.padding = "4px 8px";
 		cursorPosNode.style.fontSize = "12px";
 
-		editor.getDomNode().appendChild(cursorPosNode);
-		
-		// editor.onDidChangeCursorSelection(e => {
-		// 	console.log("Cursor Info: ", e);
-    //         const line = e.selection.positionLineNumber;
-    //         const col = e.selection.positionColumn;
-		// 	cursorPosNode.innerText = `Ln ${line}, Col ${col}`;
-    //         //FOR CHECKING POSITION FOR THIS SPECIFIC LEVEL
-    //         if(line === 4 && col === 15) setShowEditor(false);
-		// });
+		editor.onDidChangeCursorSelection(e => {
+			console.log("Cursor Info: ", e);
+      const line = e.selection.positionLineNumber;
+      const col = e.selection.positionColumn;
+			cursorPosNode.innerText = `Ln ${line}, Col ${col}`;
+		});
+    editor.getDomNode().appendChild(cursorPosNode);
   }
   //Page Content
   return (
@@ -101,8 +137,8 @@ void main() {
               <h3 style={{ color: "#4caf50" }}>You passed!</h3>
               <p style = {{ color: "white" }}>
                 Move on to the next level:
-                <Link to="/levels/2" style={{ marginLeft: "8px", color: "#4caf50" }}>
-                    Level 2
+                <Link to="/levels/3" style={{ marginLeft: "8px", color: "#4caf50" }}>
+                    Level 3
                 </Link>
               </p>
               <p style = {{ color: "white" }}>
