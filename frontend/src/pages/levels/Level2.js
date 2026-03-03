@@ -6,7 +6,7 @@ import { initVimMode } from "monaco-vim";
 export default function Level2() {
 
   //Passed Flag
-  const [passed, setPassed] = useState(false);
+  const [showEditor, setShowEditor] = useState(true);
   const editorRef = useRef(null);
 	const vimModeRef = useRef(null);
 
@@ -39,14 +39,14 @@ export default function Level2() {
 
 		editor.getDomNode().appendChild(cursorPosNode);
 		
-		editor.onDidChangeCursorSelection(e => {
-			console.log("Cursor Info: ", e);
-            const line = e.selection.positionLineNumber;
-            const col = e.selection.positionColumn;
-			cursorPosNode.innerText = `Ln ${line}, Col ${col}`;
-            //FOR CHECKING POSITION FOR THIS SPECIFIC LEVEL
-            if(line === 4 && col === 15) setPassed(true);
-		});
+		// editor.onDidChangeCursorSelection(e => {
+		// 	console.log("Cursor Info: ", e);
+    //         const line = e.selection.positionLineNumber;
+    //         const col = e.selection.positionColumn;
+		// 	cursorPosNode.innerText = `Ln ${line}, Col ${col}`;
+    //         //FOR CHECKING POSITION FOR THIS SPECIFIC LEVEL
+    //         if(line === 4 && col === 15) setShowEditor(false);
+		// });
   }
   //Page Content
   return (
@@ -68,6 +68,7 @@ export default function Level2() {
         </p>
       </div>
       <div class="editor">
+        { showEditor ? (
         <Editor
           height = "500px"
           width = "1000px"
@@ -80,16 +81,40 @@ export default function Level2() {
           defaultLanguage="c" //This is for highlighting
           defaultValue=
           { //Default code that appears on editor
-            `#include <stdio.h>
-            
-            void main() {
-              printf("Hello World");
-              return 0; 
-            }
-            `
+`#include <stdio.h>
+
+void main() {
+  printf("Hello World");
+  return 0; 
+}
+`
           }
         />
+          ) : (
+            <div style={{
+              marginTop: "20px",
+              padding: "10px",
+              background: "#1e1e1e",
+              border: "1px solid #4caf50",
+              borderRadius: "5px"
+              }}>
+              <h3 style={{ color: "#4caf50" }}>You passed!</h3>
+              <p style = {{ color: "white" }}>
+                Move on to the next level:
+                <Link to="/levels/2" style={{ marginLeft: "8px", color: "#4caf50" }}>
+                    Level 2
+                </Link>
+              </p>
+              <p style = {{ color: "white" }}>
+                Or go back home:
+                <Link to="/" style= {{ marginLeft: "8px"}}>
+                  Home
+                </Link>
+              </p>
+          </div>
+        )}
       </div>
+        
     </div>
   );
 }
