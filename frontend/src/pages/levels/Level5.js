@@ -2,11 +2,11 @@ import { Link } from "react-router-dom";
 import VimEditor from "../../editor/vimEditor"
 
 export default function Level1() {
-    // How to save the file with :w, also include :wq
     return (
       <div>
-        <h1>Level 2</h1>
-        <p>How to save</p>
+        <h1>Challenge Level!</h1>
+        <h3>Combine all the skills you've learned to complete the objective!</h3>
+        <p>Objective: Change Hello World to Goodbye World, and save.</p>
         <VimEditor />
       </div>  
     );

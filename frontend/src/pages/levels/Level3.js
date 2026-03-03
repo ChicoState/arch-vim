@@ -16,3 +16,5 @@ export default function Level1() {
       </div>  
     );
 }
+
+//insert text, into insert mode
