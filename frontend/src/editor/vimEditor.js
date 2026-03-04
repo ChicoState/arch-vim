@@ -12,10 +12,12 @@ export default function VimEditor(props) {
         onChange, //value, editor
         onKeyDown, //key, e, editor
         onVimInit, //vimMode, editor
-
+        onManualCheck, //level decides pass/fail
+        showButtons = true,
         options = {}
     } = props;
 
+    const editorRef = useRef(null);
     const vimModeRef = useRef(null);
 
     useEffect(() => {
@@ -30,7 +32,29 @@ export default function VimEditor(props) {
 
     }, []);
 
+//buttons
+    function handleReset() {
+        if (!editorRef.current) return;
+        editorRef.current.setValue(defaultValue);
+    	editorRef.current.focus();
+    }
+
+    function handleClear() {
+        if (!editorRef.current) return;
+        editorRef.current.setValue("");
+        editorRef.current.focus();
+    }
+
+    function handleCheck() {
+        if (!editorRef.current) return;
+        if (!onManualCheck) return;
+        const value = editorRef.current.getValue();
+        onManualCheck(value, editorRef.current);
+        editorRef.current.focus();
+    }
+
     function handleMount(editor, monaco) {
+		editorRef.current = editor;
         const editorDom = editor.getDomNode();
         editorDom.style.position = "relative";
 
@@ -77,13 +101,32 @@ export default function VimEditor(props) {
             if (!onKeyDown) return;
             const key = e.browserEvent.key;
             onKeyDown(key, e, editor);
-
         });
-
     }
 
 //render editor
     return (
+		<div>
+            {showButtons && (
+                <div style={{
+                    marginBottom: "10px",
+                    display: "flex",
+                    gap: "10px"
+                }}>
+                    <button onClick={handleReset}>
+                        Reset
+                    </button>
+                    <button onClick={handleClear}>
+                        Clear
+                    </button>
+                    {onManualCheck && (
+                        <button onClick={handleCheck}>
+                            Check
+                        </button>
+                    )}
+                </div>
+            )}
+
         <Editor
             height={height}
             width={width}
@@ -95,6 +138,7 @@ export default function VimEditor(props) {
                 ...options
             }}
             onMount={handleMount}
-        />
+            />
+        </div>
     );
 }
