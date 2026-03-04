@@ -1,20 +1,24 @@
 import { Link } from "react-router-dom";
-import VimEditor from "../../editor/vimEditor"
+import { useRef, useState } from "react";
+import VimEditor from "../editor/vimEditor";
 
-export default function Level1() {
-    //watch keystrokes for i, or watch mode change to insert
-    //
-    //Something like this:
-    //vimModeRef.current.on('modeChange', (mode) => {
-    //  console.log("Vim mode:", mode.mode);
-    //});
-    return (
-      <div>
-        <h1>Level 3</h1>
-        <p>Insert Mode</p>
-        <VimEditor />
-      </div>  
-    );
+export default function Level3() {
+    const [passed, setPassed] = useState(false);
+    const [enteredInsert, setEnteredInsert] = useState(false);
+    const alreadyPassed = useRef(false);
+
+
+    const starterText =
+`// Level 3: INSERT MODE
+// Press i to enter INSERT mode.
+// Type VIM inside the brackets.
+// Press Esc to go back to NORMAL mode.
+//
+// Objective: Put VIM inside [ ] below.
+
+int main() {
+  // Type here: [          ]
+  return 0;
 }
-
-//insert text, into insert mode
+`;
+}

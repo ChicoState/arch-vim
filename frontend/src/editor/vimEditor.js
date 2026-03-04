@@ -1,90 +1,100 @@
 import Editor from "@monaco-editor/react";
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import { initVimMode } from "monaco-vim";
 
-export default function VimEditor(){
-	const editorRef = useRef(null);
-	const vimModeRef = useRef(null);
+export default function VimEditor(props) {
+//props
+    const {
+        height = "500px",
+        width = "1000px",
+        defaultLanguage = "c",
+        defaultValue = "",
+        onChange, //value, editor
+        onKeyDown, //key, e, editor
+        onVimInit, //vimMode, editor
 
-	function handleMount(editor, monaco) {	
-		editorRef.current = editor;
-		const editorDom = editor.getDomNode();
-		editorDom.style.position = "relative";
-		
-		//Vim current mode at bottom
-		const statusNode = document.createElement("div");
-		statusNode.style.position = "absolute";
-		statusNode.style.bottom = "0";
-		statusNode.style.right = "50px";
-		statusNode.style.background = "#1e1e1e";
-		statusNode.padding = "4px 8px";
-		statusNode.style.fontSize = "12px";
-	
-		editor.getDomNode().appendChild(statusNode);
-		vimModeRef.current = initVimMode(editor, statusNode);
+        options = {}
+    } = props;
 
-		//Cursor line info at bottom
-		const cursorPosNode = document.createElement("div");
-		cursorPosNode.style.position = "absolute";
-		cursorPosNode.style.bottom = "0";
-		cursorPosNode.style.left = "35px";
-		cursorPosNode.style.background = "#1e1e1e";
-		cursorPosNode.padding = "4px 8px";
-		cursorPosNode.style.fontSize = "12px";
+    const vimModeRef = useRef(null);
 
-		editor.getDomNode().appendChild(cursorPosNode);
-		
-		editor.onDidChangeCursorSelection(e => {
-			console.log("Cursor Info: ", e);
-			cursorPosNode.innerText = `Ln ${e.selection.positionLineNumber}, Col ${e.selection.positionColumn}`;
-		});
-	
-		//Key logger (use for checking for certain key presses)
-		editor.onKeyDown((e) => {
-			console.log("Key pressed: ", e.browserEvent.key);
-		});
-	}
+    useEffect(() => {
 
-	//Editor saves to memory, checks against that
-	function checkAnswer() {
-		const expectedSolution = 
-`function App() {
-	return <h1> Goodbye React </h1> 
-}`;
-		const userCode = editorRef.current.getValue();
-		console.log("User code: ", userCode);
+        return () => {
+            //dispose vim mode if it exists
+            if (vimModeRef.current && vimModeRef.current.dispose) {
+                vimModeRef.current.dispose();
+            }
 
-		if(userCode.trim() === expectedSolution.trim()) {
-			alert("Correct");
-			//whatever else for correct
-		} else {
-			alert("Nope");
-		}
-	}
-	//Build text box and check button
-	return(
-		<>
-		<Editor
-		height = "500px"
-		width = "1000px"
-		theme = "vs-dark"
-		defaultLanguage="c" //This is for highlighting
-		defaultValue=
-{ //Code that appears on screen
-`#include <stdio.h>
+        };
 
-void main() {
-	printf("Hello World");
-	return 0; 
-}`
-}
-		options = {{
-			minimap: { enabled: false }
-		}}
-		onMount={handleMount}
-		/>
+    }, []);
 
-		<button onClick={checkAnswer}>Check</button>
-		</>
-	      );
+    function handleMount(editor, monaco) {
+        const editorDom = editor.getDomNode();
+        editorDom.style.position = "relative";
+
+//vim status and mode
+        const statusNode = document.createElement("div");
+        statusNode.style.position = "absolute";
+        statusNode.style.bottom = "0";
+        statusNode.style.right = "50px";
+        statusNode.style.background = "#1e1e1e";
+        statusNode.style.padding = "4px 8px";
+        statusNode.style.fontSize = "12px";
+        statusNode.style.color = "#ddd";
+        editorDom.appendChild(statusNode);
+        vimModeRef.current = initVimMode(editor, statusNode);
+        if (onVimInit) {
+            onVimInit(vimModeRef.current, editor);
+        }
+
+//cursor position status
+        const cursorPosNode = document.createElement("div");
+        cursorPosNode.style.position = "absolute";
+        cursorPosNode.style.bottom = "0";
+        cursorPosNode.style.left = "35px";
+        cursorPosNode.style.background = "#1e1e1e";
+        cursorPosNode.style.padding = "4px 8px";
+        cursorPosNode.style.fontSize = "12px";
+        cursorPosNode.style.color = "#ddd";
+        editorDom.appendChild(cursorPosNode);
+        editor.onDidChangeCursorSelection((e) => {
+            const line = e.selection.positionLineNumber;
+            const col  = e.selection.positionColumn;
+            cursorPosNode.innerText = `Ln ${line}, Col ${col}`;
+        });
+
+//text changes finder
+        editor.onDidChangeModelContent(() => {
+            if (!onChange) return;
+            const value = editor.getValue();
+            onChange(value, editor);
+        });
+
+//keydown hook
+        editor.onKeyDown((e) => {
+            if (!onKeyDown) return;
+            const key = e.browserEvent.key;
+            onKeyDown(key, e, editor);
+
+        });
+
+    }
+
+//render editor
+    return (
+        <Editor
+            height={height}
+            width={width}
+            theme="vs-dark"
+            defaultLanguage={defaultLanguage}
+            defaultValue={defaultValue}
+            options={{
+                minimap: { enabled: false },
+                ...options
+            }}
+            onMount={handleMount}
+        />
+    );
 }
