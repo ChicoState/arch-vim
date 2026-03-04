@@ -25,13 +25,18 @@ export default function Level2() {
   const editorRef = useRef(null);
 	const vimModeRef = useRef(null);
 
-//Implements Handlers for console commands
+  //constants used for cleanup
+  const disposables = useRef([]);
+  const statusNodeRef = useRef(null);
+  const cursorNodeRef = useRef(null);
+
+  //Implements Handlers for console commands
   useEffect(() => {
     //iplements onQuit function
     onQuit = ({ bang }) => {
 
       //currently q! and q do the same thing since write isn't implemented.
-      setShowEditor(false);
+      safeClose();
     };
     // code to run when this component unmounts.
     // Since the quit vim command is a global
@@ -40,20 +45,36 @@ export default function Level2() {
     return () => {
       onQuit = null;
       vimModeRef.current?.dispose?.();
+      for(const d in disposables.current) {
+        d?.dispose?.();
+      }
     };
   }, []);
 
+  function safeClose() {
+    //stop monaco-vim
+    vimModeRef.current?.dispose?.();
+    vimModeRef.current = null;
 
+    //stops monaco listeners
+    for(const d in disposables.current) {
+      d?.dispose?.();
+    }
+    disposables.current = [];
 
+    //removes added nodes(status/cursor)
+    statusNodeRef.current?.remove?.();
+    cursorNodeRef.current?.remove?.();
+    statusNodeRef.current = null;
+    cursorNodeRef.current = null;
 
+    queueMicrotask(() => setShowEditor(false));
+  }
 
   function handleMount(editor, monaco) {	
 		editorRef.current = editor;
 		const editorDom = editor.getDomNode();
 		editorDom.style.position = "relative";
-
-
-    
 		
 		//Vim current mode at bottom
 		const statusNode = document.createElement("div");
@@ -65,7 +86,10 @@ export default function Level2() {
 		statusNode.style.fontSize = "12px";
 	
 		editor.getDomNode().appendChild(statusNode);
+    statusNodeRef.current = statusNode;
+
 		vimModeRef.current = initVimMode(editor, statusNode);
+    
 
 		//Cursor line info at bottom
 		const cursorPosNode = document.createElement("div");
@@ -75,14 +99,17 @@ export default function Level2() {
 		cursorPosNode.style.background = "#1e1e1e";
 		cursorPosNode.padding = "4px 8px";
 		cursorPosNode.style.fontSize = "12px";
+    cursorNodeRef.current = cursorPosNode;
 
-		editor.onDidChangeCursorSelection(e => {
+		const cursorDisp = editor.onDidChangeCursorSelection(e => {
 			console.log("Cursor Info: ", e);
       const line = e.selection.positionLineNumber;
       const col = e.selection.positionColumn;
 			cursorPosNode.innerText = `Ln ${line}, Col ${col}`;
 		});
     editor.getDomNode().appendChild(cursorPosNode);
+
+    disposables.current.push(cursorDisp);
   }
   //Page Content
   return (
@@ -127,6 +154,8 @@ void main() {
           }
         />
           ) : (
+
+              //Displayed when editor is closed/exitted
             <div style={{
               marginTop: "20px",
               padding: "10px",
