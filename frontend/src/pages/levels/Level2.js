@@ -18,12 +18,12 @@ VimMode.Vim.defineEx("quit", "q", (_cm, params) => {
 });
 
 //Creates a Nav bar for this level, which alows for safe closing of the editor, before navigation.
-function Level2Nav({ safeCloseAsync }) {
+function Level2Nav({ safeClosePromise }) {
   const navigate = useNavigate();
 
   const go = (to) => async (e) => {
     e.preventDefault();          // stop immediate navigation
-    await safeCloseAsync();      // wait for close to finish
+    await safeClosePromise();      // wait for close to finish
     navigate(to);                // now navigate
   };
 
@@ -93,7 +93,7 @@ export default function Level2() {
     setTimeout(() => setShowEditor(false), 50);
   }
 
-  const safeCloseAsync = () =>
+  const safeClosePromise = () =>
     new Promise((resolve) => {
       safeClose();          // your existing close that triggers teardown
       setTimeout(resolve, 50); // SAME delay you already know works
@@ -143,7 +143,7 @@ export default function Level2() {
   return (
     
     <div class="level2" >
-      <Level2Nav safeCloseAsync={safeCloseAsync} />
+      <Level2Nav safeClosePromise={safeClosePromise} />
       <div class="level_info" style={{ padding: "10px" }}>
         <h1>Level 2</h1>
         <h3>Learn how to exit a file</h3>
