@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import Editor from "@monaco-editor/react";
 import { useRef, useState, useEffect } from "react";
 import { initVimMode, VimMode} from "monaco-vim";
@@ -17,6 +17,24 @@ VimMode.Vim.defineEx("quit", "q", (_cm, params) => {
   if (onQuit) onQuit({ bang });
 });
 
+//Creates a Nav bar for this level, which alows for safe closing of the editor, before navigation.
+function Level2Nav({ safeCloseAsync }) {
+  const navigate = useNavigate();
+
+  const go = (to) => async (e) => {
+    e.preventDefault();          // stop immediate navigation
+    await safeCloseAsync();      // wait for close to finish
+    navigate(to);                // now navigate
+  };
+
+  return (
+    <nav>
+      <Link to="/" onClick={go("/")}>Home</Link> |{" "}
+      <Link to="/levels" onClick={go("/levels")}>Levels</Link>
+    </nav>
+  );
+}
+
 export default function Level2() {
 
   //Flag used to close editor on quit
@@ -32,6 +50,9 @@ export default function Level2() {
 
   //Implements Handlers for console commands
   useEffect(() => {
+    //Hide app Navbar to allow for one that closes editor before leaving page.
+    document.body.classList.add("hide-global-nav");
+
     //iplements onQuit function
     onQuit = ({ bang }) => {
 
@@ -44,6 +65,7 @@ export default function Level2() {
     //
     return () => {
       onQuit = null;
+      document.body.classList.remove("hide-global-nav");
       vimModeRef.current?.dispose?.();
       for(const d in disposables.current) {
         d?.dispose?.();
@@ -68,8 +90,14 @@ export default function Level2() {
     statusNodeRef.current = null;
     cursorNodeRef.current = null;
 
-    queueMicrotask(() => setShowEditor(false));
+    setTimeout(() => setShowEditor(false), 50);
   }
+
+  const safeCloseAsync = () =>
+    new Promise((resolve) => {
+      safeClose();          // your existing close that triggers teardown
+      setTimeout(resolve, 50); // SAME delay you already know works
+    });
 
   function handleMount(editor, monaco) {	
 		editorRef.current = editor;
@@ -113,8 +141,10 @@ export default function Level2() {
   }
   //Page Content
   return (
-    <div class="level2" style={{ padding: "10px" }}>
-      <div class="level_info">
+    
+    <div class="level2" >
+      <Level2Nav safeCloseAsync={safeCloseAsync} />
+      <div class="level_info" style={{ padding: "10px" }}>
         <h1>Level 2</h1>
         <h3>Learn how to exit a file</h3>
         <p>
@@ -165,16 +195,16 @@ void main() {
               }}>
               <h3 style={{ color: "#4caf50" }}>You passed!</h3>
               <p style = {{ color: "white" }}>
-                Move on to the next level:
-                <Link to="/levels/3" style={{ marginLeft: "8px", color: "#4caf50" }}>
+                  Move on to the next level:
+                  <Link to="/levels/3" style={{ marginLeft: "8px", color: "#4caf50" }}>
                     Level 3
-                </Link>
+                  </Link>
               </p>
               <p style = {{ color: "white" }}>
-                Or go back home:
-                <Link to="/" style= {{ marginLeft: "8px"}}>
-                  Home
-                </Link>
+                  Or go back home:
+                  <Link to="/" style= {{ marginLeft: "8px"}}>
+                    Home
+                  </Link>
               </p>
           </div>
         )}

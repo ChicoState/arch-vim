@@ -22,7 +22,7 @@ function App() {
   }, []);
   return (
     <BrowserRouter>
-      <nav>
+      <nav id = "global-nav">
         <Link to="/">Home</Link> |{" "}
         <Link to="/levels">Levels</Link>
       </nav>
