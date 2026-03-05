@@ -56,7 +56,8 @@ export default function Level4() {
                     vimCommand = vimCommand.slice(0, -1);
                 } else if (key === "Enter") {
                     const cmd = vimCommand.trim();
-                    if (cmd === ":w" || cmd.startsWith(":w ")) {
+                    // only exact save command triggers success
+                    if (cmd === ":w") {
                         setPassed(true);
                     }
                     vimCommand = "";
@@ -76,9 +77,9 @@ export default function Level4() {
       <div style={{ padding: "10px" }}>
         <h1>Level 4</h1>
         <h3>Learn how to save a file</h3>
-        <p>After escaping, save the file with <code>:w</code>.<br></br>
+        <p>After escaping, type <code>:w</code> and press Enter to save the file.<br></br>
             
-        Objective: save the file. {/* After 'Hello' */}
+        Objective: run the save command (<code>:w</code>) to pass.<nobr>{/* After 'Hello' */}</nobr>
         </p>
 
 {/* EDITOR IMPLEMENTATION */}
