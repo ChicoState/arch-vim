@@ -10,6 +10,14 @@ let onQuit = null;
 //defineEx, defines a global command
 //_cm contains command called, params contains any charactars after like !
 VimMode.Vim.defineEx("quit", "q", (_cm, params) => {
+
+  
+  //if command countains line info before/ after command, it doesn't exit.
+  if (params && (params.line != null || params.lineEnd != null)) {
+    // just ignore invalid form
+    return;
+  }
+
   //if ! is present, bang is set to true
   const arg = params?.argString?.trim();
   const bang = arg === "!";
