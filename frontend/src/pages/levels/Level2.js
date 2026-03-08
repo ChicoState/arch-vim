@@ -103,8 +103,8 @@ export default function Level2() {
           Objective: Simply Close the editor
         </p>
       </div>
-      <div class="editor">
-        { showEditor ? (
+      <>
+        {/* { showEditor ? ( */}
         <Editor
           height = "500px"
           width = "1000px"
@@ -126,7 +126,7 @@ void main() {
 `
           }
         />
-          ) : (
+          {passed && (
             <div style={{
               marginTop: "20px",
               padding: "10px",
@@ -149,7 +149,7 @@ void main() {
               </p>
           </div>
         )}
-      </div>
+      </>
         
     </div>
   );
