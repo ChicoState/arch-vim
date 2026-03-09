@@ -12,6 +12,9 @@ export default function Level3() {
   const [pressedI, setPressedI] = useState(false);
   const [pressedEsc, setPressedEsc] = useState(false);
 
+  const pressedIRef = useRef(false);
+  const pressedEscRef = useRef(false);
+
   const editorRef = useRef(null);
   const vimModeRef = useRef(null);
   const postedRef = useRef(false);
@@ -36,7 +39,7 @@ export default function Level3() {
 
   function checkWinCondition(code) {
     const hasVimInBrackets = /\[\s*VIM\s*\]/.test(code);
-    return hasVimInBrackets && pressedI && pressedEsc;
+    return hasVimInBrackets && pressedIRef.current && pressedEscRef.current;
   }
 
   function handleMount(editor) {
@@ -79,17 +82,33 @@ export default function Level3() {
       if (key === "ArrowUp" || key === "ArrowDown" || key === "ArrowLeft" || key === "ArrowRight") {
         alert("Please don't use arrow keys");
       }
-      if (key === "i" && !passed) setPressedI(true);
-      if (key === "Escape" && !passed) setPressedEsc(true);
+      if (key === "i" && !passed) {
+        pressedIRef.current = true;
+        setPressedI(true);
+      }
+      if (key === "Escape" && !passed) {
+        pressedEscRef.current = true;
+        setPressedEsc(true);
+      }
     });
 
     const updateEscFromStatus = () => {
       const t = (statusNode.innerText || "").toUpperCase();
-      if (t.includes("NORMAL")) setPressedEsc(true);
+      if (t.includes("NORMAL")) {
+        pressedEscRef.current = true;
+        setPressedEsc(true);
+      }
     };
 
     const observer = new MutationObserver(() => {
-      if (!passed) updateEscFromStatus();
+      if (passed) return;
+      updateEscFromStatus();
+      const code = editor.getValue();
+      if (checkWinCondition(code)) {
+        setPassed(true);
+        observer.disconnect();
+        postCompleteOnce();
+      }
     });
 
     observer.observe(statusNode, { childList: true, characterData: true, subtree: true });
