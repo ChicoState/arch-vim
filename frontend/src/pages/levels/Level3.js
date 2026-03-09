@@ -134,6 +134,10 @@ export default function Level3() {
       <h1>Level 3</h1>
       <h3>Insert Mode</h3>
       <p>
+        Vim starts in NORMAL mode, which is for navigation and commands.
+        <br />
+        To type text into the file, you must switch into INSERT mode.
+        <br />
         Press <b>i</b> to enter INSERT mode.<br />
         Type <b>VIM</b> inside the brackets.<br />
         Press <b>Esc</b> to return to NORMAL mode.<br />
