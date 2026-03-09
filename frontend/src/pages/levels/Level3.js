@@ -134,7 +134,7 @@ export default function Level3() {
       <h1>Level 3</h1>
       <h3>Insert Mode</h3>
       <p>
-        Vim has multiple modes which allow for different actions to be taken. So far, you have been in what is called "Normal" mode, which is where most commands are used. Normal mode is the default mode of the Vim editor, but it can always be returned to from other modes by pressed your 'esc' key. Your current mode is listed on the bottom right of the editor.<br></br><br></br>
+        Vim has multiple modes which allow for different actions to be taken. So far, you have been in what is called "Normal" mode, which is where most commands are used. Normal mode is the default mode of the Vim editor, but it can always be returned to from other modes by pressed your <kbd>esc</kbd>key. Your current mode is listed on the bottom right of the editor.<br></br><br></br>
         In this level, you will use what is called "Insert" mode. <br></br>
         Insert mode is the mode that allows you to actually type!<br></br><br></br>
         Press <kbd>i</kbd> to enter INSERT mode.<br />

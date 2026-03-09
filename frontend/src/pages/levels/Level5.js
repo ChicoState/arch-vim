@@ -10,12 +10,12 @@ let onWrite = null;
 let onWriteQuit = null;
 let done = false;
 
-VimMode.Vim.defineEx("write", "w", (_cm, params) => {
-  const arg = params?.argString?.trim();
-  const bang = arg === "!";
-  if (onWrite) onWrite({ bang });
-  done = true;
-});
+// VimMode.Vim.defineEx("write", "w", (_cm, params) => {
+//   const arg = params?.argString?.trim();
+//   const bang = arg === "!";
+//   if (onWrite) onWrite({ bang });
+//   done = true;
+// });
 
 VimMode.Vim.defineEx("wq", "wq", (_cm, params) => {
   const arg = params?.argString?.trim();
@@ -240,13 +240,10 @@ useEffect(() => {
       <h1>Challenge level</h1>
         <h3>Combine all the skills you've learned to complete the objective!</h3>
         <p>
-          Objective: Change Hello World to Goodbye World, and save
+          Objective: Change <kbd>Hello World</kbd>to <kbd>Goodbye World</kbd>then save and quit
         </p>
        <ul className="key-list">
-          <li><kbd>Esc</kbd> Return to NORMAL mode</li>
-          <li><kbd>i</kbd> Enter INSERT mode</li>
-          <li><kbd>:w</kbd> Save</li>
-          <li><kbd>:wq</kbd> Save and Quit</li>
+          <li>Hint: You can combine <kbd>:w</kbd> and <kbd>:q</kbd> into <kbd>:wq</kbd> to Save and Quit</li>
         </ul>
 
       <Editor
@@ -280,14 +277,14 @@ int main() {
           <h3 style={{ color: "#4caf50" }}>You passed!</h3>
 
           <p style={{ color: "white" }}>
-            No more levels
+            Thats all, folks!
             {/* <Link to="/levels/4" style={{ marginLeft: "8px", color: "#4caf50" }}>
               Level 4
             </Link> */}
           </p>
 
           <p style={{ color: "white" }}>
-            Or go back home:
+            Back home:
             <Link to="/" style={{ marginLeft: "8px",  color: "#d54622" }}>
               Home
             </Link>

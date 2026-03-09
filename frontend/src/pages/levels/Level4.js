@@ -55,7 +55,7 @@ export default function Level4() {
     return (
         <div style={{ padding: "10px" }}>
             <h1>Level 4</h1>
-            <h3>Learn how to save a file</h3>
+            <h3>How to save a file</h3>
             <p>After escaping, type <kbd>:w</kbd> and press Enter to save the file.<br />
                 Objective: run the save command to pass.
             </p>
