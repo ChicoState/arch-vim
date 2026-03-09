@@ -43,3 +43,26 @@
 body.hide-global-nav #global-nav {
   display: none !important;
 }
+/* Level 5 css */
+.key-list {
+  list-style: none;
+  padding: 0;
+}
+
+.key-list li {
+  margin: 8px 0;
+  font-size: 16px;
+}
+
+kbd {
+  display: inline-block;
+  padding: 4px 8px;
+  font-size: 14px;
+  font-family: monospace;
+  background: #2d2d2d;
+  color: #fff;
+  border-radius: 6px;
+  border: 1px solid #555;
+  box-shadow: 0 2px 0 #111;
+  margin-right: 6px;
+}
