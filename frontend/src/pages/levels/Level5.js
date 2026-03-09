@@ -25,13 +25,13 @@ VimMode.Vim.defineEx("wq", "wq", (_cm, params) => {
 });
 
 // keep your quit
-VimMode.Vim.defineEx("quit", "q", (_cm, params) => {
-  if (params && (params.line != null || params.lineEnd != null)) return;
-  const arg = params?.argString?.trim();
-  const bang = arg === "!";
-  if (onQuit) onQuit({ bang });
-  done = true;
-});
+// VimMode.Vim.defineEx("quit", "q", (_cm, params) => {
+//   if (params && (params.line != null || params.lineEnd != null)) return;
+//   const arg = params?.argString?.trim();
+//   const bang = arg === "!";
+//   if (onQuit) onQuit({ bang });
+//   done = true;
+// });
 
 export default function Level5() {
   const [passed, setPassed] = useState(false);
