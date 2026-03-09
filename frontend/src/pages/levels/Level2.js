@@ -184,7 +184,7 @@ export default function Level2() {
           { //Default code that appears on editor
 `#include <stdio.h>
 
-void main() {
+int main() {
   printf("Hello World");
   return 0; 
 }
