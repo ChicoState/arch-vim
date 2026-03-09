@@ -56,7 +56,6 @@ export default function Level4() {
                     vimCommand = vimCommand.slice(0, -1);
                 } else if (key === "Enter") {
                     const cmd = vimCommand.trim();
-                    // only exact save command triggers success
                     if (cmd === ":w") {
                         setPassed(true);
                     }
