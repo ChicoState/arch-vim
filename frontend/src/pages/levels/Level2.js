@@ -158,11 +158,11 @@ export default function Level2() {
         <p>
           When starting with vim its not always clear how to exit
           <br />
-          To open the console, press :
+          To open the console, press <kbd>:</kbd>
           <br />
-          Typing ':q' will exit the vim editer
+          Typing <kbd>:q</kbd> will exit the vim editer
           <br />
-          If you make an accidental change, and want to quit without saving, type ':q!'
+          If you make an accidental change, and want to quit without saving, type <kbd>:q!</kbd>
           <br />
           <br />
           Objective: Simply Close the editor
