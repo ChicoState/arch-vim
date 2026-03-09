@@ -36,3 +36,10 @@
     transform: rotate(360deg);
   }
 }
+
+/* Level 2 CSS */
+
+/* Hides navbar */
+body.hide-global-nav #global-nav {
+  display: none !important;
+}
