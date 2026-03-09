@@ -19,24 +19,6 @@ export default function Level3() {
   const vimModeRef = useRef(null);
   const postedRef = useRef(false);
 
-  async function postCompleteOnce() {
-    if (postedRef.current) return;
-    postedRef.current = true;
-
-    try {
-      const res = await fetch("http://localhost:8000/api/levels/3/complete/", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ passed: true }),
-      });
-      const data = await res.json().catch(() => ({}));
-      if (res.ok && data.ok !== false) setSaved(true);
-    } catch (e) {
-      console.error("Failed to save Level 3 completion:", e);
-      postedRef.current = false; //allow retry if server was down
-    }
-  }
-
   function checkWinCondition(code) {
     const hasVimInBrackets = /\[\s*VIM\s*\]/.test(code);
     return hasVimInBrackets && pressedIRef.current && pressedEscRef.current;
