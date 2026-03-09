@@ -1,24 +1,3 @@
-// export default function Level3() {
-//     const [passed, setPassed] = useState(false);
-//     const [enteredInsert, setEnteredInsert] = useState(false);
-//     const alreadyPassed = useRef(false);
-
-
-//     const starterText =
-// `// Level 3: INSERT MODE
-// // Press i to enter INSERT mode.
-// // Type VIM inside the brackets.
-// // Press Esc to go back to NORMAL mode.
-// //
-// // Objective: Put VIM inside [ ] below.
-
-// int main() {
-//   // Type here: [          ]
-//   return 0;
-// }
-// `;
-// ;
-// src/pages/levels/Level3.js
 import { Link } from "react-router-dom";
 import Editor from "@monaco-editor/react";
 import { useRef, useState } from "react";
@@ -104,16 +83,31 @@ export default function Level3() {
       if (key === "Escape" && !passed) setPressedEsc(true);
     });
 
+    const updateEscFromStatus = () => {
+      const t = (statusNode.innerText || "").toUpperCase();
+      if (t.includes("NORMAL")) setPressedEsc(true);
+    };
+
+    const observer = new MutationObserver(() => {
+      if (!passed) updateEscFromStatus();
+    });
+
+    observer.observe(statusNode, { childList: true, characterData: true, subtree: true });
+
     //check win condition
     editor.onDidChangeModelContent(() => {
       if (passed) return;
 
+      updateEscFromStatus();
       const code = editor.getValue();
       if (checkWinCondition(code)) {
         setPassed(true);
+        observer.disconnect();
         postCompleteOnce();
       }
     });
+
+    editor.onDidDispose(() => observer.disconnect());
   }
 
   return (
