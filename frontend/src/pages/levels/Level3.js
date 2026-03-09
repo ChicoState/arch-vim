@@ -166,13 +166,6 @@ export default function Level3() {
           <h3 style={{ color: "#4caf50" }}>You passed!</h3>
 
           <p style={{ color: "white" }}>
-            Saved on server:{" "}
-            <span style={{ color: saved ? "#4caf50" : "orange" }}>
-              {saved ? "Yes" : "Trying..."}
-            </span>
-          </p>
-
-          <p style={{ color: "white" }}>
             Move on to the next level:
             <Link to="/levels/4" style={{ marginLeft: "8px", color: "#4caf50" }}>
               Level 4
