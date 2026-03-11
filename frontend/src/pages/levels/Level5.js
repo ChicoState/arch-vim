@@ -244,6 +244,7 @@ useEffect(() => {
         </p>
        <ul className="key-list">
           <li>Hint: You can combine <kbd>:w</kbd> and <kbd>:q</kbd> into <kbd>:wq</kbd> to Save and Quit</li>
+          <li>Hint 2: You need to be in Normal mode to use <kbd>:</kbd>commands</li>
         </ul>
 
       <Editor
