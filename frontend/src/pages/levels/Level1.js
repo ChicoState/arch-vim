@@ -64,10 +64,10 @@ export default function Level1() {
         <h1>Level 1</h1>
         <h3>Learn how to navigate a file</h3>
         <p>By default, Vim uses the keys h, j, k, l for navigation in the editor.<br></br>
-            h -> move left<br></br>
-            j -> move down<br></br>
-            k -> move up<br></br>
-            l -> move right<br></br><br></br>
+            <kbd>h</kbd> move left<br></br>
+            <kbd>j</kbd> move down<br></br>
+            <kbd>k</kbd> move up<br></br>
+            <kbd>l</kbd> move right<br></br><br></br>
         Objective: Without using your arrow keys, move the cursor to Line 4, Column 15. {/* After 'Hello' */}
         </p>
 
@@ -86,7 +86,7 @@ export default function Level1() {
 { //Default code that appears on editor
 `#include <stdio.h>
 
-void main() {
+int main() {
 	printf("Hello World");
 	return 0; 
 }
