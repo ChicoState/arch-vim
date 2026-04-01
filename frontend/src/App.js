@@ -1,4 +1,4 @@
-import logo from './logo.svg';
+import logo from './logo.png';
 import './App.css';
 
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
@@ -12,6 +12,7 @@ import Level3 from './pages/levels/Level3.js';
 import Level4 from './pages/levels/Level4.js';
 import Level5 from './pages/levels/Level5.js';
 import Home from './pages/Home.js';
+import { write, read } from "./utils/session";
 
 function App() {
   useEffect(() => {
@@ -19,7 +20,14 @@ function App() {
       .then((res) => res.text())
       .then((data) => console.log(data))
       .catch((err) => console.error(err));
+          const saved = read();
+    if (saved) {
+      console.log(saved);
+    } else {
+      write({ unlocked: 1, completed: [] });
+    }
   }, []);
+  
   return (
     <BrowserRouter>
       <nav>
@@ -37,6 +45,7 @@ function App() {
         <Route path="/levels/5" element={<Level5 />} />
       </Routes>
     </BrowserRouter>
+
     
 
 
