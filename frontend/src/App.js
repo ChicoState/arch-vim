@@ -11,6 +11,7 @@ import Level2 from './pages/levels/Level2.js';
 import Level3 from './pages/levels/Level3.js';
 import Level4 from './pages/levels/Level4.js';
 import Level5 from './pages/levels/Level5.js';
+import LevelTest from './pages/levels/levelTest.js';
 import Home from './pages/Home.js';
 
 function App() {
@@ -35,6 +36,7 @@ function App() {
         <Route path="/levels/3" element={<Level3 />} />
         <Route path="/levels/4" element={<Level4 />} />
         <Route path="/levels/5" element={<Level5 />} />
+        <Route path="/levels/test" element={<LevelTest/>} />
       </Routes>
     </BrowserRouter>
     

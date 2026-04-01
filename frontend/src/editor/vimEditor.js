@@ -2,7 +2,11 @@ import Editor from "@monaco-editor/react";
 import { useRef } from "react";
 import { initVimMode } from "monaco-vim";
 
-export default function VimEditor(){
+export default function VimEditor({
+	value = "",
+	height = "500px",
+	width = "1000px",
+}){
 	const editorRef = useRef(null);
 	const vimModeRef = useRef(null);
 
@@ -17,7 +21,6 @@ export default function VimEditor(){
 		statusNode.style.bottom = "0";
 		statusNode.style.right = "50px";
 		statusNode.style.background = "#1e1e1e";
-		statusNode.padding = "4px 8px";
 		statusNode.style.fontSize = "12px";
 	
 		editor.getDomNode().appendChild(statusNode);
@@ -29,7 +32,6 @@ export default function VimEditor(){
 		cursorPosNode.style.bottom = "0";
 		cursorPosNode.style.left = "35px";
 		cursorPosNode.style.background = "#1e1e1e";
-		cursorPosNode.padding = "4px 8px";
 		cursorPosNode.style.fontSize = "12px";
 
 		editor.getDomNode().appendChild(cursorPosNode);
@@ -65,19 +67,19 @@ export default function VimEditor(){
 	return(
 		<>
 		<Editor
-		height = "500px"
-		width = "1000px"
+		height = {height}
+		width = {width}
 		theme = "vs-dark"
 		defaultLanguage="c" //This is for highlighting
-		defaultValue=
-{ //Code that appears on screen
-`#include <stdio.h>
+		defaultValue={value}
+// { //Code that appears on screen
+// `#include <stdio.h>
 
-void main() {
-	printf("Hello World");
-	return 0; 
-}`
-}
+// void main() {
+// 	printf("Hello World");
+// 	return 0; 
+// }`
+// }
 		options = {{
 			minimap: { enabled: false }
 		}}
