@@ -190,11 +190,6 @@ useEffect(() => {
   }
 
   function handleMount(editor) {
-    <div style={{ marginBottom: "15px" }}>
-      <button onClick={handleSave}>Save</button>
-      <button onClick={handleLoad} style={{ marginLeft: "8px" }}>Load</button>
-      <button onClick={handleReset} style={{ marginLeft: "8px" }}>Reset</button>
-    </div>
     editorRef.current = editor;
     const editorDom = editor.getDomNode();
     editorDom.style.position = "relative";
@@ -301,6 +296,12 @@ useEffect(() => {
           <li>Hint: You can combine <kbd>:w</kbd> and <kbd>:q</kbd> into <kbd>:wq</kbd> to Save and Quit</li>
           <li>Hint 2: You need to be in Normal mode to use <kbd>:</kbd>commands</li>
         </ul>
+
+    <div style={{ marginBottom: "15px" }}>
+      <button onClick={handleSave}>Save</button>
+      <button onClick={handleLoad} style={{ marginLeft: "8px" }}>Load</button>
+      <button onClick={handleReset} style={{ marginLeft: "8px" }}>Reset</button>
+    </div>
 
       <Editor
         height="500px"
