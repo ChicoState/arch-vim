@@ -1,10 +1,6 @@
-import logo from './logo.png';
 import './App.css';
-
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
-import { useEffect } from 'react';
-import VimEditor from './editor/vimEditor.js';
-//import Level from './pages/levels/level.js';
+import { useEffect, useState } from 'react';
 import Levels from './pages/Levels.js';
 import Level1 from './pages/levels/Level1.js';
 import Level2 from './pages/levels/Level2.js';
@@ -15,19 +11,44 @@ import Home from './pages/Home.js';
 import { write, read } from "./utils/session";
 
 function App() {
+  const [progress, setProgress] = useState({
+    unlocked: 1,
+    completed: [],
+  });
+
+  // Load saved progress on startup + backend ping
   useEffect(() => {
-    fetch("http://localhost:8000/") //Django backend url probably something like /api/progress to get level progress
+    fetch("http://localhost:8000/")
       .then((res) => res.text())
       .then((data) => console.log(data))
       .catch((err) => console.error(err));
-          const saved = read();
+
+    const saved = read();
     if (saved) {
-      console.log(saved);
-    } else {
-      write({ unlocked: 1, completed: [] });
+      setProgress(saved);
     }
   }, []);
-  
+
+  // Save handlers
+  const handleSave = () => {
+    write(progress);
+    alert("Progress saved");
+  };
+
+  const handleLoad = () => {
+    const saved = read();
+    if (saved) {
+      setProgress(saved);
+      alert("Progress loaded");
+    }
+  };
+
+  const handleReset = () => {
+    const reset = { unlocked: 1, completed: [] };
+    setProgress(reset);
+    write(reset);
+  };
+
   return (
     <BrowserRouter>
       <nav>
@@ -35,31 +56,38 @@ function App() {
         <Link to="/levels">Levels</Link>
       </nav>
 
+      {/* Save Controls */}
+      <div style={{ margin: "10px" }}>
+        <button onClick={handleSave}>Save</button>
+        <button onClick={handleLoad}>Load</button>
+        <button onClick={handleReset}>Reset</button>
+      </div>
+
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/levels" element={<Levels />} />
-        <Route path="/levels/1" element={<Level1 />} />
-        <Route path="/levels/2" element={<Level2 />} />
-        <Route path="/levels/3" element={<Level3 />} />
-        <Route path="/levels/4" element={<Level4 />} />
-        <Route path="/levels/5" element={<Level5 />} />
+        <Route path="/levels" element={<Levels progress={progress} />} />
+        <Route
+          path="/levels/1"
+          element={<Level1 progress={progress} setProgress={setProgress} />}
+        />
+        <Route
+          path="/levels/2"
+          element={<Level2 progress={progress} setProgress={setProgress} />}
+        />
+        <Route
+          path="/levels/3"
+          element={<Level3 progress={progress} setProgress={setProgress} />}
+        />
+        <Route
+          path="/levels/4"
+          element={<Level4 progress={progress} setProgress={setProgress} />}
+        />
+        <Route
+          path="/levels/5"
+          element={<Level5 progress={progress} setProgress={setProgress} />}
+        />
       </Routes>
     </BrowserRouter>
-
-    
-
-
-
-//ignore this, this was the default react stuff, I'm keeping as a reference for formatting later
-  //   <div className="App">
-  //     <header className="App-header">
-  //       <img src={logo} className="App-logo" alt="logo" />
-  //       <p>
-  //         Edit <code>src/App.js</code> and save to reload.
-  //       </p>
-	// <VimEditor />
-  //     </header>
-  //   </div>
   );
 }
 
