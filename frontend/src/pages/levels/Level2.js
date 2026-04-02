@@ -2,10 +2,18 @@ import { useNavigate, Link } from "react-router-dom";
 import Editor from "@monaco-editor/react";
 import { useRef, useState, useEffect } from "react";
 import { initVimMode, VimMode} from "monaco-vim";
+import { write, read, reset } from "../../utils/session";
+
+const initialCode = `#include <stdio.h>
+
+int main() {
+  printf("Hello World");
+  return 0; 
+}
+`;
 
 //used to include quit
 let onQuit = null;
-
 
 //defineEx, defines a global command
 //_cm contains command called, params contains any charactars after like !
@@ -46,7 +54,33 @@ function Level2Nav({ safeClosePromise }) {
 export default function Level2() {
 
   //Flag used to close editor on quit
+  const [editorValue, setEditorValue] = useState(initialCode);
+  const [editorKey, setEditorKey] = useState(0);
   const [showEditor, setShowEditor] = useState(true);
+
+  const saveKey = "level2_state";
+
+  const handleSave = () => {
+    write(saveKey, {
+    showEditor,
+    content: editorRef.current ? editorRef.current.getValue() : editorValue
+    });
+  };
+
+  const handleLoad = () => {
+  const saved = read(saveKey);
+    if (!saved) return;
+      setShowEditor(saved.showEditor ?? true);
+      setEditorValue(saved.content ?? initialCode);
+      setEditorKey((k) => k + 1);
+  };
+
+  const handleReset = () => {
+    reset(saveKey);
+    setShowEditor(true);
+    setEditorValue(initialCode);
+    setEditorKey((k) => k + 1);
+  };
 
   const editorRef = useRef(null);
 	const vimModeRef = useRef(null);
@@ -107,7 +141,10 @@ export default function Level2() {
       setTimeout(resolve, 50); // SAME delay you already know works
     });
 
-  function handleMount(editor, monaco) {	
+  function handleMount(editor, monaco) {
+    editor.onDidChangeModelContent(() => {
+      setEditorValue(editor.getValue());
+    });	
 		editorRef.current = editor;
 		const editorDom = editor.getDomNode();
 		editorDom.style.position = "relative";
@@ -150,9 +187,8 @@ export default function Level2() {
   //Page Content
   return (
     
-    <div class="level2" >
-      <Level2Nav safeClosePromise={safeClosePromise} />
-      <div class="level_info" style={{ padding: "10px" }}>
+    <div className="level2" >
+      <div className="level_info" style={{ padding: "10px" }}>
         <h1>Level 2</h1>
         <h3>Learn how to exit a file</h3>
         <p>
@@ -168,9 +204,15 @@ export default function Level2() {
           Objective: Simply Close the editor
         </p>
       </div>
-      <div class="editor">
+      <div className="editor">
+        <div style={{ marginBottom: "15px" }}>
+          <button onClick={handleSave}>Save</button>
+          <button onClick={handleLoad} style={{ marginLeft: "8px" }}>Load</button>
+          <button onClick={handleReset} style={{ marginLeft: "8px" }}>Reset</button>
+        </div>
         { showEditor ? (
         <Editor
+          key={editorKey}
           height = "500px"
           width = "1000px"
           options = {{
@@ -180,17 +222,19 @@ export default function Level2() {
           onMount={handleMount}
           theme = "vs-dark"
           defaultLanguage="c" //This is for highlighting
-          defaultValue=
-          { //Default code that appears on editor
-`#include <stdio.h>
+          defaultValue={editorValue}
+          />
+//           { //Default code that appears on editor
+//           />
+// `#include <stdio.h>
 
-int main() {
-  printf("Hello World");
-  return 0; 
-}
-`
-          }
-        />
+// int main() {
+//   printf("Hello World");
+//   return 0; 
+// }
+// `
+//           }
+        
           ) : (
 
               //Displayed when editor is closed/exitted

@@ -3,8 +3,15 @@ import Editor from "@monaco-editor/react";
 import { useRef, useState } from "react";
 import { initVimMode } from "monaco-vim";
 import VimEditor from "../../editor/vimEditor";
+import { write, read, reset } from "../../utils/session";
 
 export default function Level3() {
+  const saveKey = "level3_state";
+  const initialCode = `// Put VIM inside the brackets:
+  [   ]
+  `;
+  const [editorValue, setEditorValue] = useState(initialCode);
+  const [editorKey, setEditorKey] = useState(0);
   const [passed, setPassed] = useState(false);
   const [saved, setSaved] = useState(false);
 
@@ -43,6 +50,9 @@ export default function Level3() {
   }
 
   function handleMount(editor) {
+    editor.onDidChangeModelContent(() => {
+      setEditorValue(editor.getValue());
+    });
     editorRef.current = editor;
 
     const editorDom = editor.getDomNode();
@@ -58,7 +68,43 @@ export default function Level3() {
     editor.getDomNode().appendChild(statusNode);
 
     vimModeRef.current = initVimMode(editor, statusNode);
+    const handleSave = () => {
+      write(saveKey, {
+        passed,
+        saved,
+        pressedI,
+        pressedEsc,
+        content: editorRef.current ? editorRef.current.getValue() : editorValue
+      });
+    };
 
+    const handleLoad = () => {
+    const loaded = read(saveKey);
+      if (!loaded) return;
+
+        setPassed(loaded.passed ?? false);
+        setSaved(loaded.saved ?? false);
+        setPressedI(loaded.pressedI ?? false);
+        setPressedEsc(loaded.pressedEsc ?? false);
+        pressedIRef.current = loaded.pressedI ?? false;
+        pressedEscRef.current = loaded.pressedEsc ?? false;
+
+        setEditorValue(loaded.content ?? initialCode);
+        setEditorKey((k) => k + 1);
+    };
+
+    const handleReset = () => {
+      reset(saveKey);
+      setPassed(false);
+      setSaved(false);
+      setPressedI(false);
+      setPressedEsc(false);
+      pressedIRef.current = false;
+      pressedEscRef.current = false;
+
+      setEditorValue(initialCode);
+      setEditorKey((k) => k + 1);
+    };
     //cursor info
     const cursorPosNode = document.createElement("div");
     cursorPosNode.style.position = "absolute";
@@ -145,15 +191,14 @@ export default function Level3() {
       </p>
 
       <Editor
+        key={editorKey}
         height="500px"
         width="1000px"
         options={{ minimap: { enabled: false } }}
         onMount={handleMount}
         theme="vs-dark"
         defaultLanguage="c"
-        defaultValue={`// Put VIM inside the brackets:
-[   ]
-`}
+        defaultValue={editorValue}
       />
 
       {passed && (

@@ -2,15 +2,54 @@ import { Link } from "react-router-dom";
 import Editor from "@monaco-editor/react";
 import { useRef, useState } from "react";
 import { initVimMode } from "monaco-vim";
+import { write, read, reset } from "../../utils/session";
+
+const saveKey = "level1_state";
+const initialCode = `#include <stdio.h>
+
+int main() {
+\tprintf("Hello World");
+\treturn 0; 
+}
+`;
 
 export default function Level1() {
+    const [editorValue, setEditorValue] = useState(initialCode);
+    const [editorKey, setEditorKey] = useState(0);
     //used to make the "You passed!"
     const [passed, setPassed] = useState(false);
 
     const editorRef = useRef(null);
 	const vimModeRef = useRef(null);
 
+    const saveKey = "level1_state";
+
+    const handleSave = () => {
+        write(saveKey, {
+            passed,
+            content: editorRef.current ? editorRef.current.getValue() : editorValue
+        });
+    };
+
+    const handleLoad = () => {
+        const saved = read(saveKey);
+            if (!saved) return;
+                setPassed(saved.passed ?? false);
+                setEditorValue(saved.content ?? initialCode);
+                setEditorKey((k) => k + 1);
+    };
+
+    const handleReset = () => {
+        reset(saveKey);
+        setPassed(false);
+        setEditorValue(initialCode);
+        setEditorKey((k) => k + 1);
+    };
+
 	function handleMount(editor, monaco) {	
+        editor.onDidChangeModelContent(() => {
+            setEditorValue(editor.getValue());
+        });
 		editorRef.current = editor;
 		const editorDom = editor.getDomNode();
 		editorDom.style.position = "relative";
@@ -58,9 +97,9 @@ export default function Level1() {
 	}
 
     return (
-
+        
 // PAGE CONTENTS
-      <div style={{ padding: "10px" }}>
+        <div style={{ padding: "10px" }}>
         <h1>Level 1</h1>
         <h3>Learn how to navigate a file</h3>
         <p>By default, Vim uses the keys h, j, k, l for navigation in the editor.<br></br>
@@ -72,8 +111,14 @@ export default function Level1() {
         </p>
 
 {/* EDITOR IMPLEMENTATION */}
+        <div style={{ marginBottom: "15px" }}>
+            <button onClick={handleSave}>Save</button>
+            <button onClick={handleLoad} style={{ marginLeft: "8px" }}>Load</button>
+            <button onClick={handleReset} style={{ marginLeft: "8px" }}>Reset</button>
+        </div>
         <>
 		<Editor
+        key={editorKey}
 		height = "500px"
 		width = "1000px"
         options = {{
@@ -82,17 +127,9 @@ export default function Level1() {
 		onMount={handleMount}
 		theme = "vs-dark"
 		defaultLanguage="c" //This is for highlighting
-		defaultValue=
-{ //Default code that appears on editor
-`#include <stdio.h>
-
-int main() {
-	printf("Hello World");
-	return 0; 
-}
-`
-}
+		defaultValue={editorValue}
         />
+
         {/* Check button. Thinking about changing this to an automatic thing that fires when the cursor gets to those spots, rather than waiting to press the check button */}
 		{passed && (
             <div style={{
