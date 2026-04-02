@@ -290,7 +290,7 @@ useEffect(() => {
       <h1>Challenge level</h1>
         <h3>Combine all the skills you've learned to complete the objective!</h3>
         <p>
-          Objective: Change <kbd>Hello World</kbd>to <kbd>Goodbye World</kbd>then save and quit
+          Objective: Change <kbd> Hello World</kbd> to<kbd> Goodbye World</kbd> then save and quit
         </p>
        <ul className="key-list">
           <li>Hint: You can combine <kbd>:w</kbd> and <kbd>:q</kbd> into <kbd>:wq</kbd> to Save and Quit</li>
