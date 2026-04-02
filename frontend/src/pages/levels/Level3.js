@@ -7,9 +7,49 @@ import { write, read, reset } from "../../utils/session";
 
 export default function Level3() {
   const saveKey = "level3_state";
+  const handleSave = () => {
+    write(saveKey, {
+      passed,
+      saved,
+      pressedI,
+      pressedEsc,
+      content: editorRef.current ? editorRef.current.getValue() : ""
+    });
+  };
+
+  const handleLoad = () => {
+    const loaded = read(saveKey);
+    if (!loaded) return;
+    setPassed(loaded.passed ?? false);
+    setSaved(loaded.saved ?? false);
+    setPressedI(loaded.pressedI ?? false);
+    setPressedEsc(loaded.pressedEsc ?? false);
+    pressedIRef.current = loaded.pressedI ?? false;
+    pressedEscRef.current = loaded.pressedEsc ?? false;
+    if (editorRef.current && loaded.content) {
+      editorRef.current.setValue(loaded.content);
+    }
+  };
+
+  const handleReset = () => {
+    reset(saveKey);
+    setPassed(false);
+    setSaved(false);
+    setPressedI(false);
+    setPressedEsc(false);
+    pressedIRef.current = false;
+    pressedEscRef.current = false;
+    if (editorRef.current) {
+      editorRef.current.setValue(`// Put VIM inside the brackets:
+      [   ]
+    `);
+    }
+  };
+
   const initialCode = `// Put VIM inside the brackets:
-  [   ]
+    [   ]
   `;
+  
   const [editorValue, setEditorValue] = useState(initialCode);
   const [editorKey, setEditorKey] = useState(0);
   const [passed, setPassed] = useState(false);
@@ -68,43 +108,6 @@ export default function Level3() {
     editor.getDomNode().appendChild(statusNode);
 
     vimModeRef.current = initVimMode(editor, statusNode);
-    const handleSave = () => {
-      write(saveKey, {
-        passed,
-        saved,
-        pressedI,
-        pressedEsc,
-        content: editorRef.current ? editorRef.current.getValue() : editorValue
-      });
-    };
-
-    const handleLoad = () => {
-    const loaded = read(saveKey);
-      if (!loaded) return;
-
-        setPassed(loaded.passed ?? false);
-        setSaved(loaded.saved ?? false);
-        setPressedI(loaded.pressedI ?? false);
-        setPressedEsc(loaded.pressedEsc ?? false);
-        pressedIRef.current = loaded.pressedI ?? false;
-        pressedEscRef.current = loaded.pressedEsc ?? false;
-
-        setEditorValue(loaded.content ?? initialCode);
-        setEditorKey((k) => k + 1);
-    };
-
-    const handleReset = () => {
-      reset(saveKey);
-      setPassed(false);
-      setSaved(false);
-      setPressedI(false);
-      setPressedEsc(false);
-      pressedIRef.current = false;
-      pressedEscRef.current = false;
-
-      setEditorValue(initialCode);
-      setEditorKey((k) => k + 1);
-    };
     //cursor info
     const cursorPosNode = document.createElement("div");
     cursorPosNode.style.position = "absolute";
