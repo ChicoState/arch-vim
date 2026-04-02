@@ -2,14 +2,51 @@ import { Link } from "react-router-dom";
 import Editor from "@monaco-editor/react";
 import { useRef, useState } from "react";
 import { initVimMode } from "monaco-vim";
+import { write, read, reset } from "../../utils/session";
 
 export default function Level4() {
     const [passed, setPassed] = useState(false);
 
     const editorRef = useRef(null);
     const vimModeRef = useRef(null);
+    const saveKey = "level4_state";
+    const initialCode = `#include <stdio.h>
+        int main() {
+        printf("Hello World");
+        return 0;
+    }
+    `;
+    const [editorValue, setEditorValue] = useState(initialCode);    
+    const [editorKey, setEditorKey] = useState(0);
+    const handleSave = () => {
+    write(saveKey, {
+        passed,
+        content: editorRef.current ? editorRef.current.getValue() : editorValue
+        });
+    };
+
+    const handleLoad = () => {
+        const saved = read(saveKey);
+            if (!saved) return;
+            setPassed(saved.passed ?? false);
+            setEditorValue(saved.content ?? initialCode);
+            setEditorKey((k) => k + 1);
+    };
+
+    const handleReset = () => {
+        reset(saveKey);
+        setPassed(false);
+        setEditorValue(initialCode);
+        setEditorKey((k) => k + 1);
+    };
+
 
     function handleMount(editor, monaco) {
+        <div style={{ marginBottom: "15px" }}>
+            <button onClick={handleSave}>Save</button>
+            <button onClick={handleLoad} style={{ marginLeft: "8px" }}>Load</button>
+            <button onClick={handleReset} style={{ marginLeft: "8px" }}>Reset</button>
+        </div>
         editorRef.current = editor;
         const editorDom = editor.getDomNode();
         editorDom.style.position = "relative";
@@ -36,6 +73,10 @@ export default function Level4() {
             cursorPosNode.innerText = `Ln ${line}, Col ${col}`;
         });
 
+        editor.onDidChangeModelContent(() => {
+            setEditorValue(editor.getValue());
+        });
+
         const vimMode = initVimMode(editor, statusNode);
         vimModeRef.current = vimMode;
 
@@ -59,6 +100,12 @@ export default function Level4() {
             <p>After escaping, type <kbd>:w</kbd> and press Enter to save the file.<br />
                 Objective: run the save command to pass.
             </p>
+            
+        <div style={{ marginBottom: "15px" }}>
+            <button onClick={handleSave}>Save</button>
+            <button onClick={handleLoad} style={{ marginLeft: "8px" }}>Load</button>
+            <button onClick={handleReset} style={{ marginLeft: "8px" }}>Reset</button>
+        </div>
 
             <>
                 <Editor
@@ -68,14 +115,8 @@ export default function Level4() {
                     onMount={handleMount}
                     theme="vs-dark"
                     defaultLanguage="c"
-                    defaultValue={
-`#include <stdio.h>
-
-int main() {
-  printf("Hello World");
-return 0;
-}
-`}
+                    defaultValue={editorValue}
+                    key={editorKey}
                 />
                 {passed && (
                     <div style={{

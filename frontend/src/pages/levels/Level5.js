@@ -3,6 +3,7 @@ import Editor from "@monaco-editor/react";
 import { useRef, useState, useEffect } from "react";
 import { initVimMode,VimMode } from "monaco-vim";
 import VimEditor from "../../editor/vimEditor";
+import { write, read, reset } from "../../utils/session";
 
 
 let onQuit = null;
@@ -50,7 +51,53 @@ export default function Level5() {
   const editorRef = useRef(null);
   const vimModeRef = useRef(null);
   const postedRef = useRef(false);
+  const saveKey = "level5_state";
+  const initialCode = `#include <stdio.h>
+  int main() {
+      printf("Hello World");
+      return 0; 
+  }
+  `;
 
+  const [editorValue, setEditorValue] = useState(initialCode);
+  const [editorKey, setEditorKey] = useState(0);
+  const handleSave = () => {
+    write(saveKey, {
+      passed,
+      saved,
+      pressedI,
+      pressedEsc,
+      content: editorRef.current ? editorRef.current.getValue() : editorValue
+    });
+  };
+
+  const handleLoad = () => {
+  const loaded = read(saveKey);
+    if (!loaded) return;
+    setPassed(loaded.passed ?? false);
+    setSaved(loaded.saved ?? false);
+    setPressedI(loaded.pressedI ?? false);
+    setPressedEsc(loaded.pressedEsc ?? false);
+    pressedIRef.current = loaded.pressedI ?? false;
+    pressedEscRef.current = loaded.pressedEsc ?? false;
+    setEditorValue(loaded.content ?? initialCode);
+    setEditorKey((k) => k + 1);
+  };
+
+  const handleReset = () => {
+    reset(saveKey);
+    setPassed(false);
+    setSaved(false);
+    setPressedI(false);
+    setPressedEsc(false);
+    pressedIRef.current = false;
+    pressedEscRef.current = false;
+    pressedWRef.current = false;
+    pressedWQRef.current = false;
+    done = false;
+    setEditorValue(initialCode);
+    setEditorKey((k) => k + 1);
+  };
 
   // inside Level3() component, after your refs/state
 useEffect(() => {
@@ -143,8 +190,12 @@ useEffect(() => {
   }
 
   function handleMount(editor) {
+    <div style={{ marginBottom: "15px" }}>
+      <button onClick={handleSave}>Save</button>
+      <button onClick={handleLoad} style={{ marginLeft: "8px" }}>Load</button>
+      <button onClick={handleReset} style={{ marginLeft: "8px" }}>Reset</button>
+    </div>
     editorRef.current = editor;
-
     const editorDom = editor.getDomNode();
     editorDom.style.position = "relative";
 
@@ -173,6 +224,10 @@ useEffect(() => {
       const line = e.selection.positionLineNumber;
       const col = e.selection.positionColumn;
       cursorPosNode.innerText = `Ln ${line}, Col ${col}`;
+    });
+    
+    editor.onDidChangeModelContent(() => {
+      setEditorValue(editor.getValue());
     });
 
     //watch keystrokes
@@ -254,15 +309,8 @@ useEffect(() => {
         onMount={handleMount}
         theme="vs-dark"
         defaultLanguage="c"
-        defaultValue={
-`#include <stdio.h>
-
-int main() {
-  printf("Hello World");
-  return 0; 
-}
-`
-      }
+        key={editorKey}
+        defaultValue={editorValue}
       />
 
       {passed && (
