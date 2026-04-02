@@ -189,7 +189,11 @@ export default function Level3() {
         <br />
         Objective: Put VIM inside <b>[ ]</b>.
       </p>
-
+    <div style={{ marginBottom: "15px" }}>
+      <button onClick={handleSave}>Save</button>
+      <button onClick={handleLoad} style={{ marginLeft: "8px" }}>Load</button>
+      <button onClick={handleReset} style={{ marginLeft: "8px" }}>Reset</button>
+    </div>
       <Editor
         key={editorKey}
         height="500px"
