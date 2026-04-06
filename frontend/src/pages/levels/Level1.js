@@ -35,7 +35,8 @@ int main() {
         value = {startValue}
         cursorCol={15}
         cursorLine={4}
-        onWin = {() => passed(true)}
+        commands={[":w"]}
+        onWin = {() => setPassed(true)}
         />
         {passed && (
             <div style={{
