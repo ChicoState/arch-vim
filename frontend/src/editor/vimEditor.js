@@ -1,6 +1,6 @@
 import Editor from "@monaco-editor/react";
 import { useRef } from "react";
-import { initVimMode } from "monaco-vim";
+import { initVimMode, VimMode } from "monaco-vim";
 
 export default function VimEditor({
 	value = "", //What appears in initial editor
@@ -9,15 +9,23 @@ export default function VimEditor({
 	cursorLine = null, //Solution line number
 	cursorCol = null, //Solution line column
 	mode = null, //Solution mode (if they use the mode)
+	// normal, visual, insert, replace (defaults to normal, so prob don't need to do that)
 	height = "500px",
 	width = "1000px",
 	onWin = () => {}, //run when all win conditions are met (will set a flag in the level)
+	//MUST HAVE THE onWin = {() => setWin(true)} as a param, and you can use setWin for the react state: const [win, setWin] = useState(false);
 }){
 	const editorRef = useRef(null);
 	const vimModeRef = useRef(null);
 
 	const currentModeRef = useRef("normal");
 	const wonRef = useRef(false);
+
+
+	const calledCommandsRef = useRef(
+			Object.fromEntries(commands.map((cmd) => [cmd, false]))
+		);
+
 	//Checks win conditions
 	function checkWinConditions() {
 		if (wonRef.current) return;
@@ -35,17 +43,26 @@ export default function VimEditor({
 			if (cursorCol !== null && pos.column !== cursorCol) return;
 		}
 
+		//can also edit this so that if it EVER sees whats in mode, then good to go
 		if (mode !== null) {
 			if (currentModeRef.current !== mode) return;
 		}
 
-		
+		const allCommandsUsed = commands.every(
+			(cmd) => calledCommandsRef.current[cmd] === true
+		);
+		if(!allCommandsUsed) return;
+
+		wonRef.current = true;
+		onWin();
 	}
 
 	function reset() {
 		wonRef.current = false;
 		currentModeRef.current = "normal";
-
+		calledCommandsRef.current = Object.fromEntries(
+			commands.map((cmd) => [cmd, false])
+		);
 		editorRef.current?.setValue(value);
 	}
 
@@ -75,11 +92,57 @@ export default function VimEditor({
 		cursorPosNode.style.fontSize = "12px";
 
 		editor.getDomNode().appendChild(cursorPosNode);
+
+		//
+		//	PUT COMMANDS HERE FOR NOW IT CAN CHANGE / MOVE LATER
+		//
+		const exCommands = {
+			write: "w",
+			quit: "q",
+			wq: "wq",
+		}
+
+		//Makes all given commands to:
+
+		//VimMode.Vim.defineEx("write", "w", (cm, input) => {
+		//	calledCommandsRef.current[":w"] = true;
+		//  checkWinConditions();
+		//});
+
+		Object.entries(exCommands).forEach(([name, abbrev]) => {
+			const fullCmd = `:${abbrev}`;
+			VimMode.Vim.defineEx(name, abbrev, (cm, input) => {
+				//if the command is in
+				if (fullCmd in calledCommandsRef.current) {
+					calledCommandsRef.current[fullCmd] = true;
+				}
+				checkWinConditions();
+			});
+		});
+
+		//true just watching the statusNode with an eventListening, but it wasnt working
+		const observer = new MutationObserver(() => {
+			const modeText = statusNode.innerText.toLowerCase();
+			currentModeRef.current = modeText.includes("insert") ? "insert"
+									:modeText.includes("visual") ? "visual"
+									:modeText.includes("replace")? "replace"
+									:"normal";
+			checkWinConditions();
+		})
+		//								child elements, all descendents, text changes
+		observer.observe(statusNode, { childList: true, subtree: true, characterDate: true})
 		
+		//also theres a onDidChangeCursorPosition, but if we ever want to watch the selection as well, we need this
 		editor.onDidChangeCursorSelection(e => {
 			console.log("Cursor Info: ", e);
 			cursorPosNode.innerText = `Ln ${e.selection.positionLineNumber}, Col ${e.selection.positionColumn}`;
+			checkWinConditions(); //called because line position changed
 		});
+
+		//watches changes in model content
+		editor.onDidChangeModelContent(() => {
+			checkWinConditions();
+		})
 	
 		//Key logger (use for checking for certain key presses)
 		editor.onKeyDown((e) => {
