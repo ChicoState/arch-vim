@@ -3,6 +3,29 @@ import { useRef } from "react";
 import { initVimMode, VimMode } from "monaco-vim";
 import { vimCommands } from "./vimCommands.js"
 
+
+/*			Editor Usage
+Parameters - 
+	value: What is intially shown on the editor
+	height: Height of editor in px (default 500)
+	width: Width of editor in px (default 1000)
+
+	Win Condition Params -
+		commands: List of commands that must be used to pass the level
+		finalText: String containing what should be in the editor to pass
+		cursorLine: Final line position for cursor
+		cursorCol: Final column position for cursor
+		mode: Vim Mode check for passing (must be in this mode to pass)
+
+	onWin = {() => setWin(true)}: used for react state, passes true once all win conditions are passed. Used for every level
+
+Implementation -
+	<VimEditor
+	[any combo of parameters]
+	onWin = {() => setWin(true)}
+	/>
+*/
+
 export default function VimEditor({
 	value = "", //What appears in initial editor
 	commands = [], //Commands needed to be used to pass
@@ -94,17 +117,6 @@ export default function VimEditor({
 
 		editor.getDomNode().appendChild(cursorPosNode);
 
-		//
-		//	PUT COMMANDS HERE FOR NOW IT CAN CHANGE / MOVE LATER
-		//
-		// Imported as vimCommands from another file, need to load it into exCommands here.
-		//
-		const exCommands = {
-			write: "w",
-			quit: "q",
-			wq: "wq",
-		}
-
 		//Makes all given commands to:
 
 		//VimMode.Vim.defineEx("write", "w", (cm, input) => {
@@ -112,16 +124,15 @@ export default function VimEditor({
 		//  checkWinConditions();
 		//});
 
-		Object.entries(exCommands).forEach(([name, abbrev]) => {
+		Object.entries(vimCommands).forEach(([name, abbrev]) => {
 
 			//adds the : to the front
 			//so when you type in the commands into the commands = {[]} param, you need to add :
 			//ex: commands = {[":w", ":q"]}
-			//can remove this line so we just need {["w", "q"]}
 			const fullCmd = `:${abbrev}`;
 			
 			VimMode.Vim.defineEx(name, abbrev, (cm, input) => {
-				//if the command is in
+				//if the command is in the commands param
 				if (fullCmd in calledCommandsRef.current) {
 					calledCommandsRef.current[fullCmd] = true;
 				}
