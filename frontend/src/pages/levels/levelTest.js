@@ -12,5 +12,7 @@ void main() {
     return 0; 
 }`
     return(
-    <VimEditor value={editorVal}/>);
+    <VimEditor 
+    value={editorVal}
+    onWin={() => setWin()}/>);
 }
