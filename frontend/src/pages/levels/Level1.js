@@ -32,6 +32,7 @@ int main() {
 {/* EDITOR IMPLEMENTATION */}
         <>
         <VimEditor
+        level = {1}
         value = {startValue}
         cursorCol={15}
         cursorLine={4}

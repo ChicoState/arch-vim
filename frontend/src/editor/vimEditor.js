@@ -6,6 +6,7 @@ import { vimCommands } from "./vimCommands.js"
 
 /*			Editor Usage
 Parameters - 
+	level: Level number for backend
 	value: What is intially shown on the editor
 	height: Height of editor in px (default 500)
 	width: Width of editor in px (default 1000)
@@ -27,6 +28,7 @@ Implementation -
 */
 
 export default function VimEditor({
+	level = 0,
 	value = "", //What appears in initial editor
 	commands = [], //Commands needed to be used to pass
 	finalText = null, //Solution text
