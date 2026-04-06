@@ -1,14 +1,71 @@
 import Editor from "@monaco-editor/react";
 import { useRef } from "react";
-import { initVimMode } from "monaco-vim";
+import { initVimMode, VimMode } from "monaco-vim";
+import { vimCommands } from "./vimCommands.js"
 
 export default function VimEditor({
-	value = "",
+	value = "", //What appears in initial editor
+	commands = [], //Commands needed to be used to pass
+	finalText = null, //Solution text
+	cursorLine = null, //Solution line number
+	cursorCol = null, //Solution line column
+	mode = null, //Solution mode (if they use the mode)
+	// normal, visual, insert, replace (defaults to normal, so prob don't need to do that)
 	height = "500px",
 	width = "1000px",
+	onWin = () => {}, //run when all win conditions are met (will set a flag in the level)
+	//MUST HAVE THE onWin = {() => setWin(true)} as a param, and you can use setWin for the react state: const [win, setWin] = useState(false);
 }){
 	const editorRef = useRef(null);
 	const vimModeRef = useRef(null);
+
+	const currentModeRef = useRef("normal");
+	const wonRef = useRef(false);
+
+
+	const calledCommandsRef = useRef(
+			Object.fromEntries(commands.map((cmd) => [cmd, false]))
+		);
+
+	//Checks win conditions
+	function checkWinConditions() {
+		if (wonRef.current) return;
+		const editor = editorRef.current;
+		if(!editor) return;
+
+		if (finalText !== null) {
+			const currentText = editor.getValue();
+			if(currentText !== finalText) return;
+		}
+
+		if (cursorLine !== null || cursorCol !== null) {
+			const pos = editor.getPosition();
+			if (cursorLine !== null && pos.lineNumber !== cursorLine) return;
+			if (cursorCol !== null && pos.column !== cursorCol) return;
+		}
+
+		//can also edit this so that if it EVER sees whats in mode, then good to go
+		if (mode !== null) {
+			if (currentModeRef.current !== mode) return;
+		}
+
+		const allCommandsUsed = commands.every(
+			(cmd) => calledCommandsRef.current[cmd] === true
+		);
+		if(!allCommandsUsed) return;
+
+		wonRef.current = true;
+		onWin();
+	}
+
+	function reset() {
+		wonRef.current = false;
+		currentModeRef.current = "normal";
+		calledCommandsRef.current = Object.fromEntries(
+			commands.map((cmd) => [cmd, false])
+		);
+		editorRef.current?.setValue(value);
+	}
 
 	function handleMount(editor, monaco) {	
 		editorRef.current = editor;
@@ -22,9 +79,10 @@ export default function VimEditor({
 		statusNode.style.right = "50px";
 		statusNode.style.background = "#1e1e1e";
 		statusNode.style.fontSize = "12px";
-	
 		editor.getDomNode().appendChild(statusNode);
-		vimModeRef.current = initVimMode(editor, statusNode);
+
+		const vimMode = initVimMode(editor, statusNode);
+		vimModeRef.current = vimMode;
 
 		//Cursor line info at bottom
 		const cursorPosNode = document.createElement("div");
@@ -35,11 +93,65 @@ export default function VimEditor({
 		cursorPosNode.style.fontSize = "12px";
 
 		editor.getDomNode().appendChild(cursorPosNode);
+
+		//
+		//	PUT COMMANDS HERE FOR NOW IT CAN CHANGE / MOVE LATER
+		//
+		// Imported as vimCommands from another file, need to load it into exCommands here.
+		//
+		const exCommands = {
+			write: "w",
+			quit: "q",
+			wq: "wq",
+		}
+
+		//Makes all given commands to:
+
+		//VimMode.Vim.defineEx("write", "w", (cm, input) => {
+		//	calledCommandsRef.current[":w"] = true;
+		//  checkWinConditions();
+		//});
+
+		Object.entries(exCommands).forEach(([name, abbrev]) => {
+
+			//adds the : to the front
+			//so when you type in the commands into the commands = {[]} param, you need to add :
+			//ex: commands = {[":w", ":q"]}
+			//can remove this line so we just need {["w", "q"]}
+			const fullCmd = `:${abbrev}`;
+			
+			VimMode.Vim.defineEx(name, abbrev, (cm, input) => {
+				//if the command is in
+				if (fullCmd in calledCommandsRef.current) {
+					calledCommandsRef.current[fullCmd] = true;
+				}
+				checkWinConditions();
+			});
+		});
+
+		//true just watching the statusNode with an eventListening, but it wasnt working
+		const observer = new MutationObserver(() => {
+			const modeText = statusNode.innerText.toLowerCase();
+			currentModeRef.current = modeText.includes("insert") ? "insert"
+									:modeText.includes("visual") ? "visual"
+									:modeText.includes("replace")? "replace"
+									:"normal";
+			checkWinConditions();
+		})
+		//								child elements, all descendents, text changes
+		observer.observe(statusNode, { childList: true, subtree: true, characterDate: true})
 		
+		//also theres a onDidChangeCursorPosition, but if we ever want to watch the selection as well, we need this
 		editor.onDidChangeCursorSelection(e => {
 			console.log("Cursor Info: ", e);
 			cursorPosNode.innerText = `Ln ${e.selection.positionLineNumber}, Col ${e.selection.positionColumn}`;
+			checkWinConditions(); //called because line position changed
 		});
+
+		//watches changes in model content
+		editor.onDidChangeModelContent(() => {
+			checkWinConditions();
+		})
 	
 		//Key logger (use for checking for certain key presses)
 		editor.onKeyDown((e) => {
@@ -47,46 +159,20 @@ export default function VimEditor({
 		});
 	}
 
-	//Editor saves to memory, checks against that
-	function checkAnswer() {
-		const expectedSolution = 
-`function App() {
-	return <h1> Goodbye React </h1> 
-}`;
-		const userCode = editorRef.current.getValue();
-		console.log("User code: ", userCode);
-
-		if(userCode.trim() === expectedSolution.trim()) {
-			alert("Correct");
-			//whatever else for correct
-		} else {
-			alert("Nope");
-		}
-	}
+	
 	//Build text box and check button
 	return(
-		<>
 		<Editor
 		height = {height}
 		width = {width}
 		theme = "vs-dark"
-		defaultLanguage="c" //This is for highlighting
+		defaultLanguage="c"
 		defaultValue={value}
-// { //Code that appears on screen
-// `#include <stdio.h>
 
-// void main() {
-// 	printf("Hello World");
-// 	return 0; 
-// }`
-// }
 		options = {{
 			minimap: { enabled: false }
 		}}
 		onMount={handleMount}
 		/>
-
-		<button onClick={checkAnswer}>Check</button>
-		</>
 	      );
 }
