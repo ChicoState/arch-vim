@@ -17,6 +17,10 @@ void main() {
     <VimEditor 
     value={editorVal}
     commands={[":w", ":q"]}
+    //make an onFail
+    //have it watch the commands like :w or :q or smth
+    //reset the command if onWinCondition failes but the command was used
+    //do some css magic with the onFail and make it a react state (set back to false once hint is shown or smth idk)
     onWin={() => setWin(true)}/>
     {won && (<div>winner winner chicken dinner</div>)}
     </>

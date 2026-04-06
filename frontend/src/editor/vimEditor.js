@@ -94,17 +94,6 @@ export default function VimEditor({
 
 		editor.getDomNode().appendChild(cursorPosNode);
 
-		//
-		//	PUT COMMANDS HERE FOR NOW IT CAN CHANGE / MOVE LATER
-		//
-		// Imported as vimCommands from another file, need to load it into exCommands here.
-		//
-		const exCommands = {
-			write: "w",
-			quit: "q",
-			wq: "wq",
-		}
-
 		//Makes all given commands to:
 
 		//VimMode.Vim.defineEx("write", "w", (cm, input) => {
@@ -112,16 +101,15 @@ export default function VimEditor({
 		//  checkWinConditions();
 		//});
 
-		Object.entries(exCommands).forEach(([name, abbrev]) => {
+		Object.entries(vimCommands).forEach(([name, abbrev]) => {
 
 			//adds the : to the front
 			//so when you type in the commands into the commands = {[]} param, you need to add :
 			//ex: commands = {[":w", ":q"]}
-			//can remove this line so we just need {["w", "q"]}
 			const fullCmd = `:${abbrev}`;
 			
 			VimMode.Vim.defineEx(name, abbrev, (cm, input) => {
-				//if the command is in
+				//if the command is in the commands param
 				if (fullCmd in calledCommandsRef.current) {
 					calledCommandsRef.current[fullCmd] = true;
 				}
