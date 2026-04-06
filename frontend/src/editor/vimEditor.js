@@ -1,6 +1,7 @@
 import Editor from "@monaco-editor/react";
 import { useRef } from "react";
 import { initVimMode, VimMode } from "monaco-vim";
+import { vimCommands } from "./vimCommands.js"
 
 export default function VimEditor({
 	value = "", //What appears in initial editor
@@ -96,6 +97,8 @@ export default function VimEditor({
 		//
 		//	PUT COMMANDS HERE FOR NOW IT CAN CHANGE / MOVE LATER
 		//
+		// Imported as vimCommands from another file, need to load it into exCommands here.
+		//
 		const exCommands = {
 			write: "w",
 			quit: "q",
@@ -110,7 +113,13 @@ export default function VimEditor({
 		//});
 
 		Object.entries(exCommands).forEach(([name, abbrev]) => {
+
+			//adds the : to the front
+			//so when you type in the commands into the commands = {[]} param, you need to add :
+			//ex: commands = {[":w", ":q"]}
+			//can remove this line so we just need {["w", "q"]}
 			const fullCmd = `:${abbrev}`;
+			
 			VimMode.Vim.defineEx(name, abbrev, (cm, input) => {
 				//if the command is in
 				if (fullCmd in calledCommandsRef.current) {

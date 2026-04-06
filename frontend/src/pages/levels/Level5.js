@@ -17,12 +17,12 @@ let done = false;
 //   done = true;
 // });
 
-VimMode.Vim.defineEx("wq", "wq", (_cm, params) => {
-  const arg = params?.argString?.trim();
-  const bang = arg === "!";
-  if (onWriteQuit) onWriteQuit({ bang });
-  done = true;
-});
+// VimMode.Vim.defineEx("wq", "wq", (_cm, params) => {
+//   const arg = params?.argString?.trim();
+//   const bang = arg === "!";
+//   if (onWriteQuit) onWriteQuit({ bang });
+//   done = true;
+// });
 
 // keep your quit
 // VimMode.Vim.defineEx("quit", "q", (_cm, params) => {

@@ -3,7 +3,7 @@ import VimEditor from "../../editor/vimEditor";
 
 export default function LevelTest() {
     const [won, setWin] = useState(false);
-    let editorVal = `#include <stdio.h>
+    const editorVal = `#include <stdio.h>
 
 void main() {
     printf("Hello World");
@@ -16,8 +16,7 @@ void main() {
     <>
     <VimEditor 
     value={editorVal}
-    finalText = "hi"
-    mode = "insert"
+    commands={[":w", ":q"]}
     onWin={() => setWin(true)}/>
     {won && (<div>winner winner chicken dinner</div>)}
     </>
