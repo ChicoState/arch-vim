@@ -3,6 +3,29 @@ import { useRef } from "react";
 import { initVimMode, VimMode } from "monaco-vim";
 import { vimCommands } from "./vimCommands.js"
 
+
+/*			Editor Usage
+Parameters - 
+	value: What is intially shown on the editor
+	height: Height of editor in px (default 500)
+	width: Width of editor in px (default 1000)
+
+	Win Condition Params -
+		commands: List of commands that must be used to pass the level
+		finalText: String containing what should be in the editor to pass
+		cursorLine: Final line position for cursor
+		cursorCol: Final column position for cursor
+		mode: Vim Mode check for passing (must be in this mode to pass)
+
+	onWin = {() => setWin(true)}: used for react state, passes true once all win conditions are passed. Used for every level
+
+Implementation -
+	<VimEditor
+	[any combo of parameters]
+	onWin = {() => setWin(true)}
+	/>
+*/
+
 export default function VimEditor({
 	value = "", //What appears in initial editor
 	commands = [], //Commands needed to be used to pass
