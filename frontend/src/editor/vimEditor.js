@@ -173,6 +173,8 @@ export default function VimEditor({
 	
 	//Build text box and check button
 	return(
+		<>
+		<button onClick={reset}>Reset Level</button>
 		<Editor
 		height = {height}
 		width = {width}
@@ -185,5 +187,6 @@ export default function VimEditor({
 		}}
 		onMount={handleMount}
 		/>
-	      );
+		</>
+	);
 }

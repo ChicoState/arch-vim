@@ -35,7 +35,6 @@ int main() {
         value = {startValue}
         cursorCol={15}
         cursorLine={4}
-        commands={[":w"]}
         onWin = {() => setPassed(true)}
         />
         {passed && (
