@@ -68,8 +68,6 @@ INSTALLED_APPS = [
     'django_otp',
     'django_otp.plugins.otp_totp',
     'crispy_forms',
-    'crispy_bootstrap4',
-    'django_private_chat2.apps.DjangoPrivateChat2Config',
     "guest_user",
     "social_django",
     'widget_tweaks',
@@ -80,8 +78,6 @@ INSTALLED_APPS = [
     'sslserver',
     'showcase.apps.ShowcaseConfig',
     'user_management.apps.UserManagementConfig',
-    # 'django.chatbot',
-    # 'chat',
 ]
 
 REST_FRAMEWORK = {
