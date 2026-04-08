@@ -19,4 +19,5 @@ router.register(r'tasks', TaskViewSet)
 urlpatterns = [
     path('', TemplateView.as_view(template_name='index.html'), name='index'),
     path('', include(router.urls)),
+    path('mylevel/', views.MyLevelView.as_view(), name='mylevel'),
     ]
