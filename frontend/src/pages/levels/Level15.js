@@ -1,61 +1,62 @@
 import { Link } from "react-router-dom";
-import Editor from "@monaco-editor/react";
-import { useRef, useState, useEffect } from "react";
-import { initVimMode, VimMode } from "monaco-vim";
+import { useState } from "react";
 import VimEditor from "../../editor/vimEditor";
-import { write, read, reset } from "../../utils/session";
 
-let onWriteQuit = null;
-let done = false;
+export default function Level1() {
+    //used to make the "You passed!"
+    const [passed, setPassed] = useState(false);
+    const startValue =
+`#include <stdio.h>
 
-VimMode.Vim.defineEx("wq", "wq", (_cm, params) => {
-  const bang = params?.argString?.trim() === "!";
-  if (onWriteQuit) onWriteQuit({ bang });
-  done = true;
-});
+int main() {
+	printf("Hello World");
+	return 0; 
+}
+`
+    return (
 
-const Level15 = () => {
-  const editorRef = useRef(null);
-  const vimModeRef = useRef(null);
+// PAGE CONTENTS
+      <div style={{ padding: "10px" }}>
+        <h1>Level 1</h1>
+        <h3>Learn how to navigate a file</h3>
+        <p>By default, Vim uses the keys h, j, k, l for navigation in the editor.<br></br>
+            <kbd>h</kbd> move left<br></br>
+            <kbd>j</kbd> move down<br></br>
+            <kbd>k</kbd> move up<br></br>
+            <kbd>l</kbd> move right<br></br><br></br>
+        Objective: Without using your arrow keys, move the cursor to Line 4, Column 15. {/* After 'Hello' */}
+        </p>
 
-  const storageKey = "level-15";
-  const starterCode = `// Level 15`;
-
-  const [code, setCode] = useState(() => read(storageKey) || starterCode);
-
-  useEffect(() => write(storageKey, code), [code]);
-
-  const handleEditorDidMount = (editor) => {
-    editorRef.current = editor;
-    vimModeRef.current = initVimMode(editor, document.getElementById("vim-status"));
-  };
-
-  useEffect(() => () => vimModeRef.current?.dispose(), []);
-
-  const handleReset = () => {
-    reset(storageKey);
-    setCode(starterCode);
-  };
-
-  return (
-    <div>
-      <Link to="/levels">Back</Link>
-      <h1>Level 6</h1>
-      <button onClick={handleReset}>Reset</button>
-
-      <VimEditor>
-        <Editor
-          height="70vh"
-          defaultLanguage="javascript"
-          value={code}
-          onChange={(v) => setCode(v || "")}
-          onMount={handleEditorDidMount}
+{/* EDITOR IMPLEMENTATION */}
+        <>
+        <VimEditor
+        level = {1}
+        value = {startValue}
+        cursorCol={15}
+        cursorLine={4}
+        onWin = {() => setPassed(true)}
         />
-      </VimEditor>
-
-      <div id="vim-status" />
-    </div>
-  );
-};
-
-export default Level15;
+        {passed && (
+            <div style={{
+                marginTop: "20px",
+                padding: "10px",
+                background: "#1e1e1e",
+                border: "1px solid #4caf50",
+                borderRadius: "5px"
+            }}>
+                <h3 style={{ color: "#4caf50" }}>You passed!</h3>
+                    <p style = {{ color: "white" }}>
+                    Move on to the next level:
+                    <Link to="/levels/2" style={{ marginLeft: "8px", color: "#4caf50" }}> Level 2 </Link>
+                </p>
+                <p style = {{ color: "white" }}>
+                    Or go back home:
+                    <Link to="/" style= {{ marginLeft: "8px"}}> Home </Link>
+                </p>
+            </div>
+            )
+        }
+		</>
+      </div>  
+    );
+}
