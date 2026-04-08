@@ -46,21 +46,18 @@ int main() {
                 border: "1px solid #4caf50",
                 borderRadius: "5px"
             }}>
-        <h3 style={{ color: "#4caf50" }}>You passed!</h3>
-        <p style = {{ color: "white" }}>
-            Move on to the next level:
-            <Link to="/levels/2" style={{ marginLeft: "8px", color: "#4caf50" }}>
-                Level 2
-            </Link>
-        </p>
-        <p style = {{ color: "white" }}>
-            Or go back home:
-            <Link to="/" style= {{ marginLeft: "8px"}}>
-                Home
-            </Link>
-        </p>
-    </div>
-)}
+                <h3 style={{ color: "#4caf50" }}>You passed!</h3>
+                    <p style = {{ color: "white" }}>
+                    Move on to the next level:
+                    <Link to="/levels/2" style={{ marginLeft: "8px", color: "#4caf50" }}> Level 2 </Link>
+                </p>
+                <p style = {{ color: "white" }}>
+                    Or go back home:
+                    <Link to="/" style= {{ marginLeft: "8px"}}> Home </Link>
+                </p>
+            </div>
+            )
+        }
 		</>
       </div>  
     );
