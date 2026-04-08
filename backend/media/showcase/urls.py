@@ -20,4 +20,5 @@ urlpatterns = [
     path('', TemplateView.as_view(template_name='index.html'), name='index'),
     path('', include(router.urls)),
     path('mylevel/', views.MyLevelView.as_view(), name='mylevel'),
+    path('levels/<int:level>/', views.MyLevelView.as_view(), name='level'), #dynamic url with a pk function appending to the number corresponding to the level from model Level
     ]
