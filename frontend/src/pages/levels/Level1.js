@@ -1,7 +1,5 @@
 import { Link } from "react-router-dom";
-import Editor from "@monaco-editor/react";
-import { useRef, useState } from "react";
-import { initVimMode } from "monaco-vim";
+import { useState } from "react";
 import VimEditor from "../../editor/vimEditor";
 
 export default function Level1() {
