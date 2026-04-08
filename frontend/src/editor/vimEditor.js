@@ -31,7 +31,10 @@ export default function VimEditor({
 	level = 0,
 	value = "", //What appears in initial editor
 	commands = [], //Commands needed to be used to pass
+	possibleCommands = [], //Commands where at least 1 needs to be used (:q vs :wq)
 	finalText = null, //Solution text
+	finalTextContains = null, //Solution, checks if final text has something rather than checking entire thing
+	finalTextRegex = null, //Solution, lets you search final text using regex
 	cursorLine = null, //Solution line number
 	cursorCol = null, //Solution line column
 	mode = null, //Solution mode (if they use the mode)
@@ -47,10 +50,16 @@ export default function VimEditor({
 	const currentModeRef = useRef("normal");
 	const wonRef = useRef(false);
 
-
 	const calledCommandsRef = useRef(
-			Object.fromEntries(commands.map((cmd) => [cmd, false]))
-		);
+		Object.fromEntries(commands.map((cmd) => [cmd, false]))
+	);
+
+	const calledPossibleCommandsRef = useRef(
+		Object.fromEntries(possibleCommands.map((cmd) => [cmd, false]))
+	);
+
+	
+
 
 	//Checks win conditions
 	function checkWinConditions() {
@@ -59,6 +68,16 @@ export default function VimEditor({
 		if(!editor) return;
 
 		if (finalText !== null) {
+			const currentText = editor.getValue();
+			if(currentText !== finalText) return;
+		}
+
+		if (finalTextRegex !== null) {
+			const currentText = editor.getValue();
+			if (!finalTextRegex.test(currentText)) return;
+		}
+
+		if (finalTextContains !== null) {
 			const currentText = editor.getValue();
 			if(currentText !== finalText) return;
 		}
@@ -74,10 +93,26 @@ export default function VimEditor({
 			if (currentModeRef.current !== mode) return;
 		}
 
+		//if all are true (used), return true
+		//if at least 1 is false, return false
 		const allCommandsUsed = commands.every(
 			(cmd) => calledCommandsRef.current[cmd] === true
 		);
 		if(!allCommandsUsed) return;
+
+		//For checking if a single command from the list is used
+		//Want to find a single one that returns true
+		//so inverse the previous one
+		//if all are false (none are used), return true
+		//if at least 1 is used, return false
+		// 			empty array always returns true
+		if(possibleCommands.length > 0) {
+			const aCommandUsed = possibleCommands.every(
+				(cmd) => calledPossibleCommandsRef.current[cmd] === false
+			);
+			//inverse back (aka don't use the !)
+			if(aCommandUsed) return; 
+		}
 
 		wonRef.current = true;
 		onWin();
@@ -86,6 +121,9 @@ export default function VimEditor({
 	function reset() {
 		wonRef.current = false;
 		currentModeRef.current = "normal";
+		calledCommandsRef.current = Object.fromEntries(
+			commands.map((cmd) => [cmd, false])
+		);
 		calledCommandsRef.current = Object.fromEntries(
 			commands.map((cmd) => [cmd, false])
 		);
@@ -119,6 +157,11 @@ export default function VimEditor({
 
 		editor.getDomNode().appendChild(cursorPosNode);
 
+
+		//attempt at not allowing arrow keys
+		//() => {} didn't work so trying other stuff
+		editor.addCommand(monaco.KeyCode.UpArrow, function()  {});
+
 		//Makes all given commands to:
 
 		//VimMode.Vim.defineEx("write", "w", (cm, input) => {
@@ -137,6 +180,9 @@ export default function VimEditor({
 				//if the command is in the commands param
 				if (fullCmd in calledCommandsRef.current) {
 					calledCommandsRef.current[fullCmd] = true;
+				}
+				if (fullCmd in calledPossibleCommandsRef.current) {
+					calledPossibleCommandsRef.current[fullCmd] = true;
 				}
 				checkWinConditions();
 			});
@@ -169,6 +215,7 @@ export default function VimEditor({
 		//Key logger (use for checking for certain key presses)
 		editor.onKeyDown((e) => {
 			console.log("Key pressed: ", e.browserEvent.key);
+			checkWinConditions();
 		});
 	}
 

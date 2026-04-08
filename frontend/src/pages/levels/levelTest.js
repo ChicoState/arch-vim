@@ -16,7 +16,8 @@ void main() {
     <>
     <VimEditor 
     value={editorVal}
-    commands={[":w", ":q"]}
+    possibleCommands={[":q", ":wq"]}
+    finalTextRegex={/\[\s*VIM\s*\]/}
     //make an onFail
     //have it watch the commands like :w or :q or smth
     //reset the command if onWinCondition failes but the command was used
