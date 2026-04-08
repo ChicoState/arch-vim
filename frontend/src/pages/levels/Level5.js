@@ -1,41 +1,9 @@
 import { Link } from "react-router-dom";
-import Editor from "@monaco-editor/react";
-import { useRef, useState, useEffect } from "react";
-import { initVimMode,VimMode } from "monaco-vim";
+import { useState } from "react";
 import VimEditor from "../../editor/vimEditor";
-
-
-let onQuit = null;
-let onWrite = null;
-let onWriteQuit = null;
-let done = false;
-
-// VimMode.Vim.defineEx("write", "w", (_cm, params) => {
-//   const arg = params?.argString?.trim();
-//   const bang = arg === "!";
-//   if (onWrite) onWrite({ bang });
-//   done = true;
-// });
-
-// VimMode.Vim.defineEx("wq", "wq", (_cm, params) => {
-//   const arg = params?.argString?.trim();
-//   const bang = arg === "!";
-//   if (onWriteQuit) onWriteQuit({ bang });
-//   done = true;
-// });
-
-// keep your quit
-// VimMode.Vim.defineEx("quit", "q", (_cm, params) => {
-//   if (params && (params.line != null || params.lineEnd != null)) return;
-//   const arg = params?.argString?.trim();
-//   const bang = arg === "!";
-//   if (onQuit) onQuit({ bang });
-//   done = true;
-// });
 
 export default function Level5() {
   const [passed, setPassed] = useState(false);
-  const [saved, setSaved] = useState(false);
   const defaultValue=`#include <stdio.h>
 
 int main() {
