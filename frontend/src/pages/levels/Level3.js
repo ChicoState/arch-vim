@@ -28,6 +28,7 @@ export default function Level3() {
       <VimEditor
       value = {defaultValue}
       finalTextRegex = {/\[\s*VIM\s*\]/}
+      mode={"normal"}
       onWin={() => {setPassed(true)}}
       />
 
