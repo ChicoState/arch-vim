@@ -15,14 +15,14 @@ docker compose build --no-cache
 docker compose up
 ```
 
-### Manage [here](http://localhost:8000/admin/)
-<br> Create a superuser to access the user accounts in localhost:8000/admin 
+### Manage [users](http://localhost:8000/admin/)
+Create a superuser to access the user accounts in localhost:8000/admin 
 ```
 docker compose exec -it django-backend python manage.py createsuperuser
 ```
 
 ### SQLite file
-<br> The SQLite file is in `.gitignore`, so after running the previous command, run
+The SQLite file is in `.gitignore`, so after running the previous command, run
 ```
 docker compose exec backend manage.py migrate
 ```
