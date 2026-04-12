@@ -15,7 +15,7 @@ docker compose build --no-cache
 docker compose up
 ```
 
-### Manage [here](localhost:8000/admin)
+### Manage [here](http://localhost:8000/admin/)
 <br> Create a superuser to access the user accounts in localhost:8000/admin 
 ```
 docker compose exec -it django-backend python manage.py createsuperuser
