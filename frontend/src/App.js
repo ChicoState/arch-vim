@@ -13,6 +13,29 @@ import Level4 from './pages/levels/Level4.js';
 import Level5 from './pages/levels/Level5.js';
 import LevelTest from './pages/levels/levelTest.js';
 import Home from './pages/Home.js';
+import Login from './pages/Login.js';
+import Register from './pages/Register.js';
+
+import { AuthProvider, useAuth } from './AuthContext.js';
+import { ProtectedRoute } from './ProtectedRoute.js'; 
+
+function Nav() {
+  const { user, logout } = useAuth();
+  return(
+    <nav id = "global-nav">
+      <Link to="/">Home</Link> |{" "}
+      <Link to="/levels">Levels</Link> |{" "}
+      {user ? (
+        <>
+        <span>{user.username}</span> |{" "}
+         <button onClick={logout}>Logout</button>
+        </>
+        ) : (
+        <Link to="/login">Login</Link> 
+      )}
+        </nav>
+  )
+}
 
 function App() {
   useEffect(() => {
@@ -22,27 +45,23 @@ function App() {
       .catch((err) => console.error(err));
   }, []);
   return (
-    <BrowserRouter>
-      <nav id = "global-nav">
-        <Link to="/">Home</Link> |{" "}
-        <Link to="/levels">Levels</Link>
-      </nav>
-
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/levels" element={<Levels />} />
-        <Route path="/levels/1" element={<Level1 />} />
-        <Route path="/levels/2" element={<Level2 />} />
-        <Route path="/levels/3" element={<Level3 />} />
-        <Route path="/levels/4" element={<Level4 />} />
-        <Route path="/levels/5" element={<Level5 />} />
-        <Route path="/levels/test" element={<LevelTest/>} />
-      </Routes>
-    </BrowserRouter>
-    
-
-
-
+    <AuthProvider>
+      <BrowserRouter>
+        <Nav />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />}/>
+          <Route path="/levels" element={<Levels />} />
+          <Route path="/levels/1" element={<Level1 />} />
+          <Route path="/levels/2" element={<Level2 />} />
+          <Route path="/levels/3" element={<Level3 />} />
+          <Route path="/levels/4" element={<Level4 />} />
+          <Route path="/levels/5" element={<Level5 />} />
+          <Route path="/levels/test" element={<LevelTest/>} />
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
 //ignore this, this was the default react stuff, I'm keeping as a reference for formatting later
   //   <div className="App">
   //     <header className="App-header">

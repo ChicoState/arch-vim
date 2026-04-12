@@ -2,7 +2,7 @@ import Editor from "@monaco-editor/react";
 import { useRef } from "react";
 import { initVimMode, VimMode } from "monaco-vim";
 import { vimCommands } from "./vimCommands.js"
-
+import { saveProgress, loadProgress } from "../progress.js";
 
 /*			Editor Usage
 Parameters - 
@@ -60,6 +60,14 @@ export default function VimEditor({
 
 	
 
+	async function saveTest() {
+		const existing = await loadProgress();
+		await saveProgress({
+			...existing,
+			[`level_${level}`]: { passed: true }
+		});
+		onWin();
+	}
 
 	//Checks win conditions
 	function checkWinConditions() {
@@ -115,7 +123,7 @@ export default function VimEditor({
 		}
 
 		wonRef.current = true;
-		onWin();
+		saveTest();
 	}
 
 	function reset() {

@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import VimEditor from "../../editor/vimEditor";
+import { loadProgress } from "../../progress";
 
 export default function Level1() {
-    //used to make the "You passed!"
     const [passed, setPassed] = useState(false);
     const startValue =
 `#include <stdio.h>
@@ -13,6 +13,10 @@ int main() {
 	return 0; 
 }
 `
+
+    useEffect(() => {
+        loadProgress().then(data=>{if (data['level_1']?.passed) setPassed(true);});}, []);
+
     return (
 
 // PAGE CONTENTS
