@@ -24,8 +24,12 @@ int main() {
             }, []);
 
     return (
-
+    <div className="flex h-screen bg-gray-950 text-gray-200">
+        <aside className="w-64 bg-gray-900 p-4">
+            Sidebar thing
+        </aside>
 // PAGE CONTENTS
+        <aside className="flex-1 p-4">
       <div style={{ padding: "10px" }}>
         <h1>Level 1</h1>
         <h3>Learn how to navigate a file</h3>
@@ -66,7 +70,13 @@ int main() {
             </div>
             )
         }
+        
 		</>
-      </div>  
+      </div>
+      </aside>
+      <aside className="w-72 bg-gray-900 p-4">
+        Hints
+      </aside>
+    </div>  
     );
 }

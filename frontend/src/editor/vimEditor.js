@@ -231,7 +231,7 @@ export default function VimEditor({
 	//Build text box and check button
 	return(
 		<>
-		<button onClick={reset}>Reset Level</button>
+		<button className="bg-green-500 hover:bg-green-400 transition-all duration-200 shadow-x1 rounded-x1" onClick={reset}>Reset Level</button>
 		<Editor
 		height = {height}
 		width = {width}

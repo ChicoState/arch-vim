@@ -1,10 +1,7 @@
-import logo from './logo.svg';
 import './App.css';
 
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import { useEffect } from 'react';
-import VimEditor from './editor/vimEditor.js';
-//import Level from './pages/levels/level.js';
 import Levels from './pages/Levels.js';
 import Level1 from './pages/levels/Level1.js';
 import Level2 from './pages/levels/Level2.js';
@@ -17,12 +14,11 @@ import Login from './pages/Login.js';
 import Register from './pages/Register.js';
 
 import { AuthProvider, useAuth } from './AuthContext.js';
-import { ProtectedRoute } from './ProtectedRoute.js'; 
 
 function Nav() {
   const { user, logout } = useAuth();
   return(
-    <nav id = "global-nav">
+    <nav id = "global-nav" className="bg-gray-800">
       <Link to="/">Home</Link> |{" "}
       <Link to="/levels">Levels</Link> |{" "}
       {user ? (

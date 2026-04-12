@@ -1,14 +1,5 @@
-import { Link } from "react-router-dom";
-import logo from '../logo.svg'
 export default function Home() {
-    return (
-    //   <div className="App">
-    //     <header className="App-header">
-    //       <img src={logo} className="App-logo" alt="logo" />
-    //       <h1>Arch-Vim</h1>
-    //       <p>Learn Vim, One step at a time</p>
-    //     </header>
-    // </div>
+    return (<>
       <div style={{ position: "relative", minHeight: "100vh", padding: "20px" }}>
         <h1>Arch-Vim</h1>
         <p>Learn Vim, One step at a time</p>
@@ -31,5 +22,7 @@ export default function Home() {
             </ul>
           </div> */}
       </div>
+      <div className="bg-black text-green-400 min-h-screen">Testing Tailwind</div>
+          </>
     );
 }
