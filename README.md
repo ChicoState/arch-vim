@@ -3,6 +3,12 @@
 
 ## Docker commands
 
+### Might need to run
+```
+docker compose exec -it django-backend python manage.py makemigrations
+docker compose exec -it django-backend python manage.py migrate
+```
+
 ### Building after changes:
 ```
 docker compose build --no-cache
