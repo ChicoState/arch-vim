@@ -1,8 +1,10 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import VimEditor from "../../editor/vimEditor";
+import { loadProgress } from "../../progress";
 
 export default function Level5() {
+  const levelNum = 5
   const [passed, setPassed] = useState(false);
   const defaultValue=`#include <stdio.h>
 
@@ -18,6 +20,13 @@ int main() {
   return 0; 
 }
 `
+    useEffect(() => {
+        loadProgress().then(
+            data=>{
+                if (data[`level_${levelNum}`]?.passed) 
+                    setPassed(true);
+                });
+            }, []);
 
   return (
     <div style={{ padding: "10px" }}>
@@ -31,6 +40,7 @@ int main() {
           <li>Hint 2: You need to be in Normal mode to use <kbd>:</kbd>commands</li>
         </ul>
       <VimEditor
+      level={levelNum}
       value = {defaultValue}
       finalText = {finalValue}
       possibleCommands = {[":q", ":wq"]}

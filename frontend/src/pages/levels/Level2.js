@@ -1,8 +1,10 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import VimEditor from "../../editor/vimEditor";
+import { loadProgress } from "../../progress";
 
 export default function Level2() {
+  const levelNum = 2
   const [passed, setPassed] = useState(false);
   const startValue =
 `#include <stdio.h>
@@ -12,6 +14,15 @@ int main() {
 	return 0; 
 }
 `
+    useEffect(() => {
+        loadProgress().then(
+            data=>{
+                if (data[`level_${levelNum}`]?.passed) 
+                    setPassed(true);
+                });
+            }, []);
+
+
   return (
     <>
       <div class="level_info" style={{ textAlign: "center" }}>
@@ -32,7 +43,7 @@ int main() {
       </div>
       {!passed &&(<div style={{display: "grid", placeItems: "center"}}>
         <VimEditor
-      level = {2}
+      level={levelNum}
       value = {startValue}
       height = {"30vh"}
       commands = {[":q"]}

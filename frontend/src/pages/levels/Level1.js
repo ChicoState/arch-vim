@@ -4,6 +4,7 @@ import VimEditor from "../../editor/vimEditor";
 import { loadProgress } from "../../progress";
 
 export default function Level1() {
+    const levelNum = 1
     const [passed, setPassed] = useState(false);
     const startValue =
 `#include <stdio.h>
@@ -15,7 +16,12 @@ int main() {
 `
 
     useEffect(() => {
-        loadProgress().then(data=>{if (data['level_1']?.passed) setPassed(true);});}, []);
+        loadProgress().then(
+            data=>{
+                if (data[`level_${levelNum}`]?.passed) 
+                    setPassed(true);
+                });
+            }, []);
 
     return (
 
@@ -34,7 +40,7 @@ int main() {
 {/* EDITOR IMPLEMENTATION */}
         <>
         <VimEditor
-        level = {1}
+        level={levelNum}
         value = {startValue}
         cursorCol={15}
         cursorLine={4}

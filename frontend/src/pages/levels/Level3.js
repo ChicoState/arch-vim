@@ -1,13 +1,22 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import VimEditor from "../../editor/vimEditor";
+import { loadProgress } from "../../progress";
 
 export default function Level3() {
+  const levelNum = 3
   const [passed, setPassed] = useState(false);
 
   const defaultValue=`// Put VIM inside the brackets:
 [   ]
 `
+    useEffect(() => {
+        loadProgress().then(
+            data=>{
+                if (data[`level_${levelNum}`]?.passed) 
+                    setPassed(true);
+                });
+            }, []);
 
   return (
     <div style={{ padding: "10px" }}>
@@ -26,6 +35,7 @@ export default function Level3() {
       </p>
 
       <VimEditor
+      level={levelNum}
       value = {defaultValue}
       finalTextRegex = {/\[\s*VIM\s*\]/}
       mode={"normal"}
