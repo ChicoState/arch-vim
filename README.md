@@ -15,14 +15,16 @@ docker compose build --no-cache
 docker compose up
 ```
 
+### Manage users
+<br> Create a superuser to access the user accounts in localhost:8000/admin
+```
+docker compose exec -it django-backend python manage.py createsuperuser
+```
+
 ### SQLite file
 <br> The SQLite file is in `.gitignore`, so after running the previous command, run
 ```
 docker compose exec backend manage.py migrate
-```
-<br> Once we start making level, we can store level data in a json file, like `/backend/fixtures/levels.json`
-```
-docker compose exec backend python manage.py loaddata fixtures/levels.json
 ```
 
 ### Starting after being built
