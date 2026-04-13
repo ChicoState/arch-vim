@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import VimEditor from "../../editor/vimEditor";
 import { loadProgress } from "../../progress";
