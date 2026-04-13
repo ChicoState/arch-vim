@@ -1,28 +1,45 @@
-export default function Home() {
-    return (<>
-      <div style={{ position: "relative", minHeight: "100vh", padding: "20px" }}>
-        <h1>Arch-Vim</h1>
-        <p>Learn Vim, One step at a time</p>
+import Login from "../components/login";
+import useCheckLevel from "../components/checkLevelPassed";
+import { Link } from "react-router-dom";
 
-        {/* <div
-          style={{
-            position: "absolute",
-            top: "100px",
-            right: "50px",
-            border: "1px solid #ccc",
-            padding: "10px",
-            borderRadius: "8px",
-            backgroundColor: "#1e1e1e",
-          }}>
-            <h2>Quick Levels</h2>
-            <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
-              <li>
-                <Link to="/levels/1">Level 1</Link>
-              </li>
-            </ul>
-          </div> */}
+function LevelCheck({ levelNum=0, levelDesc="" }) {
+  const passed = useCheckLevel(levelNum);
+  return passed ? (
+              <Link to={`/levels/${levelNum}`} className="text-green-500">Level {levelNum} - {levelDesc}</Link>
+            ) : (
+              <Link to={`/levels/${levelNum}`}>Level {levelNum} - {levelDesc}</Link>
+            )
+}
+
+export default function Home() {
+  //style={{ position: "relative", minHeight: "10vh", padding: "20px" }}
+    return (
+      <div className="bg-gray-950 p-6 min-h-screen text-white">
+        <div className="fixed right-5 top-5">
+          <Login />
+        </div>
+        <h1 className="font-mono text-center text-9xl pt-[20vh] font-bold">Arch-Vim</h1>
+        <br/>
+        <p className="text-center">Learn Vim, One step at a time</p>
+        <div className="flex gap-20 justify-center pt-[25vh]">
+          <div className="w-[25vh] h-64 rounded-2xl bg-gray-950 p-6 text-white shadow-[0_0_20px_rgba(99,102,241,0.7)]">
+            <h2 className="text-center text-xl mb-2">Easy</h2>
+            <hr className="mb-4 border-gray-600"/>
+            <div className="pl-5">
+              <LevelCheck levelNum={1} levelDesc={"Learn Navigation"}/><br></br>
+              <LevelCheck levelNum={2} levelDesc={"How to exit a vim file"}/><br></br>
+              <LevelCheck levelNum={3} levelDesc={"Insert Mode and typing"}/><br></br>
+              <LevelCheck levelNum={4} levelDesc={"How to save files"}/><br></br>
+              <LevelCheck levelNum={5} levelDesc={"Challenge!"}/><br></br>
+            </div>
+          </div>
+          <div className="w-[25vh] h-64 rounded-2xl bg-gray-800 p-6 text-white shadow-[0_0_20px_rgba(99,102,241,0.7)]">
+            Box test 2
+          </div>
+          <div className="w-[25vh] h-64 rounded-2xl bg-gray-800 p-6 text-white shadow-[0_0_20px_rgba(99,102,241,0.7)]">
+            Box test 3
+          </div>
+        </div>
       </div>
-      <div className="bg-black text-green-400 min-h-screen">Testing Tailwind</div>
-          </>
     );
 }
