@@ -22,7 +22,7 @@ export default function Level3() {
             }, []);
 
     return (
-    <div className="flex h-screen bg-gray-950 text-gray-200">
+    <div className="flex min-h-screen bg-gray-950 text-gray-200">
         {/* Sidebar (the left side) */}
         <aside className="w-[16vw] bg-gray-950 p-4">
             <Sidebar />
