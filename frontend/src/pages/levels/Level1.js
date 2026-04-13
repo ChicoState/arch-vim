@@ -44,6 +44,7 @@ int main() {
                 Objective: Without using your arrow keys, move the cursor to Line 4, Column 15. {/* After 'Hello' */}
                 </p>
                 <>
+                <div className="flex items-center justify-center">
                 <VimEditor
                 level={levelNum}
                 value = {startValue}
@@ -51,6 +52,7 @@ int main() {
                 cursorLine={4}
                 onWin = {() => setPassed(true)}
                 />
+                </div>
                 {passed && (
                     <div style={{
                         marginTop: "20px",
@@ -75,7 +77,7 @@ int main() {
             </div>
         </aside>
 
-        <aside className="w-[16vw] bg-gray-950 p-4 shadow-[0_0_20px_rgba(99,102,241,0.7)]">
+        <aside className="w-[16vw] bg-gray-950 p-4 ">
             <p className="text-center text-2xl">Hints</p>
                 <DropDown title={"Testing"} contents={"More testing"} moreClass="mb-2" />
                 <DropDown title={"Testing 2"} contents={"Testtestest"} />
