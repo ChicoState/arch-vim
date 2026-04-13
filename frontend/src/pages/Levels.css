@@ -1,0 +1,170 @@
+.mode-page {
+  min-height: 100vh;
+  background: #d7ff2f;
+  padding: 32px 48px 48px;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.mode-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 28px;
+}
+
+.mode-nav {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+}
+
+.pill-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 28px;
+  border: 2px solid #1f1f1f;
+  border-radius: 999px;
+  color: #1f1f1f;
+  text-decoration: none;
+  font-size: 22px;
+  font-weight: 500;
+  background: transparent;
+  transition: all 0.2s ease;
+}
+
+.pill-btn:hover {
+  background: #1f1f1f;
+  color: #d7ff2f;
+}
+
+.arrow {
+  font-size: 28px;
+  line-height: 1;
+}
+
+.mode-year {
+  font-size: 34px;
+  font-weight: 800;
+  color: #1f1f1f;
+}
+
+.mode-title {
+  margin: 30px 0 50px;
+  font-size: 150px;
+  line-height: 0.92;
+  font-weight: 900;
+  color: #1f1f1f;
+  letter-spacing: -4px;
+}
+
+.mode-card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 34px;
+}
+
+.mode-card-link {
+  text-decoration: none;
+}
+
+.mode-card {
+  background: #232323;
+  color: white;
+  border-radius: 34px;
+  min-height: 420px;
+  padding: 32px;
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.mode-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.18);
+}
+
+.mode-badge {
+  width: 108px;
+  height: 108px;
+  background: #d7ff2f;
+  color: #111;
+  border-radius: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 42px;
+  font-weight: 800;
+  margin-bottom: 42px;
+}
+
+.mode-card h2 {
+  font-size: 42px;
+  line-height: 1.05;
+  margin: 0 0 110px;
+  font-weight: 700;
+  color: #f3f3f3;
+}
+
+.mode-card p {
+  margin: auto 0 0;
+  font-size: 21px;
+  line-height: 1.45;
+  color: #f0f0f0;
+  max-width: 95%;
+}
+
+@media (max-width: 1200px) {
+  .mode-title {
+    font-size: 110px;
+  }
+
+  .mode-card-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 700px) {
+  .mode-page {
+    padding: 24px;
+  }
+
+  .mode-topbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+  }
+
+  .mode-nav {
+    flex-wrap: wrap;
+  }
+
+  .mode-title {
+    font-size: 64px;
+    letter-spacing: -2px;
+  }
+
+  .pill-btn {
+    font-size: 18px;
+    padding: 12px 20px;
+  }
+
+  .mode-badge {
+    width: 84px;
+    height: 84px;
+    font-size: 30px;
+  }
+
+  .mode-card h2 {
+    font-size: 30px;
+    margin-bottom: 60px;
+  }
+
+  .mode-card p {
+    font-size: 18px;
+  }
+}

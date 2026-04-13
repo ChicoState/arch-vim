@@ -32,10 +32,10 @@ function App() {
 
   return (
     <BrowserRouter>
-      <nav>
+      {/* <nav>
         <Link to="/">Home</Link> |{" "}
         <Link to="/levels">Mode Select</Link>
-      </nav>
+      </nav> */}
 
       <Routes>
         <Route path="/" element={<Home />} />
