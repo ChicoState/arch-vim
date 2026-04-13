@@ -27,7 +27,7 @@ export default function Home() {
         <br/>
         <p className="text-center">Learn Vim, One step at a time</p>
         <div className="flex gap-20 justify-center pt-[25vh]">
-          <div className="w-[15vw] h-64 rounded-2xl bg-gray-950 p-6 text-white shadow-[0_0_20px_rgba(99,102,241,0.7)] text-xl transition duration-500 ease-in-out hover:scale-110 hover:shadow-[0_0_30px_rgba(99,102,241,0.7)]">
+          <div className="w-[20vw] h-64 rounded-2xl bg-gray-950 p-6 text-white shadow-[0_0_20px_rgba(99,102,241,0.7)] text-xl transition duration-500 ease-in-out hover:scale-110 hover:shadow-[0_0_30px_rgba(99,102,241,0.7)]">
             <h2 className="text-center mb-2">Intro</h2>
             <hr className="mb-4 border-gray-600"/>
             <div className="pl-5 text-base">
@@ -38,7 +38,7 @@ export default function Home() {
               <LevelCheck levelNum={5} levelDesc={"Challenge!"}/><br></br>
             </div>
           </div>
-          <div className="w-[15vw] h-64 rounded-2xl bg-gray-950 p-6 text-white shadow-[0_0_20px_rgba(99,102,241,0.7)] text-xl transition duration-500 ease-in-out hover:scale-110 hover:shadow-[0_0_30px_rgba(99,102,241,0.7)]">
+          <div className="w-[20vw] h-64 rounded-2xl bg-gray-950 p-6 text-white shadow-[0_0_20px_rgba(99,102,241,0.7)] text-xl transition duration-500 ease-in-out hover:scale-110 hover:shadow-[0_0_30px_rgba(99,102,241,0.7)]">
             <h2 className="text-center mb-2">Intermediate</h2>
             <hr className="mb-4 border-gray-600"/>
             <div className="pl-5 text-base">
@@ -49,7 +49,7 @@ export default function Home() {
               <LevelCheck levelNum={10} levelDesc={"Challenge!"}/><br></br>
             </div>
           </div>
-          <div className="w-[15vw] h-64 rounded-2xl bg-gray-950 p-6 text-white shadow-[0_0_20px_rgba(99,102,241,0.7)] text-xl transition duration-500 ease-in-out hover:scale-110 hover:shadow-[0_0_30px_rgba(99,102,241,0.7)]">
+          <div className="w-[20vw] h-64 rounded-2xl bg-gray-950 p-6 text-white shadow-[0_0_20px_rgba(99,102,241,0.7)] text-xl transition duration-500 ease-in-out hover:scale-110 hover:shadow-[0_0_30px_rgba(99,102,241,0.7)]">
             <h2 className="text-center mb-2">Advanced</h2>
             <hr className="mb-4 border-gray-600"/>
             <div className="pl-5 text-base">
