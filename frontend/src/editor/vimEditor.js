@@ -43,6 +43,7 @@ export default function VimEditor({
 	width = "1000px",
 	onWin = () => {}, //run when all win conditions are met (will set a flag in the level)
 	//MUST HAVE THE onWin = {() => setWin(true)} as a param, and you can use setWin for the react state: const [win, setWin] = useState(false);
+	className = "",
 }){
 	const editorRef = useRef(null);
 	const vimModeRef = useRef(null);
@@ -230,20 +231,21 @@ export default function VimEditor({
 	
 	//Build text box and check button
 	return(
-		<>
-		<button className="bg-green-500 hover:bg-green-400 transition-all duration-200 shadow-x1 rounded-x1" onClick={reset}>Reset Level</button>
-		<Editor
-		height = {height}
-		width = {width}
-		theme = "vs-dark"
-		defaultLanguage="c"
-		defaultValue={value}
+		<div>
+			<Editor
+			className="w-1000 h-500 bg-gray-950 text-gray-200 shadow-[0_0_10px_rgba(99,102,241,0.7)] mb-4"
+			height = {height}
+			width = {width}
+			theme = "vs-dark"
+			defaultLanguage="c"
+			defaultValue={value}
 
-		options = {{
-			minimap: { enabled: false }
-		}}
-		onMount={handleMount}
-		/>
-		</>
+			options = {{
+				minimap: { enabled: false }
+			}}
+			onMount={handleMount}
+			/>
+			<button className="self-center pl-4 pr-4 pt-1 pb-1 rounded-xl text-centere bg-[rgb(63,64,150)]/100 trasnsition duration-200 hover:bg-[rgb(63,64,150)]/75 text-center" onClick={reset}>Reset Level</button>
+		</div>
 	);
 }
