@@ -48,7 +48,7 @@ function Register() {
                             value={password}
                             onChange={e => setPassword(e.target.value)}
                         />
-                        <button type="submit" className="self-center pl-4 pr-4 pt-1 pb-1 rounded-xl text-centere bg-[rgb(63,64,150)]/100 hover:bg-[rgb(63,64,150)]/75 text-center">Register</button>
+                        <button type="submit" className="self-center pl-4 pr-4 pt-1 pb-1 rounded-xl text-centere bg-[rgb(63,64,150)]/100 trasnsition duration-200 hover:bg-[rgb(63,64,150)]/75 text-center">Register</button>
                     </form>
                     <p className="text-xs text-gray-400 text-center">Already have an account? <Link to="/login" className="text-blue-400">Login</Link></p>
                 </div>
