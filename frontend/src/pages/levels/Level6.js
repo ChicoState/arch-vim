@@ -40,7 +40,7 @@ int main() {
                     <h1 className="text-7xl mb-2 pl-16">Level 6</h1>
                     <h3 className="pl-16 text-4xl mb-2">Advanced Navigation</h3>
                     <hr className="mb-4 border-gray-600 w-96 ml-16"/>
-                    <p className="pl-28">Beyond using <kbd>h</kbd> , <kbd>j</kbd> , <kbd>k</kbd> , and <kbd>l</kbd> to navigate character by character, you can jump word to word.<br></br>
+                    <p className="pl-28">Beyond using <kbd>h</kbd>, <kbd>j</kbd>, <kbd>k</kbd>, and <kbd>l</kbd> to navigate character by character, you can jump word to word.<br></br>
                             <kbd>w</kbd> jumps to the <span className="font-bold">start</span> of the next word<br></br>
                             <kbd>e</kbd> jumps to the <span className="font-bold">end</span> of the next word<br></br>
                             <kbd>b</kbd> jumps <span className="font-bold">back</span> to the <span className="font-bold">start</span> of the previous word<br></br><br></br>

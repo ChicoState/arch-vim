@@ -23,7 +23,7 @@ export default function Sidebar() {
             <hr className="mb-4 border-gray-600"></hr>
             <Link to="/" className="mb-4 text-xl">Home</Link>
             <h2>Levels</h2>
-            <h3 className="pl-4">Easy</h3>
+            <h3 className="pl-4">Intro</h3>
             <div className="pl-8 mb-2">
                 <LevelCheck levelNum={1} levelDesc={"Learn Navigation"}/><br></br>
                 <LevelCheck levelNum={2} levelDesc={"How to exit a vim file"}/><br></br>
@@ -32,21 +32,21 @@ export default function Sidebar() {
                 <LevelCheck levelNum={5} levelDesc={"Challenge!"}/><br></br>
             </div>
             <br></br>
-            <h3 className="pl-4">Easy</h3>
+            <h3 className="pl-4">Intermediate</h3>
             <div className="pl-8 mb-2">
-                <LevelCheck levelNum={6} levelDesc={"Learn Navigation"}/><br></br>
-                <LevelCheck levelNum={7} levelDesc={"How to exit a vim file"}/><br></br>
-                <LevelCheck levelNum={8} levelDesc={"Insert Mode and typing"}/><br></br>
-                <LevelCheck levelNum={9} levelDesc={"How to save files"}/><br></br>
+                <LevelCheck levelNum={6} levelDesc={"More Navigation"}/><br></br>
+                <LevelCheck levelNum={7} levelDesc={"Even More Navigation!"}/><br></br>
+                <LevelCheck levelNum={8} levelDesc={"Delete a line"}/><br></br>
+                <LevelCheck levelNum={9} levelDesc={"Undo your mistakes"}/><br></br>
                 <LevelCheck levelNum={10} levelDesc={"Challenge!"}/><br></br>
             </div>
             <br></br>
-            <h3 className="pl-4">Easy</h3>
+            <h3 className="pl-4">Advanced</h3>
             <div className="pl-8">
-                <LevelCheck levelNum={11} levelDesc={"Learn Navigation"}/><br></br>
-                <LevelCheck levelNum={12} levelDesc={"How to exit a vim file"}/><br></br>
-                <LevelCheck levelNum={13} levelDesc={"Insert Mode and typing"}/><br></br>
-                <LevelCheck levelNum={14} levelDesc={"How to save files"}/><br></br>
+                <LevelCheck levelNum={11} levelDesc={"Basic Search"}/><br></br>
+                <LevelCheck levelNum={12} levelDesc={"Comprehensive Commands"}/><br></br>
+                <LevelCheck levelNum={13} levelDesc={"Jump between brackets"}/><br></br>
+                <LevelCheck levelNum={14} levelDesc={"Jump up and down the file"}/><br></br>
                 <LevelCheck levelNum={15} levelDesc={"Challenge!"}/><br></br>
             </div>
             <div className="absolute left-5 bottom-5">

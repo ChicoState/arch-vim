@@ -45,7 +45,7 @@ int main() {
             <div style={{ padding: "10px" }}>
                 <div className="ml-[15vw] mb-10">
                     <h1 className="text-7xl mb-2 pl-16">Level 5</h1>
-                    <h3 className="pl-16 text-4xl mb-2">Challenge Level</h3>
+                    <h3 className="pl-16 text-4xl mb-2">Challenge Level!</h3>
                     <hr className="mb-4 border-gray-600 w-96 ml-16"/>
                     <p className="pl-28">
                         Combine all the skills you've learned to complete the objective!<br></br><br></br>
