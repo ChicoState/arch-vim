@@ -8,10 +8,10 @@ export default function Login() {
     {user ? (
       <>
       <span>{user.username}</span> {" | "}
-      <button onClick={logout}>Logout</button>
+      <button onClick={logout} className="hover:text-gray-400">Logout</button>
       </>
     ) : (
-      <Link to="/login">Login</Link>
+      <Link to="/login" className="hover:text-gray-400">Login</Link>
     )}
     </nav>
   )

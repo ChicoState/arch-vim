@@ -1,13 +1,18 @@
 import Login from "../components/login";
 import useCheckLevel from "../components/checkLevelPassed";
 import { Link } from "react-router-dom";
+import { loadProgress } from "../progress";
+
+function ingestLevelInfo(){
+
+}
 
 function LevelCheck({ levelNum=0, levelDesc="" }) {
   const passed = useCheckLevel(levelNum);
   return passed ? (
-              <Link to={`/levels/${levelNum}`} className="text-green-500">Level {levelNum} - {levelDesc}</Link>
+              <Link to={`/levels/${levelNum}`} className="text-green-500 hover:text-green-700">Level {levelNum} - {levelDesc}</Link>
             ) : (
-              <Link to={`/levels/${levelNum}`}>Level {levelNum} - {levelDesc}</Link>
+              <Link to={`/levels/${levelNum}`} className="hover:text-gray-400">Level {levelNum} - {levelDesc}</Link>
             )
 }
 
