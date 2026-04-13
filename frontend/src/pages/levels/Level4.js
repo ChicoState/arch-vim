@@ -66,8 +66,10 @@ return 0;
         {/* Right side */}
         <aside className="w-[16vw] bg-gray-950 p-4">
             <p className="text-center text-2xl mb-4">Hints</p>
-                <DropDown title={"How do I open the command line?"} contents={"Make sure you're in Normal mode (press Esc first), then press : to open the Vim command line."} moreClass="mb-2" />
-                <DropDown title={"Can I save and quit at once?"} contents={"Yes! You can use :wq to write (save) and quit in a single command."} />
+            <DropDown title={"Combine Commands"} contents={"You can combine the write and quite commands into a single command, :wq"}/>
+            {/*                <DropDown title={"Testing"} contents={"More testing"} moreClass="mb-2" />
+                <DropDown title={"Testing 2"} contents={"Testtestest"} />*/}
+
         </aside>
     </div>
     );

@@ -71,8 +71,8 @@ int main() {
         {/* Right side */}
         <aside className="w-[16vw] bg-gray-950 p-4 ">
             <p className="text-center text-2xl mb-4">Hints</p>
-                <DropDown title={"Testing"} contents={"More testing"} moreClass="mb-2" />
-                <DropDown title={"Testing 2"} contents={"Testtestest"} />
+{/*                <DropDown title={"Testing"} contents={"More testing"} moreClass="mb-2" />
+                <DropDown title={"Testing 2"} contents={"Testtestest"} />*/}
         </aside>
     </div>  
     );

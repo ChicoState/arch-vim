@@ -72,8 +72,9 @@ int main() {
         {/* Right side */}
         <aside className="w-[16vw] bg-gray-950 p-4 ">
             <p className="text-center text-2xl mb-4">Hints</p>
-                <DropDown title={"How do I open the console?"} contents={"Press the : key while in normal mode to open the Vim command line."} moreClass="mb-2" />
-                <DropDown title={"The editor won't close!"} contents={"Make sure you're in normal mode first (press Esc), then type :q and hit Enter."} />
+{/*                <DropDown title={"Testing"} contents={"More testing"} moreClass="mb-2" />
+                <DropDown title={"Testing 2"} contents={"Testtestest"} />*/}
+
         </aside>
     </div>  
     );

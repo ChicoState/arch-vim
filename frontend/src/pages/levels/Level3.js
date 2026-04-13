@@ -69,8 +69,9 @@ export default function Level3() {
         {/* Right side */}
         <aside className="w-[16vw] bg-gray-950 p-4">
             <p className="text-center text-2xl mb-4">Hints</p>
-                <DropDown title={"How do I start typing?"} contents={"Press i while in Normal mode to enter Insert mode. You'll see -- INSERT -- appear at the bottom of the editor."} moreClass="mb-2" />
-                <DropDown title={"How do I get back to Normal mode?"} contents={"Press Esc to exit Insert mode and return to Normal mode."} />
+{/*                <DropDown title={"Testing"} contents={"More testing"} moreClass="mb-2" />
+                <DropDown title={"Testing 2"} contents={"Testtestest"} />*/}
+
         </aside>
     </div>
     );
