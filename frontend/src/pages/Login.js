@@ -41,7 +41,7 @@ function Login() {
                             value={password}
                             onChange={e => setPassword(e.target.value)}
                         />
-                        <button type="submit" className="self-center pl-4 pr-4 pt-1 pb-1 rounded-xl text-centere bg-[rgb(99,102,241)]/50 text-center">Login</button>
+                        <button type="submit" className="self-center pl-4 pr-4 pt-1 pb-1 rounded-xl text-centere bg-[rgb(63,64,150)]/100 hover:bg-[rgb(63,64,150)]/75 text-center">Login</button>
                     </form>
                     <p className="text-xs text-gray-400 text-center">Don't have an account? <Link to="/register" className="text-blue-400">Sign Up Here</Link></p>
                 </div>
