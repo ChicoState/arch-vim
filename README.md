@@ -3,6 +3,17 @@
 
 ## Docker commands
 
+### "Module not found: Error: Can't resolve '[insert here]' in '/app/src'"
+```
+Run docker container:
+docker compose up
+
+New terminal (or detach the docker container) (this deletes the volume that it's using)
+docker compose down -v
+docker compose build --no-cache
+docker compose up
+```
+
 ### Might need to run
 ```
 docker compose exec -it django-backend python manage.py makemigrations
