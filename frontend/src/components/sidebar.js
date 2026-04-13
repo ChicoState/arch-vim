@@ -9,9 +9,9 @@ function callBackend() {
 function LevelCheck({ levelNum=0, levelDesc="" }) {
   const passed = useCheckLevel(levelNum);
   return passed ? (
-              <Link to={`/levels/${levelNum}`} className="text-green-500">Level {levelNum} - {levelDesc}</Link>
+              <Link to={`/levels/${levelNum}`} className="text-green-500 hover:text-green-700 text-[0.75vw]">Level {levelNum} - {levelDesc}</Link>
             ) : (
-              <Link to={`/levels/${levelNum}`}>Level {levelNum} - {levelDesc}</Link>
+              <Link to={`/levels/${levelNum}`} className="hover:text-gray-400 text-[0.75vw]">Level {levelNum} - {levelDesc}</Link>
             )
 }
 
