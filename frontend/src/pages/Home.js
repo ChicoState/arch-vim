@@ -33,11 +33,27 @@ export default function Home() {
               <LevelCheck levelNum={5} levelDesc={"Challenge!"}/><br></br>
             </div>
           </div>
-          <div className="w-[15vw] h-64 rounded-2xl bg-gray-800 hover:bg-white p-6 text-white shadow-[0_0_20px_rgba(99,102,241,0.7)]">
-            Box test 2
+          <div className="w-[15vw] h-64 rounded-2xl bg-gray-950 p-6 text-white shadow-[0_0_20px_rgba(99,102,241,0.7)] text-xl transition duration-500 ease-in-out hover:scale-110 hover:shadow-[0_0_30px_rgba(99,102,241,0.7)]">
+            <h2 className="text-center mb-2">Easy</h2>
+            <hr className="mb-4 border-gray-600"/>
+            <div className="pl-5 text-base">
+              <LevelCheck levelNum={6} levelDesc={"Learn Navigation"}/><br></br>
+              <LevelCheck levelNum={7} levelDesc={"How to exit a vim file"}/><br></br>
+              <LevelCheck levelNum={8} levelDesc={"Insert Mode and typing"}/><br></br>
+              <LevelCheck levelNum={9} levelDesc={"How to save files"}/><br></br>
+              <LevelCheck levelNum={10} levelDesc={"Challenge!"}/><br></br>
+            </div>
           </div>
-          <div className="w-[15vw] h-64 rounded-2xl bg-gray-800 p-6 text-white shadow-[0_0_20px_rgba(99,102,241,0.7)]">
-            Box test 3
+          <div className="w-[15vw] h-64 rounded-2xl bg-gray-950 p-6 text-white shadow-[0_0_20px_rgba(99,102,241,0.7)] text-xl transition duration-500 ease-in-out hover:scale-110 hover:shadow-[0_0_30px_rgba(99,102,241,0.7)]">
+            <h2 className="text-center mb-2">Easy</h2>
+            <hr className="mb-4 border-gray-600"/>
+            <div className="pl-5 text-base">
+              <LevelCheck levelNum={11} levelDesc={"Learn Navigation"}/><br></br>
+              <LevelCheck levelNum={12} levelDesc={"How to exit a vim file"}/><br></br>
+              <LevelCheck levelNum={13} levelDesc={"Insert Mode and typing"}/><br></br>
+              <LevelCheck levelNum={14} levelDesc={"How to save files"}/><br></br>
+              <LevelCheck levelNum={15} levelDesc={"Challenge!"}/><br></br>
+            </div>
           </div>
         </div>
       </div>
