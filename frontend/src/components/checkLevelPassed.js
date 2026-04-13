@@ -12,3 +12,7 @@ export default function useCheckLevel (levelNum = 0){
             }, [levelNum]);
     return(passed)
 }
+
+// export function getAllLevels() {
+//     return loadProgress()
+// }
