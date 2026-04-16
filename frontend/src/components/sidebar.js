@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import useCheckLevel from "../components/checkLevelPassed";
 import Login from "./login";
+import ThemeToggle from "./themeToggle";
 
 function callBackend() {
     
@@ -51,6 +52,9 @@ export default function Sidebar() {
             </div>
             <div className="absolute left-5 bottom-5">
                 <Login />
+            </div>
+             <div className="absolute right-5 top-5">
+                <ThemeToggle />
             </div>
         </div>
     )

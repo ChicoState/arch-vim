@@ -1,6 +1,6 @@
 import './App.css';
 
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useEffect } from 'react';
 import Levels from './pages/Levels.js';
 import Level1 from './pages/levels/Level1.js';
@@ -23,45 +23,9 @@ import Home from './pages/Home.js';
 import Login from './pages/Login.js';
 import Register from './pages/Register.js';
 
-import { AuthProvider, useAuth } from './AuthContext.js';
+import { AuthProvider } from './AuthContext.js';
 import { useTheme } from "./ThemeContext.js";
-
-function Nav() {
-  const { user, logout } = useAuth();
-  const { theme, toggleTheme } = useTheme();
-
-  const navClass =
-    theme === "dark"
-      ? "flex items-center justify-between px-6 py-4 border-b border-slate-700 bg-slate-950 text-white"
-      : "flex items-center justify-between px-6 py-4 border-b border-slate-200 bg-white text-slate-900";
-
-  return (
-    <nav className={navClass}>
-      <div className="space-x-4">
-        <Link to="/">Home</Link>
-        <Link to="/levels">Levels</Link>
-      </div>
-
-      <div className="flex items-center gap-4">
-        <button
-          onClick={toggleTheme}
-          className="rounded-lg border px-3 py-1 text-sm transition hover:opacity-80"
-        >
-          {theme === "dark" ? "Light Mode" : "Dark Mode"}
-        </button>
-
-        {user ? (
-          <>
-            <span>{user.username}</span>
-            <button onClick={logout}>Logout</button>
-          </>
-        ) : (
-          <Link to="/login">Login</Link>
-        )}
-      </div>
-    </nav>
-  );
-}
+import ThemeToggle from "./components/themeToggle";
 
 function AppInner() {
   const { theme } = useTheme();
@@ -80,8 +44,11 @@ function AppInner() {
 
   return (
     <div className={appTheme}>
+      <div className="fixed top-5 right-40 z-50">
+        <ThemeToggle />
+      </div>
+
       <BrowserRouter>
-        {/* <Nav /> */}
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
