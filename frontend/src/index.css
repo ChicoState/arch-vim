@@ -12,6 +12,19 @@ body {
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;}
+
+@layer components {
+  .theme-page-dark {
+    @apply min-h-screen bg-slate-950 text-white;}
+  .theme-page-light {
+    @apply min-h-screen bg-slate-50 text-slate-900;}
+  .theme-card-dark {
+    @apply bg-slate-900 text-white border border-slate-800 shadow-lg;}
+  .theme-card-light {
+    @apply bg-white text-slate-900 border border-slate-200 shadow-lg;}
+  .theme-input-dark {
+    @apply bg-slate-900 text-white border border-slate-700;}
+  .theme-input-light {
+    @apply bg-white text-slate-900 border border-slate-300;}
 }

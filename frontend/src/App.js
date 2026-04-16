@@ -24,41 +24,68 @@ import Login from './pages/Login.js';
 import Register from './pages/Register.js';
 
 import { AuthProvider, useAuth } from './AuthContext.js';
+import { useTheme } from "./ThemeContext.js";
 
 function Nav() {
   const { user, logout } = useAuth();
-  return(
-    <nav id = "global-nav" className="bg-gray-800">
-      <Link to="/">Home</Link> |{" "}
-      <Link to="/levels">Levels</Link> |{" "}
-      {user ? (
-        <>
-        <span>{user.username}</span> |{" "}
-         <button onClick={logout}>Logout</button>
-        </>
+  const { theme, toggleTheme } = useTheme();
+
+  const navClass =
+    theme === "dark"
+      ? "flex items-center justify-between px-6 py-4 border-b border-slate-700 bg-slate-950 text-white"
+      : "flex items-center justify-between px-6 py-4 border-b border-slate-200 bg-white text-slate-900";
+
+  return (
+    <nav className={navClass}>
+      <div className="space-x-4">
+        <Link to="/">Home</Link>
+        <Link to="/levels">Levels</Link>
+      </div>
+
+      <div className="flex items-center gap-4">
+        <button
+          onClick={toggleTheme}
+          className="rounded-lg border px-3 py-1 text-sm transition hover:opacity-80"
+        >
+          {theme === "dark" ? "Light Mode" : "Dark Mode"}
+        </button>
+
+        {user ? (
+          <>
+            <span>{user.username}</span>
+            <button onClick={logout}>Logout</button>
+          </>
         ) : (
-        <Link to="/login">Login</Link> 
-      )}
-        </nav>
-  )
+          <Link to="/login">Login</Link>
+        )}
+      </div>
+    </nav>
+  );
 }
 
-function App() {
+function AppInner() {
+  const { theme } = useTheme();
+
   useEffect(() => {
-    fetch("http://localhost:8000/") //Django backend url probably something like /api/progress to get level progress
+    fetch("http://localhost:8000/")
       .then((res) => res.text())
       .then((data) => console.log(data))
       .catch((err) => console.error(err));
   }, []);
+
+  const appTheme =
+    theme === "dark"
+      ? "min-h-screen bg-slate-950 text-white"
+      : "min-h-screen bg-slate-50 text-slate-900";
+
   return (
-    <>
-    <AuthProvider>
+    <div className={appTheme}>
       <BrowserRouter>
         {/* <Nav /> */}
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />}/>
+          <Route path="/register" element={<Register />} />
           <Route path="/levels" element={<Levels />} />
           <Route path="/levels/1" element={<Level1 />} />
           <Route path="/levels/2" element={<Level2 />} />
@@ -75,22 +102,17 @@ function App() {
           <Route path="/levels/13" element={<Level13 />} />
           <Route path="/levels/14" element={<Level14 />} />
           <Route path="/levels/15" element={<Level15 />} />
-          <Route path="/levels/test" element={<LevelTest/>} />
+          <Route path="/levels/test" element={<LevelTest />} />
         </Routes>
       </BrowserRouter>
-    </AuthProvider>
-    </>
-//ignore this, this was the default react stuff, I'm keeping as a reference for formatting later
-  //   <div className="App">
-  //     <header className="App-header">
-  //       <img src={logo} className="App-logo" alt="logo" />
-  //       <p>
-  //         Edit <code>src/App.js</code> and save to reload.
-  //       </p>
-	// <VimEditor />
-  //     </header>
-  //   </div>
+    </div>
   );
 }
 
-export default App;
+export default function App() {
+  return (
+    <AuthProvider>
+      <AppInner />
+    </AuthProvider>
+  );
+}
