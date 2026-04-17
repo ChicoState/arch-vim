@@ -1,18 +1,24 @@
 import { useTheme } from "../ThemeContext";
 
 export default function ThemeToggle() {
-    const { theme, toggleTheme } = useTheme();
+  const { theme, toggleTheme } = useTheme();
+  const isDark = theme === "dark";
 
-    const buttonClass =
-        theme === "dark"
-            ? "rounded-lg border border-slate-500 px-3 py-1 text-sm text-white bg-gray-950 hover:opacity-80"
-            : "rounded-lg border border-slate-300 px-3 py-1 text-sm text-slate-900 bg-white hover:bg-slate-100";
-
-    return (
-        <button onClick={toggleTheme} className={buttonClass}>
-            {theme === "dark" ? "Light Mode" : "Dark Mode"}
-        </button>
-    );
+  return (
+    <div
+      onClick={toggleTheme}
+      className={`w-12 h-6 flex items-center rounded-full p-1 cursor-pointer transition duration-300
+        ${isDark ? "bg-indigo-600" : "bg-gray-300"}`}
+    >
+      <div
+        className={`w-4 h-4 flex items-center justify-center rounded-full bg-white shadow-md transform transition duration-300
+          ${isDark ? "translate-x-6" : "translate-x-0"}`}
+      >
+        {/* ICON INSIDE */}
+        <span className="text-[10px]">
+          {isDark ? "🌙" : "🌞"}
+        </span>
+      </div>
+    </div>
+  );
 }
-
-

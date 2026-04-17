@@ -25,7 +25,6 @@ import Register from './pages/Register.js';
 
 import { AuthProvider } from './AuthContext.js';
 import { useTheme } from "./ThemeContext.js";
-import ThemeToggle from "./components/themeToggle";
 
 function AppInner() {
   const { theme } = useTheme();
@@ -44,9 +43,6 @@ function AppInner() {
 
   return (
     <div className={appTheme}>
-      <div className="fixed top-5 right-40 z-50">
-        <ThemeToggle />
-      </div>
 
       <BrowserRouter>
         <Routes>

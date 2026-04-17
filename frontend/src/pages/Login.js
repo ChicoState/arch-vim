@@ -3,6 +3,7 @@ import { useAuth } from '../AuthContext.js';
 import { useNavigate } from 'react-router-dom';
 import { Link } from "react-router-dom";
 import { useTheme } from "../ThemeContext";
+import ThemeToggle from "../components/themeToggle";
 
 function Login() {
     const { login } = useAuth();
@@ -59,6 +60,10 @@ function Login() {
 
     return (
         <div className={pageClass}>
+            <div className="fixed right-5 top-5 z-50">
+                <ThemeToggle />
+            </div>
+
             <div className={wrapperClass}>
                 <h1 className="text-center text-4xl mb-4">Login</h1>
                 <div className={cardClass}>
