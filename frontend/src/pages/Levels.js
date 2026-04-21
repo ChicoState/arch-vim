@@ -10,6 +10,7 @@ export default function Levels() {
                 <li><Link to={`/levels/3`}>Level 3</Link> - Insert Mode and typing</li>
                 <li><Link to={`/levels/4`}>Level 4</Link> - How to save your changes</li>
                 <li><Link to={`/levels/5`}>Challenge!</Link></li>
+                <li><Link to={`/levels/test`}>Test Level</Link></li>
             </ul>
         </div>
     );

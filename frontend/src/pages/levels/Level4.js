@@ -1,102 +1,100 @@
-import { Link } from "react-router-dom";
-import Editor from "@monaco-editor/react";
-import { useRef, useState } from "react";
-import { initVimMode } from "monaco-vim";
+import { useState, useEffect } from "react";
+import VimEditor from "../../editor/vimEditor";
+import { loadProgress } from "../../progress";
+import Sidebar from "../../components/sidebar";
+import DropDown from "../../components/hint";
+import PassedLevel from "../../components/passedLevel";
+import { useTheme } from "../../ThemeContext";
 
 export default function Level4() {
+    const levelNum = 4;
     const [passed, setPassed] = useState(false);
+    const { theme } = useTheme();
 
-    const editorRef = useRef(null);
-    const vimModeRef = useRef(null);
-
-    function handleMount(editor, monaco) {
-        editorRef.current = editor;
-        const editorDom = editor.getDomNode();
-        editorDom.style.position = "relative";
-
-        const statusNode = document.createElement("div");
-        statusNode.style.position = "absolute";
-        statusNode.style.bottom = "0";
-        statusNode.style.right = "50px";
-        statusNode.style.background = "#1e1e1e";
-        statusNode.style.fontSize = "12px";
-        editor.getDomNode().appendChild(statusNode);
-
-        const cursorPosNode = document.createElement("div");
-        cursorPosNode.style.position = "absolute";
-        cursorPosNode.style.bottom = "0";
-        cursorPosNode.style.left = "35px";
-        cursorPosNode.style.background = "#1e1e1e";
-        cursorPosNode.style.fontSize = "12px";
-        editor.getDomNode().appendChild(cursorPosNode);
-
-        editor.onDidChangeCursorSelection(e => {
-            const line = e.selection.positionLineNumber;
-            const col = e.selection.positionColumn;
-            cursorPosNode.innerText = `Ln ${line}, Col ${col}`;
-        });
-
-        const vimMode = initVimMode(editor, statusNode);
-        vimModeRef.current = vimMode;
-
-        const { Vim } = vimMode.constructor;
-        Vim.defineEx("write", "w", function() {
-            setPassed(true);
-        });
-
-        editor.onKeyDown((e) => {
-            const key = e.browserEvent.key;
-            if (key === "ArrowUp" || key === "ArrowDown" || key === "ArrowLeft" || key === "ArrowRight") {
-                alert("Please don't use arrow keys");
-            }
-        });
-    }
-
-    return (
-        <div style={{ padding: "10px" }}>
-            <h1>Level 4</h1>
-            <h3>How to save a file</h3>
-            <p>After escaping, type <kbd>:w</kbd> and press Enter to save the file.<br />
-                Objective: run the save command to pass.
-            </p>
-
-            <>
-                <Editor
-                    height="500px"
-                    width="1000px"
-                    options={{ minimap: { enabled: false } }}
-                    onMount={handleMount}
-                    theme="vs-dark"
-                    defaultLanguage="c"
-                    defaultValue={
+    const defaultValue =
 `#include <stdio.h>
 
 int main() {
   printf("Hello World");
 return 0;
 }
-`}
-                />
-                {passed && (
-                    <div style={{
-                        marginTop: "20px",
-                        padding: "10px",
-                        background: "#1e1e1e",
-                        border: "1px solid #4caf50",
-                        borderRadius: "5px"
-                    }}>
-                        <h3 style={{ color: "#4caf50" }}>You passed!</h3>
-                        <p style={{ color: "white" }}>
-                            Move on to the next level:
-                            <Link to="/levels/5" style={{ marginLeft: "8px", color: "#4caf50" }}>Level 5</Link>
-                        </p>
-                        <p style={{ color: "white" }}>
-                            Or go back home:
-                            <Link to="/" style={{ marginLeft: "8px" }}>Home</Link>
+`;
+
+    useEffect(() => {
+        loadProgress().then(data => {
+            if (data[`level_${levelNum}`]?.passed)
+                setPassed(true);
+        });
+    }, []);
+
+    const pageClass =
+        theme === "dark"
+            ? "flex min-h-screen bg-gray-950 text-gray-200"
+            : "flex min-h-screen bg-slate-50 text-slate-900";
+
+    const sideClass =
+        theme === "dark"
+            ? "w-[16vw] bg-gray-950 p-4"
+            : "w-[16vw] bg-white p-4 border-r border-slate-200";
+
+    const rightSideClass =
+        theme === "dark"
+            ? "w-[16vw] bg-gray-950 p-4"
+            : "w-[16vw] bg-white p-4 border-l border-slate-200";
+
+    const hrClass =
+        theme === "dark"
+            ? "mb-4 border-gray-600 w-96 ml-16"
+            : "mb-4 border-slate-300 w-96 ml-16";
+
+    return (
+        <div className={pageClass}>
+
+            {/* LEFT SIDEBAR */}
+            <aside className={sideClass}>
+                <Sidebar />
+            </aside>
+
+            {/* MAIN CONTENT */}
+            <aside className="flex-1 pt-10 p-4">
+                <div style={{ padding: "10px" }}>
+                    <div className="ml-[15vw] mb-10">
+                        <h1 className="text-7xl mb-2 pl-16">Level 4</h1>
+                        <h3 className="pl-16 text-4xl mb-2">How to save a file</h3>
+                        <hr className={hrClass} />
+                        <p className="pl-28">
+                            After escaping to Normal mode, type <kbd>:w</kbd> and press Enter to save the file.
+                            <br /><br />
+                            Objective: Run the save command to pass.
                         </p>
                     </div>
-                )}
-            </>
+
+                    <div className="flex items-center justify-center">
+                        <VimEditor
+                            level={levelNum}
+                            value={defaultValue}
+                            possibleCommands={[":w", ":wq"]}
+                            onWin={() => setPassed(true)}
+                        />
+                    </div>
+
+                    {passed && (
+                        <div className="flex items-center justify-center">
+                            <PassedLevel levelNum={levelNum} />
+                        </div>
+                    )}
+                </div>
+            </aside>
+
+            {/* RIGHT SIDEBAR */}
+            <aside className={rightSideClass}>
+                <p className="text-center text-2xl mb-4">Hints</p>
+                <DropDown
+                    title={"Combine Commands"}
+                    contents={"You can combine the write and quite commands into a single command, :wq"}
+                />
+            </aside>
+
         </div>
     );
 }
