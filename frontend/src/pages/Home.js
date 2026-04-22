@@ -49,18 +49,26 @@ export default function Home() {
     theme === "dark" ? "text-white" : "text-slate-600";
 
   return (
-    <div className={`${pageClass} p-6 min-h-screen`}>
+    <div className={`${pageClass} px-8 py-6 min-h-screen`}>
       <div className="fixed top-5 right-10 z-50">
         <Login />
       </div>
-      <h1 className="font-mono text-center text-9xl pt-[20vh] font-bold">Arch-Vim</h1>
-      <br />
-      <p className={`text-center ${subtitleClass}`}>Learn Vim, One step at a time</p>
-      <div className="flex gap-20 justify-center pt-[25vh]">
-        <div className={`w-[20vw] h-64 rounded-2xl p-6 text-xl transition duration-500 ease-in-out hover:scale-110 ${cardClass}`}>
-          <h2 className="text-center mb-2">Intro</h2>
+
+      <h1 className="font-mono text-center text-[11rem] pt-[16vh] font-bold leading-none">
+        Arch-Vim
+      </h1>
+
+      <p className={`text-center text-2xl mt-4 ${subtitleClass}`}>
+        Learn Vim, One step at a time
+      </p>
+
+      <div className="flex gap-16 justify-center pt-[18vh] flex-wrap">
+        <div
+          className={`w-[24vw] min-w-[320px] min-h-[320px] rounded-2xl p-8 text-2xl transition duration-500 ease-in-out hover:scale-105 ${cardClass}`}
+        >
+          <h2 className="text-center mb-3 text-3xl font-bold">Intro</h2>
           <hr className={`mb-4 ${hrClass}`} />
-          <div className="pl-5 text-base">
+          <div className="pl-3 text-lg leading-9">
             <LevelCheck levelNum={1} levelDesc={"Learn Navigation"} theme={theme} /><br />
             <LevelCheck levelNum={2} levelDesc={"How to exit a vim file"} theme={theme} /><br />
             <LevelCheck levelNum={3} levelDesc={"Insert Mode and typing"} theme={theme} /><br />
@@ -68,10 +76,13 @@ export default function Home() {
             <LevelCheck levelNum={5} levelDesc={"Challenge!"} theme={theme} /><br />
           </div>
         </div>
-        <div className={`w-[20vw] h-64 rounded-2xl p-6 text-xl transition duration-500 ease-in-out hover:scale-110 ${cardClass}`}>
-          <h2 className="text-center mb-2">Intermediate</h2>
+
+        <div
+          className={`w-[24vw] min-w-[320px] min-h-[320px] rounded-2xl p-8 text-2xl transition duration-500 ease-in-out hover:scale-105 ${cardClass}`}
+        >
+          <h2 className="text-center mb-3 text-3xl font-bold">Intermediate</h2>
           <hr className={`mb-4 ${hrClass}`} />
-          <div className="pl-5 text-base">
+          <div className="pl-3 text-lg leading-9">
             <LevelCheck levelNum={6} levelDesc={"More Navigation"} theme={theme} /><br />
             <LevelCheck levelNum={7} levelDesc={"Even More Navigation!"} theme={theme} /><br />
             <LevelCheck levelNum={8} levelDesc={"Delete a line"} theme={theme} /><br />
@@ -79,10 +90,13 @@ export default function Home() {
             <LevelCheck levelNum={10} levelDesc={"Challenge!"} theme={theme} /><br />
           </div>
         </div>
-        <div className={`w-[20vw] h-64 rounded-2xl p-6 text-xl transition duration-500 ease-in-out hover:scale-110 ${cardClass}`}>
-          <h2 className="text-center mb-2">Advanced</h2>
+
+        <div
+          className={`w-[24vw] min-w-[320px] min-h-[320px] rounded-2xl p-8 text-2xl transition duration-500 ease-in-out hover:scale-105 ${cardClass}`}
+        >
+          <h2 className="text-center mb-3 text-3xl font-bold">Advanced</h2>
           <hr className={`mb-4 ${hrClass}`} />
-          <div className="pl-5 text-base">
+          <div className="pl-3 text-lg leading-9">
             <LevelCheck levelNum={11} levelDesc={"Basic Search"} theme={theme} /><br />
             <LevelCheck levelNum={12} levelDesc={"Comprehensive Commands"} theme={theme} /><br />
             <LevelCheck levelNum={13} levelDesc={"Jump between brackets"} theme={theme} /><br />

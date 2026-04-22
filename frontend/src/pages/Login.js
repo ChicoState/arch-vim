@@ -25,38 +25,43 @@ function Login() {
 
     const pageClass =
         theme === "dark"
-            ? "bg-gray-950"
-            : "bg-slate-50";
+            ? "bg-gray-950 min-h-screen"
+            : "bg-slate-50 min-h-screen";
 
     const wrapperClass =
         theme === "dark"
-            ? "min-h-screen text-gray-200 flex flex-col justify-center items-center"
-            : "min-h-screen text-slate-900 flex flex-col justify-center items-center";
+            ? "min-h-screen text-gray-200 flex flex-col justify-center items-center px-6"
+            : "min-h-screen text-slate-900 flex flex-col justify-center items-center px-6";
 
     const cardClass =
         theme === "dark"
-            ? "bg-gray-950 rounded-2xl p-6 text-gray-200 shadow-[0_0_5px_rgba(99,102,241,0.7)]"
-            : "bg-white rounded-2xl p-6 text-slate-900 border border-slate-200 shadow-[0_10px_30px_rgba(99,102,241,0.15)]";
+            ? "w-full max-w-md bg-gray-950 rounded-3xl p-8 text-gray-200 shadow-[0_0_20px_rgba(99,102,241,0.7)]"
+            : "w-full max-w-md bg-white rounded-3xl p-8 text-slate-900 border border-slate-200 shadow-[0_10px_30px_rgba(99,102,241,0.15)]";
 
     const inputClass =
         theme === "dark"
-            ? "w-35 h-12 bg-gray-950 rounded-2xl p-6 text-gray-200 shadow-[0_0_5px_rgba(99,102,241,0.7)]"
-            : "w-35 h-12 bg-white rounded-2xl p-6 text-slate-900 border border-slate-300";
+            ? "w-full h-14 bg-gray-900 rounded-2xl px-5 text-lg text-gray-100 border border-gray-700 shadow-[0_0_8px_rgba(99,102,241,0.2)] outline-none focus:border-indigo-400 focus:shadow-[0_0_12px_rgba(99,102,241,0.4)]"
+            : "w-full h-14 bg-white rounded-2xl px-5 text-lg text-slate-900 border border-slate-300 outline-none focus:border-indigo-500 focus:shadow-[0_0_0_3px_rgba(99,102,241,0.12)]";
 
     const buttonClass =
         theme === "dark"
-            ? "self-center pl-4 pr-4 pt-1 pb-1 rounded-xl text-centere bg-[rgb(63,64,150)]/100 trasnsition duration-200 hover:bg-[rgb(63,64,150)]/75 text-center text-white"
-            : "self-center pl-4 pr-4 pt-1 pb-1 rounded-xl text-center bg-indigo-600 transition duration-200 hover:bg-indigo-500 text-white";
+            ? "w-full mt-2 py-3 rounded-2xl bg-indigo-600 transition duration-200 hover:bg-indigo-500 text-center text-white text-lg font-semibold shadow-[0_0_14px_rgba(99,102,241,0.35)]"
+            : "w-full mt-2 py-3 rounded-2xl bg-indigo-600 transition duration-200 hover:bg-indigo-500 text-center text-white text-lg font-semibold shadow-[0_10px_24px_rgba(99,102,241,0.2)]";
 
     const helperTextClass =
         theme === "dark"
-            ? "text-xs text-gray-400 text-center"
-            : "text-xs text-slate-500 text-center";
+            ? "text-sm text-gray-400 text-center mt-5"
+            : "text-sm text-slate-500 text-center mt-5";
 
     const linkClass =
         theme === "dark"
-            ? "text-blue-400"
-            : "text-indigo-600 hover:text-indigo-700";
+            ? "text-blue-400 hover:text-blue-300 font-semibold"
+            : "text-indigo-600 hover:text-indigo-700 font-semibold";
+
+    const errorClass =
+        theme === "dark"
+            ? "mb-4 text-sm text-red-400 text-center"
+            : "mb-4 text-sm text-red-600 text-center";
 
     return (
         <div className={pageClass}>
@@ -65,10 +70,12 @@ function Login() {
             </div>
 
             <div className={wrapperClass}>
-                <h1 className="text-center text-4xl mb-4">Login</h1>
+                <h1 className="text-center text-6xl font-bold mb-6">Login</h1>
+
                 <div className={cardClass}>
-                    {error && <p style={{ color: 'red' }}>{error}</p>}
-                    <form onSubmit={handleSubmit} className="flex flex-col items-center gap-2">
+                    {error && <p className={errorClass}>{error}</p>}
+
+                    <form onSubmit={handleSubmit} className="flex flex-col items-center gap-4">
                         <input
                             className={inputClass}
                             type="text"
@@ -76,6 +83,7 @@ function Login() {
                             value={username}
                             onChange={e => setUsername(e.target.value)}
                         />
+
                         <input
                             className={inputClass}
                             type="password"
@@ -83,9 +91,18 @@ function Login() {
                             value={password}
                             onChange={e => setPassword(e.target.value)}
                         />
-                        <button type="submit" className={buttonClass}>Login</button>
+
+                        <button type="submit" className={buttonClass}>
+                            Login
+                        </button>
                     </form>
-                    <p className={helperTextClass}>Don't have an account? <Link to="/register" className={linkClass}>Sign Up Here</Link></p>
+
+                    <p className={helperTextClass}>
+                        Don't have an account?{" "}
+                        <Link to="/register" className={linkClass}>
+                            Sign Up Here
+                        </Link>
+                    </p>
                 </div>
             </div>
         </div>
