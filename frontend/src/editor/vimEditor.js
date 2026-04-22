@@ -3,6 +3,7 @@ import { useRef } from "react";
 import { initVimMode, VimMode } from "monaco-vim";
 import { vimCommands } from "./vimCommands.js"
 import { saveProgress, loadProgress } from "../progress.js";
+import { useTheme } from "../ThemeContext.js";
 
 /*			Editor Usage
 Parameters - 
@@ -47,7 +48,10 @@ export default function VimEditor({
 }){
 	const editorRef = useRef(null);
 	const vimModeRef = useRef(null);
-
+	const { theme } = useTheme();
+	const editorTheme = 
+		theme === "dark" ? "vs-dark" : "vs";
+		
 	const currentModeRef = useRef("normal");
 	const wonRef = useRef(false);
 
@@ -236,7 +240,7 @@ export default function VimEditor({
 			className="w-1000 h-500 bg-gray-950 text-gray-200 shadow-[0_0_10px_rgba(99,102,241,0.7)] mb-4"
 			height = {height}
 			width = {width}
-			theme = "vs-dark"
+			theme = {editorTheme}
 			defaultLanguage="c"
 			defaultValue={value}
 
