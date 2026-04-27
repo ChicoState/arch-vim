@@ -30,18 +30,20 @@ Implementation -
 
 export default function VimEditor({
 	level = 0,
-	value = "",
-	commands = [],
-	possibleCommands = [],
-	finalText = null,
-	finalTextContains = null,
-	finalTextRegex = null,
-	cursorLine = null,
-	cursorCol = null,
-	mode = null,
+	value = "", //What appears in initial editor
+	commands = [], //Commands needed to be used to pass
+	possibleCommands = [], //Commands where at least 1 needs to be used (:q vs :wq)
+	finalText = null, //Solution text
+	finalTextContains = null, //Solution, checks if final text has something rather than checking entire thing
+	finalTextRegex = null, //Solution, lets you search final text using regex
+	cursorLine = null, //Solution line number
+	cursorCol = null, //Solution line column
+	mode = null, //Solution mode (if they use the mode)
+	// normal, visual, insert, replace (defaults to normal, so prob don't need to do that)
 	height = "560px",
 	width = "1100px",
-	onWin = () => {},
+	onWin = () => {}, //run when all win conditions are met (will set a flag in the level)
+	//MUST HAVE THE onWin = {() => setWin(true)} as a param, and you can use setWin for the react state: const [win, setWin] = useState(false);
 	className = "",
 }) {
 	const editorRef = useRef(null);
@@ -98,16 +100,27 @@ export default function VimEditor({
 		if (mode !== null) {
 			if (currentModeRef.current !== mode) return;
 		}
-
+		
+		//if all are true (used), return true
+		//if at least 1 is false, return false
+		
 		const allCommandsUsed = commands.every(
 			(cmd) => calledCommandsRef.current[cmd] === true
 		);
 		if (!allCommandsUsed) return;
 
+		//For checking if a single command from the list is used
+		//Want to find a single one that returns true
+		//so inverse the previous one
+		//if all are false (none are used), return true
+		//if at least 1 is used, return false
+		// 			empty array always returns true
+
 		if (possibleCommands.length > 0) {
 			const aCommandUsed = possibleCommands.every(
 				(cmd) => calledPossibleCommandsRef.current[cmd] === false
 			);
+			//inverse back (aka don't use the !)
 			if (aCommandUsed) return;
 		}
 
@@ -131,6 +144,7 @@ export default function VimEditor({
 		editorRef.current = editor;
 		const editorDom = editor.getDomNode();
 		editorDom.style.position = "relative";
+		//Vim current mode at bottom
 
 		const statusNode = document.createElement("div");
 		statusNode.style.position = "absolute";
@@ -145,6 +159,7 @@ export default function VimEditor({
 
 		const vimMode = initVimMode(editor, statusNode);
 		vimModeRef.current = vimMode;
+		//Cursor line info at bottom
 
 		const cursorPosNode = document.createElement("div");
 		cursorPosNode.style.position = "absolute";
@@ -157,12 +172,27 @@ export default function VimEditor({
 		cursorPosNode.style.borderRadius = "6px";
 		editor.getDomNode().appendChild(cursorPosNode);
 
+		//attempt at not allowing arrow keys
+		//() => {} didn't work so trying other stuff
+
 		editor.addCommand(monaco.KeyCode.UpArrow, function () {});
 
+		//Makes all given commands to:
+		//VimMode.Vim.defineEx("write", "w", (cm, input) => {
+		//	calledCommandsRef.current[":w"] = true;
+		//  checkWinConditions();
+		//});
+
 		Object.entries(vimCommands).forEach(([name, abbrev]) => {
+			
+			//adds the : to the front
+			//so when you type in the commands into the commands = {[]} param, you need to add :
+			//ex: commands = {[":w", ":q"]}
+			
 			const fullCmd = `:${abbrev}`;
 
 			VimMode.Vim.defineEx(name, abbrev, () => {
+				//if the command is in the commands param
 				if (fullCmd in calledCommandsRef.current) {
 					calledCommandsRef.current[fullCmd] = true;
 				}
@@ -173,6 +203,7 @@ export default function VimEditor({
 			});
 		});
 
+		//true just watching the statusNode with an eventListening, but it wasnt working
 		const observer = new MutationObserver(() => {
 			const modeText = statusNode.innerText.toLowerCase();
 			currentModeRef.current = modeText.includes("insert")
@@ -184,27 +215,32 @@ export default function VimEditor({
 				: "normal";
 			checkWinConditions();
 		});
+		//								child elements, all descendents, text changes
 
 		observer.observe(statusNode, {
 			childList: true,
 			subtree: true,
 			characterData: true
 		});
+		//also theres a onDidChangeCursorPosition, but if we ever want to watch the selection as well, we need this
 
 		editor.onDidChangeCursorSelection((e) => {
 			cursorPosNode.innerText = `Ln ${e.selection.positionLineNumber}, Col ${e.selection.positionColumn}`;
 			checkWinConditions();
 		});
 
+		//watches changes in model content
 		editor.onDidChangeModelContent(() => {
-			checkWinConditions();
+			checkWinConditions(); //called because line position changed
 		});
 
+		//Key logger (use for checking for certain key presses)
 		editor.onKeyDown(() => {
 			checkWinConditions();
 		});
 	}
 
+	//Build text box and check button
 	return (
 		<div className={`w-full flex flex-col items-center ${className}`}>
 			<div className="w-full flex justify-center">
