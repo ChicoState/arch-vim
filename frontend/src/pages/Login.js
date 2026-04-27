@@ -50,8 +50,8 @@ function Login() {
 
     const helperTextClass =
         theme === "dark"
-            ? "text-sm text-gray-400 text-center mt-5"
-            : "text-sm text-slate-500 text-center mt-5";
+            ? "text-base text-gray-400 text-center mt-5"
+            : "text-base text-slate-500 text-center mt-5";
 
     const linkClass =
         theme === "dark"
@@ -70,7 +70,7 @@ function Login() {
             </div>
 
             <div className={wrapperClass}>
-                <h1 className="text-center text-6xl font-bold mb-6">Login</h1>
+                <h1 className="text-center text-7xl font-bold mb-8">Login</h1>
 
                 <div className={cardClass}>
                     {error && <p className={errorClass}>{error}</p>}

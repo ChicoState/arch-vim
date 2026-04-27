@@ -231,7 +231,7 @@ export default function VimEditor({
 
 		//watches changes in model content
 		editor.onDidChangeModelContent(() => {
-			checkWinConditions(); //called because line position changed
+			checkWinConditions();
 		});
 
 		//Key logger (use for checking for certain key presses)
@@ -243,27 +243,27 @@ export default function VimEditor({
 	//Build text box and check button
 	return (
 		<div className={`w-full flex flex-col items-center ${className}`}>
-			<div className="w-full flex justify-center">
-				<Editor
-					className="bg-gray-950 text-gray-200 shadow-[0_0_18px_rgba(99,102,241,0.7)] rounded-xl overflow-hidden"
-					height={height}
-					width={width}
-					theme={editorTheme}
-					defaultLanguage="c"
-					defaultValue={value}
-					options={{
-						minimap: { enabled: false }
+    		<div className="w-full flex justify-center">
+      			<Editor
+        			className="bg-gray-950 text-gray-200 shadow-[0_0_18px_rgba(99,102,241,0.7)] rounded-xl overflow-hidden"
+        			height={height}
+        			width={width}
+        			theme={editorTheme}
+        			defaultLanguage="c"
+        			defaultValue={value}
+        			options={{
+          				minimap: { enabled: false }
 					}}
 					onMount={handleMount}
-				/>
-			</div>
+      			/>
+    		</div>
 
-			<button
-				className="mt-5 px-6 py-3 rounded-xl bg-indigo-600 text-white text-base font-semibold shadow-[0_0_14px_rgba(99,102,241,0.45)] transition duration-200 hover:bg-indigo-500"
-				onClick={reset}
-			>
-				Reset Level
-			</button>
-		</div>
+    		<button
+      			className="mt-5 px-8 py-4 rounded-2xl bg-indigo-600 text-white text-xl font-bold shadow-[0_0_14px_rgba(99,102,241,0.45)] transition duration-200 hover:bg-indigo-500"
+      			onClick={reset}
+    		>
+      			Reset Level
+    		</button>
+  		</div>
 	);
 }
