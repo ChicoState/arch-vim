@@ -5,17 +5,19 @@ import Sidebar from "../../components/sidebar";
 import DropDown from "../../components/hint";
 import PassedLevel from "../../components/passedLevel";
 
-export default function Level20() {
-    const levelNum = 20;
+export default function Level23() {
+    const levelNum = 23;
     const [passed, setPassed] = useState(false);
 
     const startValue =
 `#include <stdio.h>
 
 int main() {
-    printf("line one\n")
-    printf("line two\n")
-    printf("line three\n")
+    int x = 10;
+    // debug: checking x
+    // debug: this is temporary
+    // debug: remove before release
+    printf("%d\n", x);
     return 0;
 }
 `
@@ -24,9 +26,8 @@ int main() {
 `#include <stdio.h>
 
 int main() {
-    printf("line one\n");
-    printf("line two\n");
-    printf("line three\n");
+    int x = 10;
+    printf("%d\n", x);
     return 0;
 }
 `
@@ -46,14 +47,15 @@ int main() {
             <aside className="flex-1 pt-10 p-4">
                 <div style={{ padding: "10px" }}>
                     <div className="ml-[15vw] mb-10">
-                        <h1 className="text-7xl mb-2 pl-16">Level 20</h1>
-                        <h3 className="pl-16 text-4xl mb-2">Repeat your last action</h3>
+                        <h1 className="text-7xl mb-2 pl-16">Level 23</h1>
+                        <h3 className="pl-16 text-4xl mb-2">Visual mode</h3>
                         <hr className="mb-4 border-gray-600 w-96 ml-16" />
                         <p className="pl-28">
-                            The dot command is one of vim's most powerful habits. It repeats your entire last edit — however complex.<br /><br />
-                            <kbd>.</kbd> repeats the last change you made<br /><br />
-                            For example: fix one missing semicolon with <kbd>A</kbd><kbd>;</kbd><kbd>Esc</kbd>, then just press <kbd>.</kbd> on each remaining line.<br /><br />
-                            Objective: All three <code>printf</code> lines are missing semicolons. Fix the first one, then use <kbd>.</kbd> to fix the other two.
+                            Visual mode lets you select text before applying an operator — helpful when you want to see exactly what you're about to change.<br /><br />
+                            <kbd>v</kbd> starts character-wise visual selection<br />
+                            <kbd>V</kbd> starts line-wise visual selection<br />
+                            Move to extend the selection, then press an operator like <kbd>d</kbd>, <kbd>c</kbd>, or <kbd>y</kbd><br /><br />
+                            Objective: Use <kbd>V</kbd> to select the 3 debug comment lines and delete them.
                         </p>
                     </div>
                     <>
@@ -76,8 +78,8 @@ int main() {
 
             <aside className="w-[16vw] bg-gray-950 p-4">
                 <p className="text-center text-2xl mb-4">Hints</p>
-                <DropDown title={"How do I add the first semicolon?"} contents={"Go to the first printf line and press A to enter Insert mode at the end of the line, type ; then press Esc."} moreClass="mb-2" />
-                <DropDown title={"How do I use the dot command?"} contents={"Move down to the next printf line with j, then press . to repeat the exact same edit."} />
+                <DropDown title={"How do I select multiple lines?"} contents={"Navigate to the first // debug line, press V to start line selection, then press j twice to extend the selection down two more lines."} moreClass="mb-2" />
+                <DropDown title={"How do I delete the selection?"} contents={"Once you have the 3 lines highlighted, press d to delete them all."} />
             </aside>
         </div>
     );

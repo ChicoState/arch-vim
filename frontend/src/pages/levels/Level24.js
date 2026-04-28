@@ -5,17 +5,19 @@ import Sidebar from "../../components/sidebar";
 import DropDown from "../../components/hint";
 import PassedLevel from "../../components/passedLevel";
 
-export default function Level20() {
-    const levelNum = 20;
+export default function Level24() {
+    const levelNum = 24;
     const [passed, setPassed] = useState(false);
 
     const startValue =
 `#include <stdio.h>
 
 int main() {
-    printf("line one\n")
-    printf("line two\n")
-    printf("line three\n")
+    int foo = 0;
+    foo = foo + 1;
+    foo = foo * 2;
+    printf("foo is: %d\n", foo);
+    printf("final foo: %d\n", foo);
     return 0;
 }
 `
@@ -24,9 +26,11 @@ int main() {
 `#include <stdio.h>
 
 int main() {
-    printf("line one\n");
-    printf("line two\n");
-    printf("line three\n");
+    int bar = 0;
+    bar = bar + 1;
+    bar = bar * 2;
+    printf("bar is: %d\n", bar);
+    printf("final bar: %d\n", bar);
     return 0;
 }
 `
@@ -46,14 +50,15 @@ int main() {
             <aside className="flex-1 pt-10 p-4">
                 <div style={{ padding: "10px" }}>
                     <div className="ml-[15vw] mb-10">
-                        <h1 className="text-7xl mb-2 pl-16">Level 20</h1>
-                        <h3 className="pl-16 text-4xl mb-2">Repeat your last action</h3>
+                        <h1 className="text-7xl mb-2 pl-16">Level 24</h1>
+                        <h3 className="pl-16 text-4xl mb-2">Find and replace</h3>
                         <hr className="mb-4 border-gray-600 w-96 ml-16" />
                         <p className="pl-28">
-                            The dot command is one of vim's most powerful habits. It repeats your entire last edit — however complex.<br /><br />
-                            <kbd>.</kbd> repeats the last change you made<br /><br />
-                            For example: fix one missing semicolon with <kbd>A</kbd><kbd>;</kbd><kbd>Esc</kbd>, then just press <kbd>.</kbd> on each remaining line.<br /><br />
-                            Objective: All three <code>printf</code> lines are missing semicolons. Fix the first one, then use <kbd>.</kbd> to fix the other two.
+                            When a name appears many times across a file, renaming it one occurrence at a time is painful. The substitute command handles all of them at once.<br /><br />
+                            <kbd>:%s/old/new/g</kbd> replaces every occurrence of <code>old</code> with <code>new</code> in the entire file<br />
+                            <kbd>:s/old/new/g</kbd> replaces on the current line only<br />
+                            Adding <kbd>c</kbd> at the end (e.g. <kbd>:%s/old/new/gc</kbd>) asks for confirmation on each one<br /><br />
+                            Objective: Rename every instance of <code>foo</code> to <code>bar</code> across the file.
                         </p>
                     </div>
                     <>
@@ -62,6 +67,7 @@ int main() {
                                 level={levelNum}
                                 value={startValue}
                                 finalText={finalValue}
+                                commands={[":s"]}
                                 onWin={() => setPassed(true)}
                             />
                         </div>
@@ -76,8 +82,8 @@ int main() {
 
             <aside className="w-[16vw] bg-gray-950 p-4">
                 <p className="text-center text-2xl mb-4">Hints</p>
-                <DropDown title={"How do I add the first semicolon?"} contents={"Go to the first printf line and press A to enter Insert mode at the end of the line, type ; then press Esc."} moreClass="mb-2" />
-                <DropDown title={"How do I use the dot command?"} contents={"Move down to the next printf line with j, then press . to repeat the exact same edit."} />
+                <DropDown title={"What do I type?"} contents={"Press : to open the command line, then type %s/foo/bar/g and press Enter."} moreClass="mb-2" />
+                <DropDown title={"What does each part mean?"} contents={"% means the whole file, s means substitute, /foo/ is what to find, /bar/ is the replacement, and g means every occurrence on each line (not just the first)."} />
             </aside>
         </div>
     );

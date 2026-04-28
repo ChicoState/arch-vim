@@ -5,17 +5,19 @@ import Sidebar from "../../components/sidebar";
 import DropDown from "../../components/hint";
 import PassedLevel from "../../components/passedLevel";
 
-export default function Level20() {
-    const levelNum = 20;
+export default function Level26() {
+    const levelNum = 26;
     const [passed, setPassed] = useState(false);
 
     const startValue =
 `#include <stdio.h>
 
 int main() {
-    printf("line one\n")
-    printf("line two\n")
-    printf("line three\n")
+    int a = 1
+    int b = 2
+    int c = 3
+    int d = 4
+    int e = 5
     return 0;
 }
 `
@@ -24,9 +26,11 @@ int main() {
 `#include <stdio.h>
 
 int main() {
-    printf("line one\n");
-    printf("line two\n");
-    printf("line three\n");
+    int a = 1;
+    int b = 2;
+    int c = 3;
+    int d = 4;
+    int e = 5;
     return 0;
 }
 `
@@ -46,14 +50,16 @@ int main() {
             <aside className="flex-1 pt-10 p-4">
                 <div style={{ padding: "10px" }}>
                     <div className="ml-[15vw] mb-10">
-                        <h1 className="text-7xl mb-2 pl-16">Level 20</h1>
-                        <h3 className="pl-16 text-4xl mb-2">Repeat your last action</h3>
+                        <h1 className="text-7xl mb-2 pl-16">Level 26</h1>
+                        <h3 className="pl-16 text-4xl mb-2">Macros</h3>
                         <hr className="mb-4 border-gray-600 w-96 ml-16" />
                         <p className="pl-28">
-                            The dot command is one of vim's most powerful habits. It repeats your entire last edit — however complex.<br /><br />
-                            <kbd>.</kbd> repeats the last change you made<br /><br />
-                            For example: fix one missing semicolon with <kbd>A</kbd><kbd>;</kbd><kbd>Esc</kbd>, then just press <kbd>.</kbd> on each remaining line.<br /><br />
-                            Objective: All three <code>printf</code> lines are missing semicolons. Fix the first one, then use <kbd>.</kbd> to fix the other two.
+                            Macros record a sequence of commands so you can replay them with a single keystroke.<br /><br />
+                            <kbd>q{"{letter}"}</kbd> starts recording into a register<br />
+                            <kbd>q</kbd> stops recording<br />
+                            <kbd>@{"{letter}"}</kbd> plays the macro back<br />
+                            <kbd>5@{"{letter}"}</kbd> plays it back 5 times<br /><br />
+                            Objective: Record a macro that appends a semicolon to the end of a line and moves down. Play it back to fix all 5 lines.
                         </p>
                     </div>
                     <>
@@ -76,8 +82,8 @@ int main() {
 
             <aside className="w-[16vw] bg-gray-950 p-4">
                 <p className="text-center text-2xl mb-4">Hints</p>
-                <DropDown title={"How do I add the first semicolon?"} contents={"Go to the first printf line and press A to enter Insert mode at the end of the line, type ; then press Esc."} moreClass="mb-2" />
-                <DropDown title={"How do I use the dot command?"} contents={"Move down to the next printf line with j, then press . to repeat the exact same edit."} />
+                <DropDown title={"How do I record the macro?"} contents={"On the first 'int a' line, press qa to start recording, then A; Esc j to append the semicolon and move down. Press q to stop."} moreClass="mb-2" />
+                <DropDown title={"How do I replay it?"} contents={"Press 4@a to replay the macro 4 more times, or @a repeatedly. The macro moves down a line each time so it fixes each line in sequence."} />
             </aside>
         </div>
     );
