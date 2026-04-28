@@ -33,6 +33,7 @@ export default function VimEditor({
 	value = "", //What appears in initial editor
 	commands = [], //Commands needed to be used to pass
 	possibleCommands = [], //Commands where at least 1 needs to be used (:q vs :wq)
+	keystrokes = [],
 	finalText = null, //Solution text
 	finalTextContains = null, //Solution, checks if final text has something rather than checking entire thing
 	finalTextRegex = null, //Solution, lets you search final text using regex
@@ -63,7 +64,6 @@ export default function VimEditor({
 		Object.fromEntries(possibleCommands.map((cmd) => [cmd, false]))
 	);
 
-	
 
 	async function saveTest() {
 		const existing = await loadProgress();
@@ -126,6 +126,8 @@ export default function VimEditor({
 			//inverse back (aka don't use the !)
 			if(aCommandUsed) return; 
 		}
+
+		if(keystrokes.length !== 0) return;
 
 		wonRef.current = true;
 		saveTest();
@@ -227,7 +229,13 @@ export default function VimEditor({
 	
 		//Key logger (use for checking for certain key presses)
 		editor.onKeyDown((e) => {
-			console.log("Key pressed: ", e.browserEvent.key);
+			const key = e.browserEvent.key;
+			console.log("Key pressed: ", key);
+			//Check if the keys in this have been pressed, if so, remove them (for not : commands)
+			const index = keystrokes.indexOf(key);
+			if (index !== -1) {
+				  keystrokes.splice(index, 1);
+			}
 			checkWinConditions();
 		});
 	}
