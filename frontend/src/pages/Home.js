@@ -2,6 +2,7 @@ import Login from "../components/login";
 import useCheckLevel from "../components/checkLevelPassed";
 import { Link } from "react-router-dom";
 import { useTheme } from "../ThemeContext";
+import { useEffect, useRef } from "react";
 
 function ingestLevelInfo() {}
 
@@ -28,6 +29,27 @@ function LevelCheck({ levelNum = 0, levelDesc = "", theme = "dark" }) {
 export default function Home() {
   const { theme } = useTheme();
 
+  const heroRef = useRef(null);
+  const containerRef = useRef(null);
+
+  useEffect(()=> {
+    const container = containerRef.current;
+    const hero = heroRef.current;
+
+    const handleScroll = () => {
+      const scrollY = container.scrollTop;
+      const vh = window.innerHeight / 100;
+      const fadeStart = 5 * vh;
+      const fadeEnd = 70 * vh;
+      const opacity = Math.max(0, 1 - (scrollY - fadeStart) / (fadeEnd - fadeStart));
+      hero.style.opacity = opacity;
+    };
+
+    container.addEventListener("scroll", handleScroll);
+    return () => container.removeEventListener("scroll", handleScroll);
+  }, []);
+
+
   const pageClass =
     theme === "dark"
       ? "bg-gray-950 text-white"
@@ -45,21 +67,26 @@ export default function Home() {
     theme === "dark" ? "text-white" : "text-slate-600";
 
   return (
-    <div className={`${pageClass} px-8 py-6 min-h-screen`}>
+    <div ref={containerRef} className={`${pageClass} py-6 h-screen overflow-y-scroll relative`}>
       <div className="fixed top-5 right-10 z-50">
         <Login />
       </div>
+      <div ref={heroRef} className="sticky top-0 h-screen z-0">        
+          <h1 className="sticky font-mono text-center text-[11rem] pt-[30vh] font-bold leading-none">
+          Arch-Vim
+          </h1>
 
-      <h1 className="font-mono text-center text-[11rem] pt-[16vh] font-bold leading-none">
-        Arch-Vim
-      </h1>
+        <p className={`text-center text-2xl mt-4 ${subtitleClass}`}>
+          Learn Vim, One step at a time
+        </p>
+      </div>
 
-      <p className={`text-center text-2xl mt-4 ${subtitleClass}`}>
-        Learn Vim, One step at a time
-      </p>
+      <div className="relative z-10 -mt-[5vh]  rounded-t-3xl pt-16 flex gap-16 justify-center flex-wrap pb-16 min-h-screen">
 
-      <div className="flex gap-16 justify-center pt-[18vh] flex-wrap">
-        <div className={`w-[24vw] min-w-[320px] min-h-[320px] rounded-2xl p-8 text-2xl transition duration-500 ease-in-out hover:scale-105 ${cardClass}`}>
+
+
+
+        <div className={`w-[24vw] h-[15vh] min-w-[320px] min-h-[320px] rounded-2xl p-8 text-2xl transition duration-500 ease-in-out hover:scale-105 ${cardClass}`}>
           <h2 className="text-center mb-3 text-3xl font-bold">Intro</h2>
           <hr className={`mb-4 ${hrClass}`} />
           <div className="pl-3 text-xl leading-10">
@@ -71,7 +98,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className={`w-[24vw] min-w-[320px] min-h-[320px] rounded-2xl p-8 text-2xl transition duration-500 ease-in-out hover:scale-105 ${cardClass}`}>
+        <div className={`w-[24vw] h-[15vh] min-w-[320px] min-h-[320px] rounded-2xl p-8 text-2xl transition duration-500 ease-in-out hover:scale-105 ${cardClass}`}>
           <h2 className="text-center mb-3 text-3xl font-bold">Intermediate</h2>
           <hr className={`mb-4 ${hrClass}`} />
           <div className="pl-3 text-xl leading-10">
@@ -83,7 +110,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className={`w-[24vw] min-w-[320px] min-h-[320px] rounded-2xl p-8 text-2xl transition duration-500 ease-in-out hover:scale-105 ${cardClass}`}>
+        <div className={`w-[24vw] h-[15vh] min-w-[320px] min-h-[320px] rounded-2xl p-8 text-2xl transition duration-500 ease-in-out hover:scale-105 ${cardClass}`}>
           <h2 className="text-center mb-3 text-3xl font-bold">Advanced</h2>
           <hr className={`mb-4 ${hrClass}`} />
           <div className="pl-3 text-xl leading-10">
@@ -94,7 +121,9 @@ export default function Home() {
             <LevelCheck levelNum={15} levelDesc={"Challenge!"} theme={theme} /><br />
           </div>
         </div>
+
       </div>
+
     </div>
   );
 }
