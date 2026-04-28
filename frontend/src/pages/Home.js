@@ -218,7 +218,11 @@ export default function Home() {
         </div>
         }
 
-        { menu === "FAQ" && <h1>We need to show what to do when vim files crash. Can probably render the editor with no win conditions and give it the text that prints when vim crashes, to simulate it</h1>}
+        { menu === "FAQ" && 
+        <h1>
+          We need to show what to do when vim files crash. Can probably render the editor with no win conditions and give it the text that prints when vim crashes, to simulate it
+        </h1>
+        }
 
       </div>
 
