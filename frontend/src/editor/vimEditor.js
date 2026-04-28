@@ -1,7 +1,7 @@
 import Editor from "@monaco-editor/react";
 import { useRef } from "react";
 import { initVimMode, VimMode } from "monaco-vim";
-import { vimCommands } from "./vimCommands.js"
+import { vimCommands } from "./vimCommands.js";
 import { saveProgress, loadProgress } from "../progress.js";
 import { useTheme } from "../ThemeContext.js";
 
@@ -40,18 +40,25 @@ export default function VimEditor({
 	cursorCol = null, //Solution line column
 	mode = null, //Solution mode (if they use the mode)
 	// normal, visual, insert, replace (defaults to normal, so prob don't need to do that)
-	height = "500px",
-	width = "1000px",
+	height = "560px",
+	width = "1100px",
 	onWin = () => {}, //run when all win conditions are met (will set a flag in the level)
 	//MUST HAVE THE onWin = {() => setWin(true)} as a param, and you can use setWin for the react state: const [win, setWin] = useState(false);
 	className = "",
-}){
+}) {
 	const editorRef = useRef(null);
 	const vimModeRef = useRef(null);
 	const { theme } = useTheme();
-	const editorTheme = 
-		theme === "dark" ? "vs-dark" : "vs";
-		
+	const editorTheme = theme === "dark" ? "vs-dark" : "vs";
+	const editorBoxClass =
+		theme === "dark"
+			? "bg-gray-950 text-gray-200 shadow-[0_0_18px_rgba(99,102,241,0.7)] rounded-xl overflow-hidden"
+			: "bg-white text-slate-900 shadow-[0_0_22px_rgba(99,102,241,0.35)] border border-indigo-200 rounded-xl overflow-hidden";
+	const resetButtonClass =
+		theme === "dark"
+			? "mt-5 px-8 py-4 rounded-2xl bg-indigo-600 !text-white text-xl font-bold shadow-[0_0_14px_rgba(99,102,241,0.45)] transition duration-200 hover:bg-indigo-500"
+			: "mt-5 px-8 py-4 rounded-2xl bg-indigo-600 !text-white text-xl font-bold shadow-[0_0_18px_rgba(99,102,241,0.32)] transition duration-200 hover:bg-indigo-500";
+
 	const currentModeRef = useRef("normal");
 	const wonRef = useRef(false);
 
@@ -63,8 +70,6 @@ export default function VimEditor({
 		Object.fromEntries(possibleCommands.map((cmd) => [cmd, false]))
 	);
 
-	
-
 	async function saveTest() {
 		const existing = await loadProgress();
 		await saveProgress({
@@ -74,15 +79,14 @@ export default function VimEditor({
 		onWin();
 	}
 
-	//Checks win conditions
 	function checkWinConditions() {
 		if (wonRef.current) return;
 		const editor = editorRef.current;
-		if(!editor) return;
+		if (!editor) return;
 
 		if (finalText !== null) {
 			const currentText = editor.getValue();
-			if(currentText !== finalText) return;
+			if (currentText !== finalText) return;
 		}
 
 		if (finalTextRegex !== null) {
@@ -92,7 +96,7 @@ export default function VimEditor({
 
 		if (finalTextContains !== null) {
 			const currentText = editor.getValue();
-			if(currentText !== finalText) return;
+			if (!currentText.includes(finalTextContains)) return;
 		}
 
 		if (cursorLine !== null || cursorCol !== null) {
@@ -101,17 +105,17 @@ export default function VimEditor({
 			if (cursorCol !== null && pos.column !== cursorCol) return;
 		}
 
-		//can also edit this so that if it EVER sees whats in mode, then good to go
 		if (mode !== null) {
 			if (currentModeRef.current !== mode) return;
 		}
-
+		
 		//if all are true (used), return true
 		//if at least 1 is false, return false
+		
 		const allCommandsUsed = commands.every(
 			(cmd) => calledCommandsRef.current[cmd] === true
 		);
-		if(!allCommandsUsed) return;
+		if (!allCommandsUsed) return;
 
 		//For checking if a single command from the list is used
 		//Want to find a single one that returns true
@@ -119,12 +123,13 @@ export default function VimEditor({
 		//if all are false (none are used), return true
 		//if at least 1 is used, return false
 		// 			empty array always returns true
-		if(possibleCommands.length > 0) {
+
+		if (possibleCommands.length > 0) {
 			const aCommandUsed = possibleCommands.every(
 				(cmd) => calledPossibleCommandsRef.current[cmd] === false
 			);
 			//inverse back (aka don't use the !)
-			if(aCommandUsed) return; 
+			if (aCommandUsed) return;
 		}
 
 		wonRef.current = true;
@@ -137,59 +142,64 @@ export default function VimEditor({
 		calledCommandsRef.current = Object.fromEntries(
 			commands.map((cmd) => [cmd, false])
 		);
-		calledCommandsRef.current = Object.fromEntries(
-			commands.map((cmd) => [cmd, false])
+		calledPossibleCommandsRef.current = Object.fromEntries(
+			possibleCommands.map((cmd) => [cmd, false])
 		);
 		editorRef.current?.setValue(value);
 	}
 
-	function handleMount(editor, monaco) {	
+	function handleMount(editor, monaco) {
 		editorRef.current = editor;
 		const editorDom = editor.getDomNode();
 		editorDom.style.position = "relative";
-		
 		//Vim current mode at bottom
+
 		const statusNode = document.createElement("div");
 		statusNode.style.position = "absolute";
 		statusNode.style.bottom = "0";
 		statusNode.style.right = "50px";
-		statusNode.style.background = "#1e1e1e";
+		statusNode.style.background = "#111827";
+		statusNode.style.color = "#ffffff";
 		statusNode.style.fontSize = "12px";
+		statusNode.style.padding = "2px 8px";
+		statusNode.style.borderRadius = "6px";
 		editor.getDomNode().appendChild(statusNode);
 
 		const vimMode = initVimMode(editor, statusNode);
 		vimModeRef.current = vimMode;
-
 		//Cursor line info at bottom
+
 		const cursorPosNode = document.createElement("div");
 		cursorPosNode.style.position = "absolute";
 		cursorPosNode.style.bottom = "0";
 		cursorPosNode.style.left = "35px";
-		cursorPosNode.style.background = "#1e1e1e";
+		cursorPosNode.style.background = "#111827";
+		cursorPosNode.style.color = "#ffffff";
 		cursorPosNode.style.fontSize = "12px";
-
+		cursorPosNode.style.padding = "2px 8px";
+		cursorPosNode.style.borderRadius = "6px";
 		editor.getDomNode().appendChild(cursorPosNode);
-
 
 		//attempt at not allowing arrow keys
 		//() => {} didn't work so trying other stuff
-		editor.addCommand(monaco.KeyCode.UpArrow, function()  {});
+
+		editor.addCommand(monaco.KeyCode.UpArrow, function () {});
 
 		//Makes all given commands to:
-
 		//VimMode.Vim.defineEx("write", "w", (cm, input) => {
 		//	calledCommandsRef.current[":w"] = true;
 		//  checkWinConditions();
 		//});
 
 		Object.entries(vimCommands).forEach(([name, abbrev]) => {
-
+			
 			//adds the : to the front
 			//so when you type in the commands into the commands = {[]} param, you need to add :
 			//ex: commands = {[":w", ":q"]}
-			const fullCmd = `:${abbrev}`;
 			
-			VimMode.Vim.defineEx(name, abbrev, (cm, input) => {
+			const fullCmd = `:${abbrev}`;
+
+			VimMode.Vim.defineEx(name, abbrev, () => {
 				//if the command is in the commands param
 				if (fullCmd in calledCommandsRef.current) {
 					calledCommandsRef.current[fullCmd] = true;
@@ -204,52 +214,64 @@ export default function VimEditor({
 		//true just watching the statusNode with an eventListening, but it wasnt working
 		const observer = new MutationObserver(() => {
 			const modeText = statusNode.innerText.toLowerCase();
-			currentModeRef.current = modeText.includes("insert") ? "insert"
-									:modeText.includes("visual") ? "visual"
-									:modeText.includes("replace")? "replace"
-									:"normal";
+			currentModeRef.current = modeText.includes("insert")
+				? "insert"
+				: modeText.includes("visual")
+				? "visual"
+				: modeText.includes("replace")
+				? "replace"
+				: "normal";
 			checkWinConditions();
-		})
+		});
 		//								child elements, all descendents, text changes
-		observer.observe(statusNode, { childList: true, subtree: true, characterDate: true})
-		
+
+		observer.observe(statusNode, {
+			childList: true,
+			subtree: true,
+			characterData: true
+		});
 		//also theres a onDidChangeCursorPosition, but if we ever want to watch the selection as well, we need this
-		editor.onDidChangeCursorSelection(e => {
-			console.log("Cursor Info: ", e);
+
+		editor.onDidChangeCursorSelection((e) => {
 			cursorPosNode.innerText = `Ln ${e.selection.positionLineNumber}, Col ${e.selection.positionColumn}`;
-			checkWinConditions(); //called because line position changed
+			checkWinConditions();
 		});
 
 		//watches changes in model content
 		editor.onDidChangeModelContent(() => {
 			checkWinConditions();
-		})
-	
+		});
+
 		//Key logger (use for checking for certain key presses)
-		editor.onKeyDown((e) => {
-			console.log("Key pressed: ", e.browserEvent.key);
+		editor.onKeyDown(() => {
 			checkWinConditions();
 		});
 	}
 
-	
 	//Build text box and check button
-	return(
-		<div>
-			<Editor
-			className="w-1000 h-500 bg-gray-950 text-gray-200 shadow-[0_0_10px_rgba(99,102,241,0.7)] mb-4"
-			height = {height}
-			width = {width}
-			theme = {editorTheme}
-			defaultLanguage="c"
-			defaultValue={value}
+	return (
+		<div className={`w-full flex flex-col items-center ${className}`}>
+				<div className="w-full flex justify-center">
+					<Editor
+						className={editorBoxClass}
+						height={height}
+						width={width}
+						theme={editorTheme}
+						defaultLanguage="c"
+						defaultValue={value}
+						options={{
+							minimap: { enabled: false }
+						}}
+						onMount={handleMount}
+					/>
+				</div>
 
-			options = {{
-				minimap: { enabled: false }
-			}}
-			onMount={handleMount}
-			/>
-			<button className="self-center pl-4 pr-4 pt-1 pb-1 rounded-xl text-centere bg-[rgb(63,64,150)]/100 trasnsition duration-200 hover:bg-[rgb(63,64,150)]/75 text-center" onClick={reset}>Reset Level</button>
-		</div>
+				<button
+					className={resetButtonClass}
+					onClick={reset}
+				>
+					Reset Level
+				</button>
+			</div>
 	);
 }
