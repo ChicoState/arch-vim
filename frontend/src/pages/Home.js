@@ -78,6 +78,8 @@ export default function Home() {
       <div className="fixed top-5 right-10 z-50">
         <Login />
       </div>
+
+      {/* Title (static, fades when scrolled ) */}
       <div ref={titleRef} className="sticky top-0 h-screen z-0">        
           <h1 className="sticky font-mono text-center text-[11rem] pt-[35vh] font-bold leading-none">
           Arch-Vim
@@ -88,8 +90,8 @@ export default function Home() {
         </p>
       </div>
 
-      <div className="relative z-10 -mt-[10vh]  rounded-t-3xl pt-16 pb-16 min-h-screen">
-        
+      {/* Bottom section for scrolling up CAN ADD bg-[color] TO THIS v DIV*/}
+      <div className="relative z-10 -mt-[10vh] rounded-t-3xl pt-16 pb-16 min-h-screen">
         {/* Chevron pointing down (doesnt fade but whatever) */}
         <div ref={chevronRef} className="w-full flex flex-col items-center">
           <svg className="animate-bounce w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
