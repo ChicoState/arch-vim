@@ -33,6 +33,7 @@ export default function VimEditor({
 	value = "", //What appears in initial editor
 	commands = [], //Commands needed to be used to pass
 	possibleCommands = [], //Commands where at least 1 needs to be used (:q vs :wq)
+	keystrokes = [],
 	finalText = null, //Solution text
 	finalTextContains = null, //Solution, checks if final text has something rather than checking entire thing
 	finalTextRegex = null, //Solution, lets you search final text using regex
@@ -49,6 +50,7 @@ export default function VimEditor({
 	const editorRef = useRef(null);
 	const vimModeRef = useRef(null);
 	const { theme } = useTheme();
+
 	const editorTheme = theme === "dark" ? "vs-dark" : "vs";
 	const editorBoxClass =
 		theme === "dark"
@@ -58,6 +60,7 @@ export default function VimEditor({
 		theme === "dark"
 			? "mt-5 px-8 py-4 rounded-2xl bg-indigo-600 !text-white text-xl font-bold shadow-[0_0_14px_rgba(99,102,241,0.45)] transition duration-200 hover:bg-indigo-500"
 			: "mt-5 px-8 py-4 rounded-2xl bg-indigo-600 !text-white text-xl font-bold shadow-[0_0_18px_rgba(99,102,241,0.32)] transition duration-200 hover:bg-indigo-500";
+
 
 	const currentModeRef = useRef("normal");
 	const wonRef = useRef(false);
@@ -131,6 +134,8 @@ export default function VimEditor({
 			//inverse back (aka don't use the !)
 			if (aCommandUsed) return;
 		}
+
+		if(keystrokes.length !== 0) return;
 
 		wonRef.current = true;
 		saveTest();
@@ -243,7 +248,14 @@ export default function VimEditor({
 		});
 
 		//Key logger (use for checking for certain key presses)
-		editor.onKeyDown(() => {
+		editor.onKeyDown((e) => {
+			const key = e.browserEvent.key;
+			console.log("Key pressed: ", key);
+			//Check if the keys in this have been pressed, if so, remove them (for not : commands)
+			const index = keystrokes.indexOf(key);
+			if (index !== -1) {
+				  keystrokes.splice(index, 1);
+			}
 			checkWinConditions();
 		});
 	}
