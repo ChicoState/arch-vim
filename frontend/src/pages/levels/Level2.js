@@ -8,7 +8,7 @@ import useCheckLevel from "../../components/checkLevelPassed";
 
 export default function Level2() {
     const levelNum = 2
-    const [passed, setPassed] = useState(false);
+    const [passed, setPassed] = useState(useCheckLevel(levelNum));
     const startValue =
 `#include <stdio.h>
 
@@ -18,7 +18,6 @@ int main() {
 }
 `
 
-    if (useCheckLevel(levelNum)) setPassed(true);
 
     return (
     <div className="flex min-h-screen bg-gray-950 text-gray-200">

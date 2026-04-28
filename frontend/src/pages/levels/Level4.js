@@ -9,7 +9,7 @@ import useCheckLevel from "../../components/checkLevelPassed";
 
 export default function Level4() {
     const levelNum = 4;
-    const [passed, setPassed] = useState(false);
+    const [passed, setPassed] = useState(useCheckLevel(levelNum));
     const { theme } = useTheme();
 
     const defaultValue =
@@ -21,7 +21,6 @@ return 0;
 }
 `;
 
-    if (useCheckLevel(levelNum)) setPassed(true);
 
     const pageClass =
         theme === "dark"
