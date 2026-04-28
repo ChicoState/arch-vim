@@ -27,7 +27,7 @@ function LevelCheck({ levelNum = 0, levelDesc = "", theme = "dark" }) {
 }
 
 export default function Home() {
-  const [menu, chooseMenu] = useState("Levels");
+  const [menu, setMenu] = useState("Levels");
   const { theme } = useTheme();
 
   const heroRef = useRef(null);
@@ -124,15 +124,17 @@ export default function Home() {
         <div className="min-h-[20vh]"/>
 
         <div className="w-full flex flex-col items-center">
-          <div className="flex gap-20 justify-center flex-wrap">
-            <h1>Test</h1>
+          <div className="flex gap-24 justify-center flex-wrap text-center">
+            <button onClick={() => setMenu("Levels")} className="w-[5vw]">Levels</button>
+            <button onClick={() => setMenu("FAQ")} className="w-[5vw]">FAQ</button>
+            <button onClick={() => setMenu("Levels")} className="w-[5vw]">Levels</button>
           </div>
           <hr className={`mb-4 ${hrClass}`} />
         </div>
         <div className="min-h-[5vh]"/>
 
 
-
+        { menu === "Levels" &&
         <div className="flex gap-16 justify-center flex-wrap">
           <div className={`w-[24vw] h-[15vh] min-w-[320px] min-h-[320px] rounded-2xl p-8 text-2xl transition duration-500 ease-in-out hover:scale-105 ${cardClass}`}>
             <h2 className="text-center mb-3 text-3xl font-bold">Intro</h2>
@@ -170,6 +172,9 @@ export default function Home() {
             </div>
           </div>
         </div>
+        }
+
+        { menu === "FAQ" && <h1>Hi</h1>}
 
       </div>
 
