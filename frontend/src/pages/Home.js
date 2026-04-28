@@ -4,8 +4,6 @@ import { Link } from "react-router-dom";
 import { useTheme } from "../ThemeContext";
 import { useEffect, useRef, useState } from "react";
 
-function ingestLevelInfo() {}
-
 function LevelCheck({ levelNum = 0, levelDesc = "", theme = "dark" }) {
   const passed = useCheckLevel(levelNum);
 
@@ -27,15 +25,17 @@ function LevelCheck({ levelNum = 0, levelDesc = "", theme = "dark" }) {
 }
 
 export default function Home() {
-  const [menu, setMenu] = useState("Levels");
+  const [menu, setMenu] = useState("Welcome");
   const { theme } = useTheme();
 
-  const heroRef = useRef(null);
+  const titleRef = useRef(null);
   const containerRef = useRef(null);
+  const chevronRef = useRef(null);
 
   useEffect(()=> {
     const container = containerRef.current;
-    const hero = heroRef.current;
+    const titleCard = titleRef.current;
+    const chevron = chevronRef.current;
 
     const handleScroll = () => {
       const scrollY = container.scrollTop;
@@ -43,7 +43,12 @@ export default function Home() {
       const fadeStart = 5 * vh;
       const fadeEnd = 70 * vh;
       const opacity = Math.max(0, 1 - (scrollY - fadeStart) / (fadeEnd - fadeStart));
-      hero.style.opacity = opacity;
+      titleCard.style.opacity = opacity;
+
+      const chevronOpacity = Math.max(0, 1 - scrollY / (40 * vh));
+      const rotation = scrollY * 0.3;
+      chevron.style.opacity = chevronOpacity;
+      chevron.style.transform = `rotate(${rotation}deg)`;
     };
 
     container.addEventListener("scroll", handleScroll);
@@ -73,7 +78,7 @@ export default function Home() {
       <div className="fixed top-5 right-10 z-50">
         <Login />
       </div>
-      <div ref={heroRef} className="sticky top-0 h-screen z-0">        
+      <div ref={titleRef} className="sticky top-0 h-screen z-0">        
           <h1 className="sticky font-mono text-center text-[11rem] pt-[35vh] font-bold leading-none">
           Arch-Vim
           </h1>
@@ -86,14 +91,27 @@ export default function Home() {
       <div className="relative z-10 -mt-[10vh]  rounded-t-3xl pt-16 pb-16 min-h-screen">
         
         {/* Chevron pointing down (doesnt fade but whatever) */}
-        <div className="w-full flex flex-col items-center">
+        <div ref={chevronRef} className="w-full flex flex-col items-center">
           <svg className="animate-bounce w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
           </svg>
-        </div><br/>
+        </div>
+        <div className="min-h-[3vh]"/>
+
+        <div className="w-full flex flex-col items-center">
+          <div className="flex gap-24 justify-center flex-wrap text-center">
+            <button onClick={() => setMenu("Welcome")} className="w-[5vw]">Welcome</button>
+            <button onClick={() => setMenu("Levels")} className="w-[5vw]">Levels</button>
+            <button onClick={() => setMenu("FAQ")} className="w-[5vw]">FAQ</button>
+          </div>
+          <div className="min-h-[1vh]"/>
+          <hr className={`w-[75vw] mb-4 ${hrClass}`} />
+        </div>
+        <div className="min-h-[10vh]"/>
 
         {/* About Arch-vim + essentials */}
-        <div className="mx-auto w-[75vw] grid grid-cols-[2fr_1fr] gap-16">
+        { menu === "Welcome" &&
+        <div className="mx-auto w-[75vw] grid grid-cols-[2fr_1fr] items-center h-full gap-16">
           <div className={`rounded-2xl p-8`}> {/* add a ${cardClass} for the border */}
             <h1 className="text-center text-7xl font-bold mb-8">What is Arch-Vim?</h1>
             <hr className={`mb-4 ${hrClass}`} />
@@ -121,24 +139,13 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <div className="min-h-[20vh]"/>
-
-        <div className="w-full flex flex-col items-center">
-          <div className="flex gap-24 justify-center flex-wrap text-center">
-            <button onClick={() => setMenu("Levels")} className="w-[5vw]">Levels</button>
-            <button onClick={() => setMenu("FAQ")} className="w-[5vw]">FAQ</button>
-            <button onClick={() => setMenu("Levels")} className="w-[5vw]">Levels</button>
-          </div>
-          <hr className={`mb-4 ${hrClass}`} />
-        </div>
-        <div className="min-h-[5vh]"/>
-
+        }
 
         { menu === "Levels" && 
         <div>
           <div className="flex gap-16 justify-center flex-wrap mb-16">
             <div className={`w-[24vw] h-[15vh] min-w-[320px] min-h-[320px] rounded-2xl p-8 text-2xl transition duration-500 ease-in-out hover:scale-105 ${cardClass}`}>
-              <h2 className="text-center mb-3 text-3xl font-bold">Intro</h2>
+              <h2 className="text-center mb-3 text-3xl font-bold">Navigation</h2>
               <hr className={`mb-4 ${hrClass}`} />
               <div className="pl-3 text-xl leading-10">
                 <LevelCheck levelNum={1} levelDesc={"Learn Navigation"} theme={theme} /><br />
@@ -150,7 +157,7 @@ export default function Home() {
             </div>
 
             <div className={`w-[24vw] h-[15vh] min-w-[320px] min-h-[320px] rounded-2xl p-8 text-2xl transition duration-500 ease-in-out hover:scale-105 ${cardClass}`}>
-              <h2 className="text-center mb-3 text-3xl font-bold">Intermediate</h2>
+              <h2 className="text-center mb-3 text-3xl font-bold">Some other stuff</h2>
               <hr className={`mb-4 ${hrClass}`} />
               <div className="pl-3 text-xl leading-10">
                 <LevelCheck levelNum={6} levelDesc={"More Navigation"} theme={theme} /><br />
@@ -162,7 +169,7 @@ export default function Home() {
             </div>
 
             <div className={`w-[24vw] h-[15vh] min-w-[320px] min-h-[320px] rounded-2xl p-8 text-2xl transition duration-500 ease-in-out hover:scale-105 ${cardClass}`}>
-              <h2 className="text-center mb-3 text-3xl font-bold">Advanced</h2>
+              <h2 className="text-center mb-3 text-3xl font-bold">idk</h2>
               <hr className={`mb-4 ${hrClass}`} />
               <div className="pl-3 text-xl leading-10">
                 <LevelCheck levelNum={11} levelDesc={"Basic Search"} theme={theme} /><br />
@@ -211,7 +218,7 @@ export default function Home() {
         </div>
         }
 
-        { menu === "FAQ" && <h1>Hi</h1>}
+        { menu === "FAQ" && <h1>We need to show what to do when vim files crash. Can probably render the editor with no win conditions and give it the text that prints when vim crashes, to simulate it</h1>}
 
       </div>
 
