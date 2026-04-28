@@ -20,12 +20,18 @@ export function ProgressProvider({ children }) {
         setLoading(false);
     };
 
+    const levelPassed = (levelNum) => {
+        setProgress({...progress,
+		[`level_${levelNum}`]: { passed: true }
+        })
+    }
+
     // useEffect(() => {
     //     fetchProgress();
     // }, []);
 
     return (
-        <ProgressContext.Provider value={{ progress, loading, clearProgress, fetchProgress }}>
+        <ProgressContext.Provider value={{ progress, loading, clearProgress, fetchProgress, levelPassed }}>
             {children}
         </ProgressContext.Provider>
     );

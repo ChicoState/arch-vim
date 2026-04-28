@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import api from './api';
-import { useProgress } from './components/checkLevelPassed';
+import { useProgress, fetchProgress } from './components/checkLevelPassed';
 
 const AuthContext = createContext();
 

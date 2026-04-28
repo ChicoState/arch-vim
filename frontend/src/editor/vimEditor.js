@@ -4,6 +4,7 @@ import { initVimMode, VimMode } from "monaco-vim";
 import { vimCommands } from "./vimCommands.js";
 import { saveProgress, loadProgress } from "../progress.js";
 import { useTheme } from "../ThemeContext.js";
+import { useProgress } from "../components/checkLevelPassed.js"
 
 /*			Editor Usage
 Parameters - 
@@ -73,12 +74,15 @@ export default function VimEditor({
 		Object.fromEntries(possibleCommands.map((cmd) => [cmd, false]))
 	);
 
+	const { levelPassed } = useProgress();
+
 	async function saveTest() {
 		const existing = await loadProgress();
 		await saveProgress({
 			...existing,
 			[`level_${level}`]: { passed: true }
 		});
+		levelPassed(level);
 		onWin();
 	}
 
