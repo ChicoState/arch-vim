@@ -101,7 +101,9 @@ export default function App() {
   return (
     <ProgressProvider>
       <AuthProvider>
+        
         <AppInner />
+
       </AuthProvider>
     </ProgressProvider>
   );

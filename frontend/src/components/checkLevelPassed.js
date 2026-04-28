@@ -20,9 +20,9 @@ export function ProgressProvider({ children }) {
         setLoading(false);
     };
 
-    useEffect(() => {
-        fetchProgress();
-    }, []);
+    // useEffect(() => {
+    //     fetchProgress();
+    // }, []);
 
     return (
         <ProgressContext.Provider value={{ progress, loading, clearProgress, fetchProgress }}>
