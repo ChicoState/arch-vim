@@ -4,6 +4,7 @@ import { loadProgress } from "../../progress";
 import Sidebar from "../../components/sidebar";
 import DropDown from "../../components/hint";
 import PassedLevel from "../../components/passedLevel";
+import useCheckLevel from "../../components/checkLevelPassed";
 
 export default function Level25() {
     const levelNum = 25;
@@ -29,11 +30,7 @@ int main() {
 }
 `
 
-    useEffect(() => {
-        loadProgress().then(data => {
-            if (data[`level_${levelNum}`]?.passed) setPassed(true);
-        });
-    }, []);
+    if (useCheckLevel(levelNum)) setPassed(true);
 
     return (
         <div className="flex min-h-screen bg-gray-950 text-gray-200">

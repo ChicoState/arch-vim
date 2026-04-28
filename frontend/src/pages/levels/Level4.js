@@ -5,6 +5,7 @@ import Sidebar from "../../components/sidebar";
 import DropDown from "../../components/hint";
 import PassedLevel from "../../components/passedLevel";
 import { useTheme } from "../../ThemeContext";
+import useCheckLevel from "../../components/checkLevelPassed";
 
 export default function Level4() {
     const levelNum = 4;
@@ -20,12 +21,7 @@ return 0;
 }
 `;
 
-    useEffect(() => {
-        loadProgress().then(data => {
-            if (data[`level_${levelNum}`]?.passed)
-                setPassed(true);
-        });
-    }, []);
+    if (useCheckLevel(levelNum)) setPassed(true);
 
     const pageClass =
         theme === "dark"
