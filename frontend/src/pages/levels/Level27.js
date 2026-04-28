@@ -16,8 +16,8 @@ int main() {
     int baz = 0;
     baz = baz + 10
     baz = baz * 2
-    printf("result: %d\n", baz);
-    printf("done with baz\n");
+    printf("result: %d\\n", baz);
+    printf("done with baz\\n");
     return 9;
 }
 `
@@ -29,8 +29,8 @@ int main() {
     int result = 0;
     result = result + 10;
     result = result * 2;
-    printf("result: %d\n", result);
-    printf("done with result\n");
+    printf("result: %d\\n", result);
+    printf("done with result\\n");
     return 0;
 }
 `
@@ -68,7 +68,6 @@ int main() {
                                 level={levelNum}
                                 value={startValue}
                                 finalText={finalValue}
-                                commands={[":s"]}
                                 onWin={() => setPassed(true)}
                             />
                         </div>

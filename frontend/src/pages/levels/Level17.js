@@ -48,7 +48,7 @@ int main() {
                             When a file has multiple functions separated by blank lines, you can leap between them instantly.<br /><br />
                             <kbd>{"{"}</kbd> jumps to the start of the previous blank-line-separated block<br />
                             <kbd>{"}"}</kbd> jumps to the start of the next block<br /><br />
-                            Objective: Starting at line 1, use <kbd>{"}"}</kbd> to jump until your cursor lands on line 11 (the blank line before <code>int main()</code>).
+                            Objective: Starting at line 1, use <kbd>{"}"}</kbd> to jump until your cursor lands on line 10 (the blank line before <code>int main()</code>).
                         </p>
                     </div>
                     <>
@@ -56,7 +56,7 @@ int main() {
                             <VimEditor
                                 level={levelNum}
                                 value={startValue}
-                                cursorLine={11}
+                                cursorLine={10}
                                 onWin={() => setPassed(true)}
                             />
                         </div>

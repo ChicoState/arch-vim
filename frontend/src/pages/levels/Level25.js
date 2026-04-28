@@ -13,14 +13,14 @@ export default function Level25() {
 `#include <stdio.h>
 
 void printAll() {
-    printf("alpha\n");
-    printf("beta\n");
-    printf("gamma\n");
-    printf("delta\n");
-    printf("epsilon\n");
-    printf("zeta\n");
-    printf("eta\n");
-    printf("theta\n");
+    printf("alpha\\n");
+    printf("beta\\n");
+    printf("gamma\\n");
+    printf("delta\\n");
+    printf("epsilon\\n");
+    printf("zeta\\n");
+    printf("eta\\n");
+    printf("theta\\n");
 }
 
 int main() {
@@ -61,6 +61,7 @@ int main() {
                                 level={levelNum}
                                 value={startValue}
                                 cursorLine={3}
+                                keystrokes={["m", "G"]}
                                 onWin={() => setPassed(true)}
                             />
                         </div>

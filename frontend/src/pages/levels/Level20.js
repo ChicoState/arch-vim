@@ -13,9 +13,9 @@ export default function Level20() {
 `#include <stdio.h>
 
 int main() {
-    printf("line one\n")
-    printf("line two\n")
-    printf("line three\n")
+    printf("line one\\n")
+    printf("line two\\n")
+    printf("line three\\n")
     return 0;
 }
 `
@@ -24,9 +24,9 @@ int main() {
 `#include <stdio.h>
 
 int main() {
-    printf("line one\n");
-    printf("line two\n");
-    printf("line three\n");
+    printf("line one\\n");
+    printf("line two\\n");
+    printf("line three\\n");
     return 0;
 }
 `

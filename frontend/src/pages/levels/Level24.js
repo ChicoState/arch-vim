@@ -16,8 +16,8 @@ int main() {
     int foo = 0;
     foo = foo + 1;
     foo = foo * 2;
-    printf("foo is: %d\n", foo);
-    printf("final foo: %d\n", foo);
+    printf("foo is: %d\\n", foo);
+    printf("final foo: %d\\n", foo);
     return 0;
 }
 `
@@ -29,8 +29,8 @@ int main() {
     int bar = 0;
     bar = bar + 1;
     bar = bar * 2;
-    printf("bar is: %d\n", bar);
-    printf("final bar: %d\n", bar);
+    printf("bar is: %d\\n", bar);
+    printf("final bar: %d\\n", bar);
     return 0;
 }
 `
@@ -67,7 +67,6 @@ int main() {
                                 level={levelNum}
                                 value={startValue}
                                 finalText={finalValue}
-                                commands={[":s"]}
                                 onWin={() => setPassed(true)}
                             />
                         </div>
