@@ -1,18 +1,43 @@
-import { loadProgress } from "../progress";
-import { useState, useEffect } from "react";
+import { createContext, useContext, useEffect, useState } from 'react';
+import { loadProgress } from '../progress';
 
-export default function useCheckLevel (levelNum = 0){
-    const [passed, setPassed] = useState(false);
+const ProgressContext = createContext(null);
+
+export function ProgressProvider({ children }) {
+    const [progress, setProgress] = useState({});
+    const [loading, setLoading] = useState(true);
+
+    const fetchProgress = () => {
+        setLoading(true);
+        loadProgress().then(data => {
+            setProgress(data);
+            setLoading(false);
+        });
+    };
+
+    const clearProgress = () => {
+        setProgress({});
+        setLoading(false);
+    };
+
     useEffect(() => {
-        loadProgress().then(
-            data=>{
-                if (data[`level_${levelNum}`]?.passed) 
-                    setPassed(true);
-                });
-            }, [levelNum]);
-    return(passed)
+        fetchProgress();
+    }, []);
+
+    return (
+        <ProgressContext.Provider value={{ progress, loading, clearProgress, fetchProgress }}>
+            {children}
+        </ProgressContext.Provider>
+    );
 }
 
-// export function getAllLevels() {
-//     return loadProgress()
-// }
+export function useProgress() {
+    const ctx = useContext(ProgressContext);
+    if (!ctx) throw new Error('useProgress must be used inside <ProgressProvider>');
+    return ctx;
+}
+
+export default function useCheckLevel(levelNum = 0) {
+    const { progress } = useProgress();
+    return progress[`level_${levelNum}`]?.passed ?? false;
+}
