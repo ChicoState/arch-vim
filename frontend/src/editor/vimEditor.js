@@ -50,6 +50,14 @@ export default function VimEditor({
 	const vimModeRef = useRef(null);
 	const { theme } = useTheme();
 	const editorTheme = theme === "dark" ? "vs-dark" : "vs";
+	const editorBoxClass =
+		theme === "dark"
+			? "bg-gray-950 text-gray-200 shadow-[0_0_18px_rgba(99,102,241,0.7)] rounded-xl overflow-hidden"
+			: "bg-white text-slate-900 shadow-[0_0_22px_rgba(99,102,241,0.35)] border border-indigo-200 rounded-xl overflow-hidden";
+	const resetButtonClass =
+		theme === "dark"
+			? "mt-5 px-8 py-4 rounded-2xl bg-indigo-600 !text-white text-xl font-bold shadow-[0_0_14px_rgba(99,102,241,0.45)] transition duration-200 hover:bg-indigo-500"
+			: "mt-5 px-8 py-4 rounded-2xl bg-indigo-600 !text-white text-xl font-bold shadow-[0_0_18px_rgba(99,102,241,0.32)] transition duration-200 hover:bg-indigo-500";
 
 	const currentModeRef = useRef("normal");
 	const wonRef = useRef(false);
@@ -243,27 +251,27 @@ export default function VimEditor({
 	//Build text box and check button
 	return (
 		<div className={`w-full flex flex-col items-center ${className}`}>
-    		<div className="w-full flex justify-center">
-      			<Editor
-        			className="bg-gray-950 text-gray-200 shadow-[0_0_18px_rgba(99,102,241,0.7)] rounded-xl overflow-hidden"
-        			height={height}
-        			width={width}
-        			theme={editorTheme}
-        			defaultLanguage="c"
-        			defaultValue={value}
-        			options={{
-          				minimap: { enabled: false }
-					}}
-					onMount={handleMount}
-      			/>
-    		</div>
+				<div className="w-full flex justify-center">
+					<Editor
+						className={editorBoxClass}
+						height={height}
+						width={width}
+						theme={editorTheme}
+						defaultLanguage="c"
+						defaultValue={value}
+						options={{
+							minimap: { enabled: false }
+						}}
+						onMount={handleMount}
+					/>
+				</div>
 
-    		<button
-      			className="mt-5 px-8 py-4 rounded-2xl bg-indigo-600 text-white text-xl font-bold shadow-[0_0_14px_rgba(99,102,241,0.45)] transition duration-200 hover:bg-indigo-500"
-      			onClick={reset}
-    		>
-      			Reset Level
-    		</button>
-  		</div>
+				<button
+					className={resetButtonClass}
+					onClick={reset}
+				>
+					Reset Level
+				</button>
+			</div>
 	);
 }

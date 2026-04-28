@@ -36,7 +36,7 @@ function Login() {
     const cardClass =
         theme === "dark"
             ? "w-full max-w-md bg-gray-950 rounded-3xl p-8 text-gray-200 shadow-[0_0_20px_rgba(99,102,241,0.7)]"
-            : "w-full max-w-md bg-white rounded-3xl p-8 text-slate-900 border border-slate-200 shadow-[0_10px_30px_rgba(99,102,241,0.15)]";
+            : "w-full max-w-md bg-white rounded-3xl p-8 text-slate-900 border border-slate-200 shadow-[0_0_24px_rgba(99,102,241,0.18)]";
 
     const inputClass =
         theme === "dark"
@@ -45,8 +45,8 @@ function Login() {
 
     const buttonClass =
         theme === "dark"
-            ? "w-full mt-2 py-3 rounded-2xl bg-indigo-600 transition duration-200 hover:bg-indigo-500 text-center text-white text-lg font-semibold shadow-[0_0_14px_rgba(99,102,241,0.35)]"
-            : "w-full mt-2 py-3 rounded-2xl bg-indigo-600 transition duration-200 hover:bg-indigo-500 text-center text-white text-lg font-semibold shadow-[0_10px_24px_rgba(99,102,241,0.2)]";
+            ? "w-full mt-2 py-3 rounded-2xl bg-indigo-600 transition duration-200 hover:bg-indigo-500 text-center !text-white text-lg font-semibold shadow-[0_0_14px_rgba(99,102,241,0.35)]"
+            : "w-full mt-2 py-3 rounded-2xl bg-indigo-600 transition duration-200 hover:bg-indigo-500 text-center !text-white text-lg font-semibold shadow-[0_0_18px_rgba(99,102,241,0.22)]";
 
     const helperTextClass =
         theme === "dark"
