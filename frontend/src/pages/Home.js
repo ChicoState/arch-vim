@@ -91,14 +91,14 @@ export default function Home() {
       </div>
 
       {/* Bottom section for scrolling up CAN ADD bg-[color] TO THIS v DIV*/}
-      <div className="relative z-10 -mt-[10vh] rounded-t-3xl pt-16 pb-16 min-h-screen">
+      <div className="relative z-10 -mt-[15vh] rounded-t-3xl pt-16 pb-16 min-h-screen">
         {/* Chevron pointing down (doesnt fade but whatever) */}
         <div ref={chevronRef} className="w-full flex flex-col items-center">
           <svg className="animate-bounce w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
           </svg>
         </div>
-        <div className="min-h-[3vh]"/>
+        <div className="min-h-[5vh]"/>
 
         <div className="w-full flex flex-col items-center">
           <div className="flex gap-24 justify-center flex-wrap text-center">
