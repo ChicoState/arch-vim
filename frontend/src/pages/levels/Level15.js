@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import VimEditor from "../../editor/vimEditor";
 import { loadProgress } from "../../progress";
-import Sidebar from "../../components/sidebar"
+import Sidebar from "../../components/sidebar";
 import DropDown from "../../components/hint";
 import PassedLevel from "../../components/passedLevel";
 import useCheckLevel from "../../components/checkLevelPassed";
