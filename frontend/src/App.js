@@ -37,16 +37,17 @@ import Register from './pages/Register.js';
 
 import { AuthProvider } from './AuthContext.js';
 import { useTheme } from "./ThemeContext.js";
+import { ProgressProvider } from './components/checkLevelPassed.js';
 
 function AppInner() {
   const { theme } = useTheme();
 
-  useEffect(() => {
-    fetch("http://localhost:8000/")
-      .then((res) => res.text())
-      .then((data) => console.log(data))
-      .catch((err) => console.error(err));
-  }, []);
+  // useEffect(() => {
+  //   fetch("http://localhost:8000/")
+  //     .then((res) => res.text())
+  //     .then((data) => console.log(data))
+  //     .catch((err) => console.error(err));
+  // }, []);
 
   const appTheme =
     theme === "dark"
@@ -98,8 +99,10 @@ function AppInner() {
 
 export default function App() {
   return (
-    <AuthProvider>
-      <AppInner />
-    </AuthProvider>
+    <ProgressProvider>
+      <AuthProvider>
+        <AppInner />
+      </AuthProvider>
+    </ProgressProvider>
   );
 }
