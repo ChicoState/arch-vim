@@ -66,7 +66,7 @@ export default function Home() {
   const cardClass =
     theme === "dark"
       ? "bg-gray-950 text-white shadow-[0_0_20px_rgba(99,102,241,0.7)] hover:shadow-[0_0_30px_rgba(99,102,241,0.7)]"
-      : "bg-white text-slate-900 border border-slate-200 shadow-[0_10px_30px_rgba(99,102,241,0.15)] hover:shadow-[0_14px_36px_rgba(99,102,241,0.22)]";
+      : "bg-white text-slate-900  shadow-[0_10px_30px_rgba(99,102,241,0.15)] hover:shadow-[0_14px_36px_rgba(99,102,241,0.22)]";
 
   const hrClass =
     theme === "dark" ? "border-gray-600" : "border-slate-200";
