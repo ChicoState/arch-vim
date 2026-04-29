@@ -15,7 +15,7 @@ export function AuthProvider({ children }) {
         const token = localStorage.getItem('access');
         if (token) {
             api.get('/api/auth/me/')
-                .then(res => setUser(res.data))
+                .then(res => {setUser(res.data); fetchProgress(); })
                 .catch(() => localStorage.clear())
                 .finally(() => setLoading(false));
         } else {
