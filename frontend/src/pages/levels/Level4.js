@@ -39,8 +39,8 @@ return 0;
 
     const hrClass =
         theme === "dark"
-            ? "mb-4 border-gray-600 w-96 ml-16"
-            : "mb-4 border-slate-300 w-96 ml-16";
+            ? "mb-4 border-gray-600 w-96"
+            : "mb-4 border-slate-300 w-96";
 
     return (
         <div className={pageClass}>
@@ -51,16 +51,18 @@ return 0;
             </aside>
 
             {/* MAIN CONTENT */}
-            <aside className="flex-1 pt-10 p-4">
-                <div style={{ padding: "10px" }}>
-                    <div className="ml-[15vw] mb-10">
-                        <h1 className="text-7xl mb-2 pl-16">Level 4</h1>
-                        <h3 className="pl-16 text-4xl mb-2">How to save a file</h3>
+            <main className="flex-1 pt-10 p-4">
+                <div className="w-full max-w-[1100px] mx-auto">
+                    <div className="w-[1100px] max-w-full mx-auto mb-8 text-left">
+                        <h1 className="text-6xl mb-2">Level 4</h1>
+                        <h3 className="text-4xl mb-2">How to save a file</h3>
                         <hr className={hrClass} />
-                        <p className="pl-28">
+                        <p className="text-lg leading-8">
                             After escaping to Normal mode, type <kbd>:w</kbd> and press Enter to save the file.
                             <br /><br />
-                            Objective: Run the save command to pass.
+                            <span className="font-medium">
+                                Objective: Run the save command to pass.
+                            </span>
                         </p>
                     </div>
 
@@ -74,12 +76,12 @@ return 0;
                     </div>
 
                     {passed && (
-                        <div className="flex items-center justify-center">
+                        <div className="flex items-center justify-center mt-4">
                             <PassedLevel levelNum={levelNum} />
                         </div>
                     )}
                 </div>
-            </aside>
+            </main>
 
             {/* RIGHT SIDEBAR */}
             <aside className={rightSideClass}>

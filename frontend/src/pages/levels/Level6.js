@@ -28,7 +28,7 @@ int main() {
 
         
         {/* Middle section */}
-        <aside className="flex-1 pt-10 p-4">
+        <main className="flex-1 pt-10 p-4">
             <div style={{ padding: "10px" }}>
                 <div className="w-[1100px] max-w-full mx-auto mb-8 text-left">
                     <h1 className="text-6xl mb-2">Level 6</h1>
@@ -54,21 +54,20 @@ int main() {
                 onWin = {() => setPassed(true)}
                 />
                 </div>
-                {passed && (
-                    <div className="flex items-center justify-center">
-                        <PassedLevel levelNum={levelNum}/>
-                    </div>
-                    )
-                }   
                 </>
             </div>
-        </aside>
+        </main>
 
         {/* Right side */}
-        <aside className="w-[16vw] bg-gray-950 p-4 ">
+        <aside className="w-[18vw] min-w-[280px] bg-gray-950 p-4 ">
             <p className="text-center text-2xl mb-4">Hints</p>
                 <DropDown title={"Testing"} contents={"More testing"} moreClass="mb-2" />
                 <DropDown title={"Testing 2"} contents={"Testtestest"} />
+                {passed && (
+                    <div className="mt-6">
+                        <PassedLevel levelNum={levelNum}/>
+                    </div>
+                )}
         </aside>
     </div>  
     );

@@ -35,15 +35,17 @@ int main() {
         </aside>
 
         {/* Middle section */}
-        <aside className="flex-1 pt-10 p-4">
-            <div style={{ padding: "10px" }}>
-                <div className="ml-[15vw] mb-10">
-                    <h1 className="text-7xl mb-2 pl-16">Level 5</h1>
-                    <h3 className="pl-16 text-4xl mb-2">Challenge Level!</h3>
-                    <hr className="mb-4 border-gray-600 w-96 ml-16"/>
-                    <p className="pl-28">
+        <main className="flex-1 pt-10 p-4">
+            <div className="w-full max-w-[1100px] mx-auto">
+                <div className="w-[1100px] max-w-full mx-auto mb-8 text-left">
+                    <h1 className="text-6xl mb-2">Level 5</h1>
+                    <h3 className="text-4xl mb-2">Challenge Level!</h3>
+                    <hr className="mb-4 border-gray-600 w-96" />
+                    <p className="text-lg leading-8">
                         Combine all the skills you've learned to complete the objective!<br></br><br></br>
-                        Objective: Change <kbd>Hello World</kbd> to <kbd>Hello Vim</kbd>, then save and quit.
+                        <span className="font-medium">
+                            Objective: Change <kbd>Hello World</kbd> to <kbd>Hello Vim</kbd>, then save and quit.
+                        </span>
                     </p>
                 </div>
                 <>
@@ -57,14 +59,14 @@ int main() {
                     />
                 </div>
                 {passed && (
-                    <div className="flex items-center justify-center">
+                    <div className="flex items-center justify-center mt-4">
                         <PassedLevel levelNum={levelNum}/>
                     </div>
                     )
                 }
                 </>
             </div>
-        </aside>
+        </main>
 
         {/* Right side */}
         <aside className="w-[16vw] bg-gray-950 p-4">
