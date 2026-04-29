@@ -3,6 +3,7 @@ import useCheckLevel from "../components/checkLevelPassed";
 import { Link } from "react-router-dom";
 import { useTheme } from "../ThemeContext";
 import { useEffect, useRef, useState } from "react";
+import VimEditor from "../editor/vimEditor";
 
 function LevelCheck({ levelNum = 0, levelDesc = "", theme = "dark" }) {
   const passed = useCheckLevel(levelNum);
@@ -221,9 +222,40 @@ export default function Home() {
         }
 
         { menu === "FAQ" && 
-        <h1>
-          We need to show what to do when vim files crash. Can probably render the editor with no win conditions and give it the text that prints when vim crashes, to simulate it
-        </h1>
+        <div>
+          <h1>
+            We need to show what to do when vim files crash. Can probably render the editor with no win conditions and give it the text that prints when vim crashes, to simulate it
+          </h1>
+          <div className="mx-auto w-[75vw] grid grid-cols-[1fr_1fr] items-center h-full gap-16">
+            <div>
+              Test
+            </div>
+
+            <div>
+              <VimEditor 
+              width="650px" 
+              height="300px" 
+              defaultLang=""
+              showResetLevel={false}
+              showStatusNodes={false}
+              showLineNumbers={"off"}
+              canWin={false}
+              value={`ATTENTION
+Found a swap file by the name ".filename.swp"
+...
+While opening file "filename"
+dated: ...
+\n
+(1) Another program may be editing the same file.
+(2) An idiot-proof version of Vim or the computer crashed.
+\n
+\n
+If this is the case, use ":recover" to recover changes.
+[(R)ecover], [(O)pen Read-Only], [(E)dit Anyway], [(Q)uit], [(D)elete it]`}
+              />
+            </div>
+          </div>
+        </div>
         }
 
       </div>

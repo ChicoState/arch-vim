@@ -47,6 +47,13 @@ export default function VimEditor({
 	onWin = () => {}, //run when all win conditions are met (will set a flag in the level)
 	//MUST HAVE THE onWin = {() => setWin(true)} as a param, and you can use setWin for the react state: const [win, setWin] = useState(false);
 	className = "",
+
+	//More params to help with rendering just text using it
+	showResetLevel = true,
+	showStatusNodes = true,
+	showLineNumbers = '', //can also use 'relative', but meant to turn them off with "off"
+	defaultLang = "c",
+	canWin = true,
 }) {
 	const editorRef = useRef(null);
 	const vimModeRef = useRef(null);
@@ -62,6 +69,14 @@ export default function VimEditor({
 			? "mt-5 px-8 py-4 rounded-2xl bg-indigo-600 !text-white text-xl font-bold shadow-[0_0_14px_rgba(99,102,241,0.45)] transition duration-200 hover:bg-indigo-500"
 			: "mt-5 px-8 py-4 rounded-2xl bg-indigo-600 !text-white text-xl font-bold shadow-[0_0_18px_rgba(99,102,241,0.32)] transition duration-200 hover:bg-indigo-500";
 
+
+	const moreOptions =
+		showLineNumbers === "false"
+			? `lineNumbersMinChars: 0,
+    folding: false,
+    glyphMargin: false,
+    lineDecorationsWidth: 0,`
+			: "";
 
 	const currentModeRef = useRef("normal");
 	const wonRef = useRef(false);
@@ -87,6 +102,7 @@ export default function VimEditor({
 	}
 
 	function checkWinConditions() {
+		if(!canWin) return;
 		if (wonRef.current) return;
 		const editor = editorRef.current;
 		if (!editor) return;
@@ -172,7 +188,7 @@ export default function VimEditor({
 		statusNode.style.fontSize = "12px";
 		statusNode.style.padding = "2px 8px";
 		statusNode.style.borderRadius = "6px";
-		editor.getDomNode().appendChild(statusNode);
+
 
 		const vimMode = initVimMode(editor, statusNode);
 		vimModeRef.current = vimMode;
@@ -187,8 +203,11 @@ export default function VimEditor({
 		cursorPosNode.style.fontSize = "12px";
 		cursorPosNode.style.padding = "2px 8px";
 		cursorPosNode.style.borderRadius = "6px";
-		editor.getDomNode().appendChild(cursorPosNode);
 
+		if(showStatusNodes) {
+			editor.getDomNode().appendChild(statusNode);
+			editor.getDomNode().appendChild(cursorPosNode);
+		}
 		//attempt at not allowing arrow keys
 		//() => {} didn't work so trying other stuff
 
@@ -273,21 +292,24 @@ export default function VimEditor({
 						height={height}
 						width={width}
 						theme={editorTheme}
-						defaultLanguage="c"
+						defaultLanguage={defaultLang}
 						defaultValue={value}
+						lineNumbers={showLineNumbers}
 						options={{
-							minimap: { enabled: false }
+							lineNumbers: showLineNumbers,
+							minimap: { enabled: false },
+							moreOptions
 						}}
 						onMount={handleMount}
 					/>
 				</div>
-
+				{ showResetLevel &&
 				<button
 					className={resetButtonClass}
 					onClick={reset}
 				>
 					Reset Level
-				</button>
+				</button> }
 			</div>
 	);
 }
