@@ -65,8 +65,32 @@ export default function Home() {
 
   const cardClass =
     theme === "dark"
-      ? "bg-gray-950 text-white shadow-[0_0_20px_rgba(99,102,241,0.7)] hover:shadow-[0_0_30px_rgba(99,102,241,0.7)]"
-      : "bg-white text-slate-900  shadow-[0_10px_30px_rgba(99,102,241,0.15)] hover:shadow-[0_14px_36px_rgba(99,102,241,0.22)]";
+      ? [
+          "bg-gray-950",
+          "text-white",
+          "border",
+          "border-indigo-500/30",
+          "shadow-[0_0_20px_rgba(99,102,241,0.7)]",
+          "hover:shadow-[0_0_30px_rgba(99,102,241,0.7)]",
+          "hover:border-indigo-400/50",
+          "backdrop-blur-sm",
+          "transition",
+          "duration-500",
+          "ease-in-out"
+        ].join(" ")
+      : [
+          "bg-white",
+          "text-slate-900",
+          "border-2",
+          "border-indigo-200",
+          "shadow-[0_0_40px_rgba(99,102,241,0.28),0_18px_40px_rgba(99,102,241,0.12)]",
+          "hover:shadow-[0_0_55px_rgba(99,102,241,0.34),0_22px_48px_rgba(99,102,241,0.16)]",
+          "hover:border-indigo-300",
+          "backdrop-blur-sm",
+          "transition",
+          "duration-500",
+          "ease-in-out"
+        ].join(" ");
 
   const hrClass =
     theme === "dark" ? "border-gray-600" : "border-slate-200";
