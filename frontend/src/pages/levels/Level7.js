@@ -22,7 +22,7 @@ int main() {
     return (
     <div className="flex min-h-screen bg-gray-950 text-gray-200">
         {/* Sidebar (the left side) */}
-        <aside className="w-[16vw] bg-gray-950 p-4">
+        <aside className="w-[19vw] min-w-[320px] p-4">
             <Sidebar />
         </aside>
 

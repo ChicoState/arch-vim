@@ -29,13 +29,13 @@ return 0;
 
     const sideClass =
         theme === "dark"
-            ? "w-[16vw] bg-gray-950 p-4"
-            : "w-[16vw] bg-white p-4 border-r border-slate-200";
+            ? "w-[19vw] min-w-[320px] p-4"
+            : "w-[19vw] min-w-[320px] p-4";
 
     const rightSideClass =
         theme === "dark"
-            ? "w-[16vw] bg-gray-950 p-4"
-            : "w-[16vw] bg-white p-4 border-l border-slate-200";
+            ? "w-[18vw] min-w-[280px] bg-gray-950 p-4"
+            : "w-[18vw] min-w-[280px] bg-white p-4 border-l border-slate-200";
 
     const hrClass =
         theme === "dark"
@@ -52,7 +52,7 @@ return 0;
 
             {/* MAIN CONTENT */}
             <main className="flex-1 pt-10 p-4">
-                <div className="w-full max-w-[1100px] mx-auto">
+                <div style={{ padding: "10px" }}>
                     <div className="w-[1100px] max-w-full mx-auto mb-8 text-left">
                         <h1 className="text-6xl mb-2">Level 4</h1>
                         <h3 className="text-4xl mb-2">How to save a file</h3>
@@ -74,12 +74,6 @@ return 0;
                             onWin={() => setPassed(true)}
                         />
                     </div>
-
-                    {passed && (
-                        <div className="flex items-center justify-center mt-4">
-                            <PassedLevel levelNum={levelNum} />
-                        </div>
-                    )}
                 </div>
             </main>
 
@@ -90,6 +84,11 @@ return 0;
                     title={"Combine Commands"}
                     contents={"You can combine the write and quite commands into a single command, :wq"}
                 />
+                {passed && (
+                    <div className="mt-6">
+                        <PassedLevel levelNum={levelNum} />
+                    </div>
+                )}
             </aside>
 
         </div>
