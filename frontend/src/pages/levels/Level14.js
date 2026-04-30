@@ -42,7 +42,7 @@ int main() {
                         </div><br></br>
                         <p>You can also prefix <kbd>G</kbd> with a number to jump to a specific line. Ex:<br></br></p>
                         <div className="pl-4">
-                            <kbd>G7</kbd> Jumps to line 7, the same as <kbd>:7</kbd>
+                            <kbd>7G</kbd> Jumps to line 7, the same as <kbd>:7</kbd>
                         </div><br></br>
                         <p>This can also act as a 'noun' in the previously mentioned 'verb + noun' comprehensive commands. Ex:</p>
                         <div className="pl-4">
