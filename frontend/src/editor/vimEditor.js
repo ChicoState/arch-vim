@@ -53,6 +53,7 @@ export default function VimEditor({
 	showStatusNodes = true,
 	showLineNumbers = "", //can also use 'relative', but meant to turn them off with "off"
 	defaultLang = "c",
+	moreOptions = {}, //consult the sacred texts: https://blutorange.github.io/primefaces-monaco/typedoc/interfaces/monaco.editor.ieditorconstructionoptions.html
 	canWin = true,
 }) {
 	const editorRef = useRef(null);
@@ -70,22 +71,7 @@ export default function VimEditor({
 			: "mt-5 px-8 py-4 rounded-2xl bg-indigo-600 !text-white text-xl font-bold shadow-[0_0_18px_rgba(99,102,241,0.32)] transition duration-200 hover:bg-indigo-500";
 
 
-	const moreOptions =
-		showLineNumbers === "off"
-			? {
-				lineNumbersMinChars: 0,
-    			folding: false,
-    			glyphMargin: false,
-    			lineDecorationsWidth: 8,
-				padding: {
-					top: 8,
-				},
-				scrollBeyondLastLine: false,
-				scrollbar: {
-					vertical: "hidden", 
-					verticalScrollbarSize: 0,
-				}, 
-			} : {};
+
 
 	const currentModeRef = useRef("normal");
 	const wonRef = useRef(false);
@@ -303,7 +289,6 @@ export default function VimEditor({
 						theme={editorTheme}
 						defaultLanguage={defaultLang}
 						defaultValue={value}
-						lineNumbers={showLineNumbers}
 						options={{
 							lineNumbers: showLineNumbers,
 							minimap: { enabled: false },
