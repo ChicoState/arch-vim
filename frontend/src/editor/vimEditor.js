@@ -51,7 +51,7 @@ export default function VimEditor({
 	//More params to help with rendering just text using it
 	showResetLevel = true,
 	showStatusNodes = true,
-	showLineNumbers = '', //can also use 'relative', but meant to turn them off with "off"
+	showLineNumbers = "", //can also use 'relative', but meant to turn them off with "off"
 	defaultLang = "c",
 	canWin = true,
 }) {
@@ -71,12 +71,21 @@ export default function VimEditor({
 
 
 	const moreOptions =
-		showLineNumbers === "false"
-			? `lineNumbersMinChars: 0,
-    folding: false,
-    glyphMargin: false,
-    lineDecorationsWidth: 0,`
-			: "";
+		showLineNumbers === "off"
+			? {
+				lineNumbersMinChars: 0,
+    			folding: false,
+    			glyphMargin: false,
+    			lineDecorationsWidth: 8,
+				padding: {
+					top: 8,
+				},
+				scrollBeyondLastLine: false,
+				scrollbar: {
+					vertical: "hidden", 
+					verticalScrollbarSize: 0,
+				}, 
+			} : {};
 
 	const currentModeRef = useRef("normal");
 	const wonRef = useRef(false);
@@ -298,7 +307,7 @@ export default function VimEditor({
 						options={{
 							lineNumbers: showLineNumbers,
 							minimap: { enabled: false },
-							moreOptions
+							...moreOptions
 						}}
 						onMount={handleMount}
 					/>
