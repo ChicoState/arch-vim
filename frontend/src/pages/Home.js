@@ -251,8 +251,21 @@ export default function Home() {
             We need to show what to do when vim files crash. Can probably render the editor with no win conditions and give it the text that prints when vim crashes, to simulate it
           </h1>
           <div className="mx-auto w-[75vw] grid grid-cols-[1fr_1fr] items-center h-full gap-16">
-            <div>
+            <div className = "text-center">
               Test
+              <br/>
+              Explain what each thing does:
+              <br/>
+              (R)ecover: 
+              <br/>
+              (O)pen Read-Only:
+              <br/>
+              (E)dit Anyway:
+              <br/>
+              (Q)uit:
+              <br/>
+              (D)elete it:
+              <br/>
             </div>
 
             <div>
