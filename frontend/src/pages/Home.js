@@ -263,6 +263,26 @@ export default function Home() {
               showResetLevel={false}
               showStatusNodes={false}
               showLineNumbers={"off"}
+              moreOptions={{
+                lineNumbersMinChars: 0,
+    			      folding: false,
+    			      glyphMargin: false,
+    			      lineDecorationsWidth: 8,
+				        padding: {
+					        top: 8,
+				        },
+				        scrollBeyondLastLine: false,
+                scrollbar: {
+                  vertical: "hidden", 
+                  verticalScrollbarSize: 0,
+                },
+                readOnly: true,
+                selectionHighlight: false,
+                occurrencesHighlight: false,
+                renderLineHighlight: "none",
+                cursorWidth: 0,
+                cursorStyle: "line-thin",
+              }}
               canWin={false}
               value={`ATTENTION
 Found a swap file by the name ".filename.swp"
