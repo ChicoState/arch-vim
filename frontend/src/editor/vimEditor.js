@@ -51,7 +51,7 @@ export default function VimEditor({
 	//More params to help with rendering just text using it
 	showResetLevel = true,
 	showStatusNodes = true,
-	showLineNumbers = "", //can also use 'relative', but meant to turn them off with "off"
+	showLineNumbers = "on", //can also use 'relative', but meant to turn them off with "off"
 	defaultLang = "c",
 	moreOptions = {}, //consult the sacred texts: https://blutorange.github.io/primefaces-monaco/typedoc/interfaces/monaco.editor.ieditorconstructionoptions.html
 	canWin = true,
