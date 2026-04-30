@@ -11,7 +11,7 @@ export async function loadProgress() {
 
 export async function saveProgress(data) {
     try {
-        await api.post('/api/progress/save/', data);
+        await api.post('/api/progress/', data);
     } catch (err) {
         console.error('Failed to save progress', err);
     }

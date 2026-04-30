@@ -50,17 +50,13 @@ class UserDetailView(generics.RetrieveAPIView):
         })
 
 
-@api_view(['GET'])
+@api_view(['GET', 'POST'])
 @permission_classes([permissions.IsAuthenticated])
-def get_progress(request):
+def save_load_levels(request):
     progress, _ = UserProgress.objects.get_or_create(user=request.user)
-    return Response(progress.data)
-
-
-@api_view(['POST'])
-@permission_classes([permissions.IsAuthenticated])
-def save_level(request):
-    progress, _ = UserProgress.objects.get_or_create(user=request.user)
-    progress.data = request.data
-    progress.save()
-    return Response({'status': 'saved'})
+    if request.method == 'GET':
+        return Response(progress.data)
+    elif request.method == 'POST':
+        progress.data = request.data
+        progress.save()
+        return Response({'status': 'saved'})
