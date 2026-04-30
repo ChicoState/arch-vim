@@ -256,22 +256,22 @@ export default function Home() {
               <br/>
               Explain what each thing does:
               <br/>
-              (R)ecover: 
-              <br/>
               (O)pen Read-Only:
               <br/>
-              (E)dit Anyway:
+              (E)dit anyway:
+              <br/>
+              (R)ecover:
               <br/>
               (Q)uit:
               <br/>
-              (D)elete it:
+              (A)bort:
               <br/>
             </div>
 
             <div>
               <VimEditor 
               width="650px" 
-              height="300px" 
+              height="320px" 
               defaultLang=""
               showResetLevel={false}
               showStatusNodes={false}
@@ -295,20 +295,27 @@ export default function Home() {
                 renderLineHighlight: "none",
                 cursorWidth: 0,
                 cursorStyle: "line-thin",
+                renderIndentGuides: false,
               }}
               canWin={false}
-              value={`ATTENTION
+              value={`E325: ATTENTION
 Found a swap file by the name ".filename.swp"
-...
-While opening file "filename"
-dated: ...
-\n
-(1) Another program may be editing the same file.
-(2) An idiot-proof version of Vim or the computer crashed.
-\n
-\n
-If this is the case, use ":recover" to recover changes.
-[(R)ecover], [(O)pen Read-Only], [(E)dit Anyway], [(Q)uit], [(D)elete it]`}
+        owned by: user   
+        dated: Thu Apr 30 12:34:56 20xx
+        file name: ~/filename.txt
+        modified: YES
+        user name: user   
+        host name: hostname
+        process ID: 12345
+While opening file "filename.txt"
+
+(1) Another program may be editing the same file.  If this is the case,
+    be careful not to end up with two different instances of the same
+    file when making changes.  Quit, or continue with caution.
+(2) An edit session for this file crashed.
+
+Swap file ".filename.swp" already exists!
+[O]pen Read-Only, (E)dit anyway, (R)ecover, (Q)uit, (A)bort:`}
               />
             </div>
           </div>
