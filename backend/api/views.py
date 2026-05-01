@@ -50,13 +50,17 @@ class UserDetailView(generics.RetrieveAPIView):
         })
 
 
-@api_view(['GET', 'POST'])
-@permission_classes([permissions.IsAuthenticated])
-def save_load_levels(request):
-    progress, _ = UserProgress.objects.get_or_create(user=request.user)
-    if request.method == 'GET':
-        return Response(progress.data)
-    elif request.method == 'POST':
-        progress.data = request.data
-        progress.save()
-        return Response({'status': 'saved'})
+@api_view(['GET', 'POST']) #Http requests
+@permission_classes([permissions.IsAuthenticated]) #user needs to be signed in
+def save_load_levels(request):  # function name, inputs the request as a variable
+    progress, _ = UserProgress.objects.get_or_create(user=request.user) # get or create a row on the table matching the user's name (user=request.user)
+    if request.method == 'GET':         #If its a get request (frontend wants to get data and load the obj)
+        return Response(progress.data)  # sends back all the data
+    elif request.method == 'POST':      # If post request (frontend is saving a level)
+        progress.data = request.data    # set progress's data blob to the request data blob made by the frontend
+        progress.save()                 # saves it to the db
+        return Response({'status': 'saved'})    # sends back a "all good g"
+
+# You can probable just add a couple calls like that ^ where you store like
+# user = request.user, level = request.level to store data for each level
+# like your table has a user column, level column, and a score column or smth idk up to you

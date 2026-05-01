@@ -9,3 +9,9 @@ class UserProgress(models.Model):
 
     def __str__(self):
         return f"{self.user.username}'s level progress"
+    
+# You can add another table here
+# class tableName(modesl.Model):
+#       Then your columns go here
+
+# you need to run the makemigrations and migrate commands
