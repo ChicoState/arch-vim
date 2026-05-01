@@ -4,7 +4,7 @@ from . import views
 urlpatterns = [
     path('auth/register/', views.RegisterView.as_view()),
     path('auth/me/', views.UserDetailView.as_view()),
-    path('progress/', views.save_load_levels.as_view()),
+    path('progress/', views.save_load_levels.as_view()), #called in frontend/src/progress.js
 ]
 
 # path('backend url endpoint', command written in views.py())
