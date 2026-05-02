@@ -64,3 +64,20 @@ def save_level(request):
     progress.data = request.data
     progress.save()
     return Response({'status': 'saved'})
+
+class level_user_view(generics.RetrieveAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    def get(self, request):
+        progress, _ = UserProgress.objects.get_or_create(user=request.user)
+        return Response(progress.data)
+    def put(self, request):
+        progress, _ = UserProgress.objects.get_or_create(user=request.user)
+        progress.data = request.data
+        progress.save()
+        return Response({'status': 'updated'})
+    def delete(self, request):
+        progress, _ = UserProgress.objects.get_or_create(user=request.user)
+        progress.delete()
+        return Response({'status': 'deleted'})
+    def patch(self, request):
+        progress, _ = UserProgress.objects.get_or_create(user=request.user)
