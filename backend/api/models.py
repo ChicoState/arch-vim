@@ -54,7 +54,9 @@ class User_Level(models.Model):
         ("#000000", "black",),
     ]
     level = models.ForeignKey(Level, on_delete=models.CASCADE)
-    stars = models.IntegerField(minvalidator=1, maxvalidator=3) #create a function to determine accuracy & time, pulled from frontend data
+    min_accuracy = models.FloatField(validators=[MaxValueValidator(100)])
+    max_keystrokes = models.IntegerField(blank=True, null=True)
+    stars = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(1)]) #create a function to determine accuracy & time, pulled from frontend data
     is_active = models.IntegerField(
         default=1,
         blank=True,
@@ -63,3 +65,9 @@ class User_Level(models.Model):
         choices=((1, 'Active'), (0, 'Inactive')),
         verbose_name="Set active?"
     )
+
+    def __str__(self):
+        return f"{self.level_name} (Level {self.level})"
+
+    class Meta():
+        verbose_name_plural = "User's Levels"
