@@ -77,8 +77,9 @@ export default function VimEditor({
 	const wonRef = useRef(false);
 
     // Stroke Count Vars
-    const colonActiveRef = userRef(false);
+    const colonActiveRef = useRef(false);
     const strokeCountRef = useRef(0);
+    const statsNodeRef = useRef(null);
 
 	const calledCommandsRef = useRef(
 		Object.fromEntries(commands.map((cmd) => [cmd, false]))
@@ -165,6 +166,7 @@ export default function VimEditor({
 		currentModeRef.current = "normal";
         strokeCountRef.current = 0;
         colonActiveRef.current = false;
+        renderStats();
 		calledCommandsRef.current = Object.fromEntries(
 			commands.map((cmd) => [cmd, false])
 		);
@@ -173,6 +175,11 @@ export default function VimEditor({
 		);
 		editorRef.current?.setValue(value);
 	}
+
+    function renderStats() {
+        if (!statsNodeRef.current) return;
+        statsNodeRef.current.innerText = `Strokes: ${strokeCountRef.current}`;
+    }
 
 	function handleMount(editor, monaco) {
 		editorRef.current = editor;
@@ -205,9 +212,24 @@ export default function VimEditor({
 		cursorPosNode.style.padding = "2px 8px";
 		cursorPosNode.style.borderRadius = "6px";
 
+        // Adds display for stroke count and timer
+        const statsNode = document.createElement("div");
+        statsNode.style.position = "absolute";
+        statsNode.style.top = "8px";
+        statsNode.style.right = "8px";
+        statsNode.style.background = "#111827";
+        statsNode.style.color = "#ffffff";
+        statsNode.style.fontSize = "12px";
+        statsNode.style.padding = "2px 8px";
+        statsNode.style.borderRadius = "6px";
+        statsNode.style.textAlign = "left";
+        statsNodeRef.current = statsNode;
+        renderStats();
+
 		if(showStatusNodes) {
 			editor.getDomNode().appendChild(statusNode);
 			editor.getDomNode().appendChild(cursorPosNode);
+            editor.getDomNode().appendChild(statsNode);
 		}
 		//attempt at not allowing arrow keys
 		//() => {} didn't work so trying other stuff
@@ -291,6 +313,7 @@ export default function VimEditor({
             }
 
             strokeCountRef.current += 1;
+            renderStats();
             checkWinConditions();
         });
 
