@@ -76,6 +76,10 @@ export default function VimEditor({
 	const currentModeRef = useRef("normal");
 	const wonRef = useRef(false);
 
+    // Stroke Count Vars
+    const colonActiveRef = userRef(false);
+    const strokeCountRef = useRef(0);
+
 	const calledCommandsRef = useRef(
 		Object.fromEntries(commands.map((cmd) => [cmd, false]))
 	);
@@ -253,6 +257,41 @@ export default function VimEditor({
 			subtree: true,
 			characterData: true
 		});
+
+
+        // Should properly count all commands / shortcuts except : commands
+        // Note: Switching modes currently increases your stroke
+        // Wanted to hear thoughts
+
+        // Vim layer event handlers
+        vimMode.on("vim-keypress", (key) => {
+
+            // Raises a flag if a user is currently typing a : command
+            if (key === ":") {
+                colonActiveRef.current = true;
+                return;
+            }
+
+            // If user presses esc while colon command flag is up, lower it
+            if (colonActiveRef.current && (key === "Escape" || key === "<Esc>")) {
+                colonActiveRef.current = false;
+            }
+        });
+
+        // Triggers whenever a command is executed.
+        // Increments strokeCount if it wasn't a : command
+        vimMode.on("vim-command-done", () => {
+
+            if (colonActiveRef.current) {
+                colonActiveRef.current = false;
+                checkWinConditions();
+                return;
+            }
+
+            strokeCountRef.current += 1;
+            checkWinConditions();
+        });
+
 		//also theres a onDidChangeCursorPosition, but if we ever want to watch the selection as well, we need this
 
 		editor.onDidChangeCursorSelection((e) => {
