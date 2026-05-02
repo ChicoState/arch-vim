@@ -163,6 +163,8 @@ export default function VimEditor({
 	function reset() {
 		wonRef.current = false;
 		currentModeRef.current = "normal";
+        strokeCountRef.current = 0;
+        colonActiveRef.current = false;
 		calledCommandsRef.current = Object.fromEntries(
 			commands.map((cmd) => [cmd, false])
 		);
