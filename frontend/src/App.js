@@ -18,6 +18,18 @@ import Level12 from './pages/levels/Level12.js';
 import Level13 from './pages/levels/Level13.js';
 import Level14 from './pages/levels/Level14.js';
 import Level15 from './pages/levels/Level15.js';
+import Level16 from './pages/levels/Level16.js';
+import Level17 from './pages/levels/Level17.js';
+import Level18 from './pages/levels/Level18.js';
+import Level19 from './pages/levels/Level19.js';
+import Level20 from './pages/levels/Level20.js';
+import Level21 from './pages/levels/Level21.js';
+import Level22 from './pages/levels/Level22.js';
+import Level23 from './pages/levels/Level23.js';
+import Level24 from './pages/levels/Level24.js';
+import Level25 from './pages/levels/Level25.js';
+import Level26 from './pages/levels/Level26.js';
+import Level27 from './pages/levels/Level27.js';
 import LevelTest from './pages/levels/levelTest.js';
 import Home from './pages/Home.js';
 import Login from './pages/Login.js';
@@ -25,16 +37,17 @@ import Register from './pages/Register.js';
 
 import { AuthProvider } from './AuthContext.js';
 import { useTheme } from "./ThemeContext.js";
+import { ProgressProvider } from './components/checkLevelPassed.js';
 
 function AppInner() {
   const { theme } = useTheme();
 
-  useEffect(() => {
-    fetch("http://localhost:8000/")
-      .then((res) => res.text())
-      .then((data) => console.log(data))
-      .catch((err) => console.error(err));
-  }, []);
+  // useEffect(() => {
+  //   fetch("http://localhost:8000/")
+  //     .then((res) => res.text())
+  //     .then((data) => console.log(data))
+  //     .catch((err) => console.error(err));
+  // }, []);
 
   const appTheme =
     theme === "dark"
@@ -65,6 +78,18 @@ function AppInner() {
           <Route path="/levels/13" element={<Level13 />} />
           <Route path="/levels/14" element={<Level14 />} />
           <Route path="/levels/15" element={<Level15 />} />
+          <Route path="/levels/16" element={<Level16 />} />
+          <Route path="/levels/17" element={<Level17 />} />
+          <Route path="/levels/18" element={<Level18 />} />
+          <Route path="/levels/19" element={<Level19 />} />
+          <Route path="/levels/20" element={<Level20 />} />
+          <Route path="/levels/21" element={<Level21 />} />
+          <Route path="/levels/22" element={<Level22 />} />
+          <Route path="/levels/23" element={<Level23 />} />
+          <Route path="/levels/24" element={<Level24 />} />
+          <Route path="/levels/25" element={<Level25 />} />
+          <Route path="/levels/26" element={<Level26 />} />
+          <Route path="/levels/27" element={<Level27 />} />
           <Route path="/levels/test" element={<LevelTest />} />
         </Routes>
       </BrowserRouter>
@@ -74,8 +99,12 @@ function AppInner() {
 
 export default function App() {
   return (
-    <AuthProvider>
-      <AppInner />
-    </AuthProvider>
+    <ProgressProvider>
+      <AuthProvider>
+        
+        <AppInner />
+
+      </AuthProvider>
+    </ProgressProvider>
   );
 }
