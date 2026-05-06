@@ -1,3 +1,4 @@
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 
 from colorfield.fields import ColorField
@@ -71,3 +72,45 @@ class User_Level(models.Model):
 
     class Meta():
         verbose_name_plural = "User's Levels"
+
+
+
+class UserLevelInstance(models.Model):
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name="level_attempts"
+    )
+    level = models.ForeignKey(
+        Level,
+        on_delete=models.CASCADE,
+        related_name="user_instances"
+    )
+    max_time = models.FloatField(
+        blank=True, null=True,
+        help_text="Time taken (seconds) to complete the level"
+    )
+    stroke_count = models.IntegerField(
+        blank=True, null=True,
+        help_text="Number of keystrokes used during the attempt"
+    )
+    accuracy = models.FloatField(
+        blank=True, null=True,
+        help_text="Accuracy percentage (0–100) submitted by the frontend"
+    )
+    completed = models.BooleanField(default=False)
+    stars_earned = models.IntegerField(
+        default=0,
+        validators=[MinValueValidator(0), MaxValueValidator(3)],
+        help_text="0=not completed, 1=completed, 2=+accuracy, 3=+accuracy & time"
+    )
+    attempted_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["-stars_earned", "-attempted_at"]
+
+    def __str__(self):
+        return (
+            f"{self.user.username} → Level {self.level_id} | "
+            f"{'✓' if self.completed else '✗'} | ⭐{self.stars_earned}"
+        )

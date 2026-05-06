@@ -1,3 +1,5 @@
+from django.http import JsonResponse
+from django.views.generic import ListView
 from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
@@ -59,94 +61,16 @@ def save_level(request):
     progress.save()
     return Response({'status': 'saved'})
 
-from django.db import models
-from django.contrib.auth.models import User
-from django.core.validators import MaxValueValidator, MinValueValidator
-
-
-class Level(models.Model):
-    title = models.CharField(max_length=200)
-    created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="created_levels")
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return self.title
-
-
-class User_Level(models.Model):
-    level = models.ForeignKey(Level, on_delete=models.CASCADE, related_name="configurations")
-    min_accuracy = models.FloatField(validators=[MaxValueValidator(100)])
-    max_keystrokes = models.IntegerField(blank=True, null=True)
-    max_time = models.FloatField(
-        blank=True, null=True,
-        help_text="Max time in seconds to earn the timing star"
-    )
-    stars = models.IntegerField(
-        validators=[MinValueValidator(1), MaxValueValidator(3)]
-    )
-    is_active = models.IntegerField(
-        default=1,
-        blank=True,
-        null=True,
-        help_text="1->Active, 0->Inactive",
-        choices=((1, "Active"), (0, "Inactive")),
-        verbose_name="Set active?"
-    )
-
-    def __str__(self):
-        return f"Config for Level {self.level_id} (min_accuracy={self.min_accuracy})"
-
-
-class UserLevelInstance(models.Model):
-    user = models.ForeignKey(
-        User,
-        on_delete=models.CASCADE,
-        related_name="level_attempts"
-    )
-    level = models.ForeignKey(
-        Level,
-        on_delete=models.CASCADE,
-        related_name="user_instances"
-    )
-    max_time = models.FloatField(
-        blank=True, null=True,
-        help_text="Time taken (seconds) to complete the level"
-    )
-    stroke_count = models.IntegerField(
-        blank=True, null=True,
-        help_text="Number of keystrokes used during the attempt"
-    )
-    accuracy = models.FloatField(
-        blank=True, null=True,
-        help_text="Accuracy percentage (0–100) submitted by the frontend"
-    )
-    completed = models.BooleanField(default=False)
-    stars_earned = models.IntegerField(
-        default=0,
-        validators=[MinValueValidator(0), MaxValueValidator(3)],
-        help_text="0=not completed, 1=completed, 2=+accuracy, 3=+accuracy & time"
-    )
-    attempted_at = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        ordering = ["-stars_earned", "-attempted_at"]
-
-    def __str__(self):
-        return (
-            f"{self.user.username} → Level {self.level_id} | "
-            f"{'✓' if self.completed else '✗'} | ⭐{self.stars_earned}"
-        )
-
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 import json
 
-from .models import Level, User_Level, UserLevelInstance
+from .models import User_Level, UserLevelInstance
 
 
 @method_decorator(csrf_exempt, name="dispatch")
-class StarView(LoginRequiredMixin, View):
+class StarView(LoginRequiredMixin, ListView):
     """
     GET  /api/stars/<level_id>/  → return the user's best attempt for that level
     POST /api/stars/<level_id>/  → receive frontend performance data, compute stars,
@@ -239,7 +163,7 @@ class StarView(LoginRequiredMixin, View):
 
 
 @method_decorator(csrf_exempt, name="dispatch")
-class ProgressView(LoginRequiredMixin, View):
+class ProgressView(LoginRequiredMixin, ListView):
     """
     GET  /api/progress/       → all level completions for the current user
     POST /api/progress/save/  → thin wrapper kept for backwards-compat with progress.js
@@ -273,3 +197,60 @@ class ProgressView(LoginRequiredMixin, View):
 
         request._body = request.body
         return StarView.as_view()(request, level_id=level_id)
+
+
+
+from django.http import JsonResponse
+from django.views.generic import ListView
+from rest_framework import generics, permissions, status
+from rest_framework.response import Response
+from rest_framework.decorators import api_view, permission_classes
+from django.contrib.auth.models import User
+from rest_framework_simplejwt.tokens import RefreshToken
+
+
+class RegisterView(generics.CreateAPIView):
+    permission_classes = [permissions.AllowAny]
+
+    def post(self, request):
+        username = request.data.get('username')
+        password = request.data.get('password')
+        email = request.data.get('email', '')
+
+        if not username or not password:
+            return Response(
+                {'error': 'Username and password are required'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        if User.objects.filter(username=username).exists():
+            return Response(
+                {'error': 'Username already taken'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        user = User.objects.create_user(
+            username=username,
+            password=password,
+            email=email
+        )
+        refresh = RefreshToken.for_user(user)
+
+        return Response({
+            'access': str(refresh.access_token),
+            'refresh': str(refresh),
+        }, status=status.HTTP_201_CREATED)
+
+
+class UserDetailView(generics.RetrieveAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request):
+        return Response({
+            'id': request.user.id,
+            'username': request.user.username,
+            'email': request.user.email,
+        })
+
+
+
