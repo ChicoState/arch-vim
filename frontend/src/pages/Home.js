@@ -20,7 +20,7 @@ function LevelCheck({ levelNum = 0, levelDesc = "", theme = "dark" }) {
 
   return (
     <Link to={`/levels/${levelNum}`} className={passed ? passedClass : defaultClass}>
-      Level {levelNum} - {levelDesc}
+      {levelDesc}
     </Link>
   );
 }
@@ -155,7 +155,7 @@ export default function Home() {
             </p>
           </div>
           <div className={`w-[24vw] h-[15vh] min-w-[320px] min-h-[320px] rounded-2xl p-8 text-2xl transition duration-500 ease-in-out hover:scale-105 ${cardClass}`}>
-            <h2 className="text-center mb-3 text-3xl font-bold">Basic Survival</h2>
+            <h2 className="text-center mb-3 text-3xl font-bold">Getting Started</h2>
             <hr className={`mb-4 ${hrClass}`} />
             <div className="pl-3 text-xl leading-10">
               <LevelCheck levelNum={1} levelDesc={"Learn Navigation"} theme={theme} /><br />
@@ -169,79 +169,81 @@ export default function Home() {
         }
 
         { menu === "Levels" && 
-        <div>
-          <div className="flex gap-16 justify-center flex-wrap mb-16">
-            <div className={`w-[24vw] h-[15vh] min-w-[320px] min-h-[320px] rounded-2xl p-8 text-2xl transition duration-500 ease-in-out hover:scale-105 ${cardClass}`}>
-              <h2 className="text-center mb-3 text-3xl font-bold">Navigation</h2>
+        <div className="mx-auto w-[75vw] flex flex-col gap-8">
+
+          <div className="grid grid-cols-3 gap-8">
+            <div className={`rounded-2xl p-8 text-2xl transition duration-500 ease-in-out hover:scale-105 ${cardClass}`}>
+              <h2 className="text-center mb-3 text-3xl font-bold">Normal Mode Basics</h2>
               <hr className={`mb-4 ${hrClass}`} />
-              <div className="pl-3 text-xl leading-10">
-                <LevelCheck levelNum={1} levelDesc={"Learn Navigation"} theme={theme} /><br />
-                <LevelCheck levelNum={2} levelDesc={"How to exit a vim file"} theme={theme} /><br />
-                <LevelCheck levelNum={3} levelDesc={"Insert Mode and typing"} theme={theme} /><br />
-                <LevelCheck levelNum={4} levelDesc={"How to save files"} theme={theme} /><br />
-                <LevelCheck levelNum={5} levelDesc={"Challenge!"} theme={theme} /><br />
+              <div className="pl-3 flex flex-col gap-3">
+                <LevelCheck levelNum={1} levelDesc={"Basic Navigation"} theme={theme} />
+                <LevelCheck levelNum={2} levelDesc={"How to exit a vim file"} theme={theme} />
+                <LevelCheck levelNum={4} levelDesc={"How to save files"} theme={theme} />
+                <LevelCheck levelNum={6} levelDesc={"Jump By Words"} theme={theme} />
+                <LevelCheck levelNum={7} levelDesc={"Line Navigation"} theme={theme} />
               </div>
             </div>
 
-            <div className={`w-[24vw] h-[15vh] min-w-[320px] min-h-[320px] rounded-2xl p-8 text-2xl transition duration-500 ease-in-out hover:scale-105 ${cardClass}`}>
-              <h2 className="text-center mb-3 text-3xl font-bold">Some other stuff</h2>
+            <div className={`rounded-2xl p-8 text-2xl transition duration-500 ease-in-out hover:scale-105 ${cardClass}`}>
+              <h2 className="text-center mb-3 text-3xl font-bold">Insert Mode</h2>
               <hr className={`mb-4 ${hrClass}`} />
-              <div className="pl-3 text-xl leading-10">
-                <LevelCheck levelNum={6} levelDesc={"More Navigation"} theme={theme} /><br />
-                <LevelCheck levelNum={7} levelDesc={"Even More Navigation!"} theme={theme} /><br />
-                <LevelCheck levelNum={8} levelDesc={"Delete a line"} theme={theme} /><br />
-                <LevelCheck levelNum={9} levelDesc={"Undo your mistakes"} theme={theme} /><br />
-                <LevelCheck levelNum={10} levelDesc={"Challenge!"} theme={theme} /><br />
+              <div className="pl-3 flex flex-col gap-3">
+                <LevelCheck levelNum={3} levelDesc={"Insert Mode and typing"} theme={theme} />
+                <LevelCheck levelNum={18} levelDesc={"Change a word"} theme={theme} />
+                <LevelCheck levelNum={19} levelDesc={"Replace a character"} theme={theme} />
+                <LevelCheck levelNum={22} levelDesc={"Text objects"} theme={theme} />
+                <LevelCheck levelNum={23} levelDesc={"Visual Mode"} theme={theme} />
               </div>
             </div>
 
-            <div className={`w-[24vw] h-[15vh] min-w-[320px] min-h-[320px] rounded-2xl p-8 text-2xl transition duration-500 ease-in-out hover:scale-105 ${cardClass}`}>
-              <h2 className="text-center mb-3 text-3xl font-bold">idk</h2>
+            <div className={`rounded-2xl p-8 text-2xl transition duration-500 ease-in-out hover:scale-105 ${cardClass}`}>
+              <h2 className="text-center mb-3 text-3xl font-bold">Search & Navigation</h2>
               <hr className={`mb-4 ${hrClass}`} />
-              <div className="pl-3 text-xl leading-10">
-                <LevelCheck levelNum={11} levelDesc={"Basic Search"} theme={theme} /><br />
-                <LevelCheck levelNum={12} levelDesc={"Comprehensive Commands"} theme={theme} /><br />
-                <LevelCheck levelNum={13} levelDesc={"Jump between brackets"} theme={theme} /><br />
-                <LevelCheck levelNum={14} levelDesc={"Jump up and down the file"} theme={theme} /><br />
-                <LevelCheck levelNum={15} levelDesc={"Challenge!"} theme={theme} /><br />
+              <div className="pl-3 flex flex-col gap-3">
+                <LevelCheck levelNum={11} levelDesc={"Basic Search"} theme={theme} />
+                <LevelCheck levelNum={13} levelDesc={"Jump between brackets"} theme={theme} />
+                <LevelCheck levelNum={14} levelDesc={"Jump up and down the file"} theme={theme} />
+                <LevelCheck levelNum={16} levelDesc={"Jump to a character"} theme={theme} />
+                <LevelCheck levelNum={17} levelDesc={"Jump between paragraphs"} theme={theme} />
               </div>
             </div>
           </div>
 
-          <div className="flex gap-16 justify-center flex-wrap">
-            <div className={`w-[24vw] h-[15vh] min-w-[320px] min-h-[320px] rounded-2xl p-8 text-2xl transition duration-500 ease-in-out hover:scale-105 ${cardClass}`}>
-              <h2 className="text-center mb-3 text-3xl font-bold">More Levels</h2>
+          <div className="grid grid-cols-3 gap-8">
+            <div className={`rounded-2xl p-8 text-2xl transition duration-500 ease-in-out hover:scale-105 ${cardClass}`}>
+              <h2 className="text-center mb-3 text-3xl font-bold">Editing Commands</h2>
               <hr className={`mb-4 ${hrClass}`} />
-              <div className="pl-3 text-xl leading-10">
-                <LevelCheck levelNum={16} levelDesc={"Jump to a character"} theme={theme} /><br />
-                <LevelCheck levelNum={17} levelDesc={"Jump between paragraphs"} theme={theme} /><br />
-                <LevelCheck levelNum={18} levelDesc={"Change a word"} theme={theme} /><br />
-                <LevelCheck levelNum={19} levelDesc={"Replace a character"} theme={theme} /><br />
+              <div className="pl-3 flex flex-col gap-3">
+                <LevelCheck levelNum={8} levelDesc={"Delete a line"} theme={theme} />
+                <LevelCheck levelNum={9} levelDesc={"Undo your mistakes"} theme={theme} />
+                <LevelCheck levelNum={12} levelDesc={"Comprehensive Commands"} theme={theme} />
+                <LevelCheck levelNum={20} levelDesc={"Repeat actions"} theme={theme} />
+                <LevelCheck levelNum={21} levelDesc={"Operators and motions"} theme={theme} />
               </div>
             </div>
 
-            <div className={`w-[24vw] h-[15vh] min-w-[320px] min-h-[320px] rounded-2xl p-8 text-2xl transition duration-500 ease-in-out hover:scale-105 ${cardClass}`}>
-              <h2 className="text-center mb-3 text-3xl font-bold">Really Gotta separate these properly</h2>
+            <div className={`rounded-2xl p-8 text-2xl transition duration-500 ease-in-out hover:scale-105 ${cardClass}`}>
+              <h2 className="text-center mb-3 text-3xl font-bold">Advanced Tools</h2>
               <hr className={`mb-4 ${hrClass}`} />
-              <div className="pl-3 text-xl leading-10">
-                <LevelCheck levelNum={20} levelDesc={"Repeat actions"} theme={theme} /><br />
-                <LevelCheck levelNum={21} levelDesc={"Operators and motions"} theme={theme} /><br />
-                <LevelCheck levelNum={22} levelDesc={"Text objects"} theme={theme} /><br />
-                <LevelCheck levelNum={23} levelDesc={"Visual Mode"} theme={theme} /><br />
+              <div className="pl-3 flex flex-col gap-3">
+                <LevelCheck levelNum={24} levelDesc={"Find and replace"} theme={theme} />
+                <LevelCheck levelNum={25} levelDesc={"Marking Locations"} theme={theme} />
+                <LevelCheck levelNum={26} levelDesc={"Macros"} theme={theme} />
               </div>
             </div>
 
-            <div className={`w-[24vw] h-[15vh] min-w-[320px] min-h-[320px] rounded-2xl p-8 text-2xl transition duration-500 ease-in-out hover:scale-105 ${cardClass}`}>
-              <h2 className="text-center mb-3 text-3xl font-bold">hi</h2>
+            <div className={`rounded-2xl p-8 text-2xl transition duration-500 ease-in-out hover:scale-105 ${cardClass}`}>
+              <h2 className="text-center mb-3 text-3xl font-bold">Challenges</h2>
               <hr className={`mb-4 ${hrClass}`} />
-              <div className="pl-3 text-xl leading-10">
-                <LevelCheck levelNum={24} levelDesc={"Find and replace"} theme={theme} /><br />
-                <LevelCheck levelNum={25} levelDesc={"Jump to marked locations"} theme={theme} /><br />
-                <LevelCheck levelNum={26} levelDesc={"Macros"} theme={theme} /><br />
-                <LevelCheck levelNum={27} levelDesc={"Challenge!"} theme={theme} /><br />
+              <div className="pl-3 flex flex-col gap-3">
+                <LevelCheck levelNum={5} levelDesc={"Challenge!"} theme={theme} />
+                <LevelCheck levelNum={10} levelDesc={"Challenge!"} theme={theme} />
+                <LevelCheck levelNum={15} levelDesc={"Challenge!"} theme={theme} />
+                <LevelCheck levelNum={27} levelDesc={"Challenge!"} theme={theme} />
               </div>
             </div>
           </div>
+
         </div>
         }
 
