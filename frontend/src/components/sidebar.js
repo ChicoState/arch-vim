@@ -37,7 +37,7 @@ function LevelCheck({ levelNum = 0, levelDesc = "", theme = "dark" }) {
             ].join(" ")
       }
     >
-      Level {levelNum} - {levelDesc}
+      {levelDesc}
     </Link>
   ) : (
     <Link
@@ -66,7 +66,7 @@ function LevelCheck({ levelNum = 0, levelDesc = "", theme = "dark" }) {
             ].join(" ")
       }
     >
-      Level {levelNum} - {levelDesc}
+      {levelDesc}
     </Link>
   );
 }
@@ -75,12 +75,12 @@ export default function Sidebar() {
   const navigate = useNavigate();
   const { user, logout } = useAuth();
   const { theme } = useTheme();
-  const [introOpen, setIntroOpen] = useState(true);
-  const [intermediateOpen, setIntermediateOpen] = useState(true);
-  const [advancedOpen, setAdvancedOpen] = useState(true);
-  const [moreOneOpen, setMoreOneOpen] = useState(true);
-  const [moreTwoOpen, setMoreTwoOpen] = useState(true);
-  const [moreThreeOpen, setMoreThreeOpen] = useState(true);
+  const [normalOpen, setIntroOpen] = useState(true);
+  const [insertOpen, setIntermediateOpen] = useState(true);
+  const [searchNavOpen, setAdvancedOpen] = useState(true);
+  const [editOpen, setMoreOneOpen] = useState(true);
+  const [advancedToolsOpen, setMoreTwoOpen] = useState(true);
+  const [challengesOpen, setMoreThreeOpen] = useState(true);
 
   const handleLogout = () => {
     logout();
@@ -217,7 +217,6 @@ export default function Sidebar() {
   const sectionContentClass =
     [
       "pl-6",
-      "mb-2",
       "overflow-hidden",
       "transition-all",
       "duration-300",
@@ -284,35 +283,36 @@ export default function Sidebar() {
             className={sectionClass}
             onClick={() => setIntroOpen((prev) => !prev)}
           >
-            <span>Intro</span>
-            <span className={arrowClass}>{introOpen ? "▾" : "▸"}</span>
-          </button>
-          {introOpen && (
+            <span>Normal Mode Basics</span>
+            <span className={arrowClass}>{normalOpen ? "▾" : "▸"}</span>
+          </button><br/>
+          {normalOpen && (
             <div className={sectionContentClass}>
-              <LevelCheck levelNum={1} levelDesc={"Learn Navigation"} theme={theme} /><br />
+              <LevelCheck levelNum={1} levelDesc={"Basic Navigation"} theme={theme} /><br />
               <LevelCheck levelNum={2} levelDesc={"How to exit a vim file"} theme={theme} /><br />
-              <LevelCheck levelNum={3} levelDesc={"Insert Mode and typing"} theme={theme} /><br />
               <LevelCheck levelNum={4} levelDesc={"How to save files"} theme={theme} /><br />
-              <LevelCheck levelNum={5} levelDesc={"Challenge!"} theme={theme} /><br />
+              <LevelCheck levelNum={6} levelDesc={"Jump By Words"} theme={theme} /><br />
+              <LevelCheck levelNum={7} levelDesc={"Line Navigation"} theme={theme} />
             </div>
           )}
-         <br />
+          <br />
+          
 
           <button
             type="button"
             className={sectionClass}
             onClick={() => setIntermediateOpen((prev) => !prev)}
           >
-            <span>Intermediate</span>
-            <span className={arrowClass}>{intermediateOpen ? "▾" : "▸"}</span>
-          </button>
-          {intermediateOpen && (
+            <span>Insert Mode</span>
+            <span className={arrowClass}>{insertOpen ? "▾" : "▸"}</span>
+          </button><br />
+          {insertOpen && (
             <div className={sectionContentClass}>
-              <LevelCheck levelNum={6} levelDesc={"More Navigation"} theme={theme} /><br />
-              <LevelCheck levelNum={7} levelDesc={"Even More Navigation!"} theme={theme} /><br />
-              <LevelCheck levelNum={8} levelDesc={"Delete a line"} theme={theme} /><br />
-              <LevelCheck levelNum={9} levelDesc={"Undo your mistakes"} theme={theme} /><br />
-              <LevelCheck levelNum={10} levelDesc={"Challenge!"} theme={theme} /><br />
+              <LevelCheck levelNum={3} levelDesc={"Insert Mode and typing"} theme={theme} /><br />
+              <LevelCheck levelNum={18} levelDesc={"Change a word"} theme={theme} /><br />
+              <LevelCheck levelNum={19} levelDesc={"Replace a character"} theme={theme} /><br />
+              <LevelCheck levelNum={22} levelDesc={"Text objects"} theme={theme} /><br />
+              <LevelCheck levelNum={23} levelDesc={"Visual Mode"} theme={theme} />
             </div>
           )}
           <br />
@@ -322,16 +322,16 @@ export default function Sidebar() {
             className={sectionClass}
             onClick={() => setAdvancedOpen((prev) => !prev)}
           >
-            <span>Advanced</span>
-            <span className={arrowClass}>{advancedOpen ? "▾" : "▸"}</span>
-          </button>
-          {advancedOpen && (
+            <span>Search & Navigation</span>
+            <span className={arrowClass}>{searchNavOpen ? "▾" : "▸"}</span>
+          </button><br/>
+          {searchNavOpen && (
             <div className={sectionContentClass}>
               <LevelCheck levelNum={11} levelDesc={"Basic Search"} theme={theme} /><br />
-              <LevelCheck levelNum={12} levelDesc={"Comprehensive Commands"} theme={theme} /><br />
               <LevelCheck levelNum={13} levelDesc={"Jump between brackets"} theme={theme} /><br />
               <LevelCheck levelNum={14} levelDesc={"Jump up and down the file"} theme={theme} /><br />
-              <LevelCheck levelNum={15} levelDesc={"Challenge!"} theme={theme} /><br />
+              <LevelCheck levelNum={16} levelDesc={"Jump to a character"} theme={theme} /><br />
+              <LevelCheck levelNum={17} levelDesc={"Jump between paragraphs"} theme={theme} />
             </div>
           )}
           <br />
@@ -341,15 +341,16 @@ export default function Sidebar() {
             className={sectionClass}
             onClick={() => setMoreOneOpen((prev) => !prev)}
           >
-            <span>More Levels</span>
-            <span className={arrowClass}>{moreOneOpen ? "▾" : "▸"}</span>
-          </button>
-          {moreOneOpen && (
+            <span>Editing Commands</span>
+            <span className={arrowClass}>{editOpen ? "▾" : "▸"}</span>
+          </button><br/>
+          {editOpen && (
             <div className={sectionContentClass}>
-              <LevelCheck levelNum={16} levelDesc={"Jump to a character"} theme={theme} /><br />
-              <LevelCheck levelNum={17} levelDesc={"Jump between paragraphs"} theme={theme} /><br />
-              <LevelCheck levelNum={18} levelDesc={"Change a word"} theme={theme} /><br />
-              <LevelCheck levelNum={19} levelDesc={"Replace a character"} theme={theme} /><br />
+              <LevelCheck levelNum={8} levelDesc={"Delete a line"} theme={theme} /><br />
+              <LevelCheck levelNum={9} levelDesc={"Undo your mistakes"} theme={theme} /><br />
+              <LevelCheck levelNum={12} levelDesc={"Comprehensive Commands"} theme={theme} /><br />
+              <LevelCheck levelNum={20} levelDesc={"Repeat actions"} theme={theme} /><br />
+              <LevelCheck levelNum={21} levelDesc={"Operators and motions"} theme={theme} />
             </div>
           )}
           <br />
@@ -359,15 +360,14 @@ export default function Sidebar() {
             className={sectionClass}
             onClick={() => setMoreTwoOpen((prev) => !prev)}
           >
-            <span>More More Levels</span>
-            <span className={arrowClass}>{moreTwoOpen ? "▾" : "▸"}</span>
-          </button>
-          {moreTwoOpen && (
+            <span>Advanced Tools</span>
+            <span className={arrowClass}>{advancedToolsOpen ? "▾" : "▸"}</span>
+          </button><br/>
+          {advancedToolsOpen && (
             <div className={sectionContentClass}>
-              <LevelCheck levelNum={20} levelDesc={"Repeat actions"} theme={theme} /><br />
-              <LevelCheck levelNum={21} levelDesc={"Operators and motions"} theme={theme} /><br />
-              <LevelCheck levelNum={22} levelDesc={"Text objects"} theme={theme} /><br />
-              <LevelCheck levelNum={23} levelDesc={"Visual Mode"} theme={theme} /><br />
+              <LevelCheck levelNum={24} levelDesc={"Find and replace"} theme={theme} /><br />
+              <LevelCheck levelNum={25} levelDesc={"Marking Locations"} theme={theme} /><br />
+              <LevelCheck levelNum={26} levelDesc={"Macros"} theme={theme} />
             </div>
           )}
           <br />
@@ -377,15 +377,15 @@ export default function Sidebar() {
             className={sectionClass}
             onClick={() => setMoreThreeOpen((prev) => !prev)}
           >
-            <span>Final Levels</span>
-            <span className={arrowClass}>{moreThreeOpen ? "▾" : "▸"}</span>
-          </button>
-          {moreThreeOpen && (
-            <div className={sectionContentClass}>
-              <LevelCheck levelNum={24} levelDesc={"Find and replace"} theme={theme} /><br />
-              <LevelCheck levelNum={25} levelDesc={"Jump to marked locations"} theme={theme} /><br />
-              <LevelCheck levelNum={26} levelDesc={"Macros"} theme={theme} /><br />
-              <LevelCheck levelNum={27} levelDesc={"Challenge!"} theme={theme} /><br />
+            <span>Challenges</span>
+            <span className={arrowClass}>{challengesOpen ? "▾" : "▸"}</span>
+          </button><br/>
+          {challengesOpen && (
+            <div className={sectionContentClass}> 
+              <LevelCheck levelNum={5} levelDesc={"Challenge - Easy"} theme={theme} /><br />
+              <LevelCheck levelNum={10} levelDesc={"Challenge - Medium"} theme={theme} /><br />
+              <LevelCheck levelNum={15} levelDesc={"Challenge - Hard"} theme={theme} /><br />
+              <LevelCheck levelNum={27} levelDesc={"Challenge - Expert"} theme={theme} />
             </div>
           )}
         </div>
