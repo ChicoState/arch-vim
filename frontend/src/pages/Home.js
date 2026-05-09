@@ -236,10 +236,10 @@ export default function Home() {
               <h2 className="text-center mb-3 text-3xl font-bold">Challenges</h2>
               <hr className={`mb-4 ${hrClass}`} />
               <div className="pl-3 flex flex-col gap-3">
-                <LevelCheck levelNum={5} levelDesc={"Challenge!"} theme={theme} />
-                <LevelCheck levelNum={10} levelDesc={"Challenge!"} theme={theme} />
-                <LevelCheck levelNum={15} levelDesc={"Challenge!"} theme={theme} />
-                <LevelCheck levelNum={27} levelDesc={"Challenge!"} theme={theme} />
+                <LevelCheck levelNum={5} levelDesc={"Challenge - Easy"} theme={theme} />
+                <LevelCheck levelNum={10} levelDesc={"Challenge - Medium"} theme={theme} />
+                <LevelCheck levelNum={15} levelDesc={"Challenge - Hard"} theme={theme} />
+                <LevelCheck levelNum={27} levelDesc={"Challenge - Expert"} theme={theme} />
               </div>
             </div>
           </div>
