@@ -106,17 +106,17 @@ export default function Home() {
 
       {/* Title (static, fades when scrolled ) */}
       <div ref={titleRef} className="sticky top-0 h-screen z-0">        
-          <h1 className="sticky font-mono text-center text-[11rem] pt-[35vh] font-bold leading-none">
+          <h1 className="sticky font-mono text-center text-[11vw] pt-[35vh] font-bold leading-none">
           Arch-Vim
           </h1>
 
-        <p className={`text-center text-2xl mt-4 ${subtitleClass}`}>
+        <p className={`text-center text-[2vw] mt-4 ${subtitleClass}`}>
           Learn Vim, One step at a time
         </p>
       </div>
 
       {/* Bottom section for scrolling up CAN ADD bg-[color] TO THIS v DIV*/}
-      <div className="relative z-10 -mt-[15vh] rounded-t-3xl pt-16 pb-16 min-h-screen">
+      <div className="relative z-10 -mt-[14vh] rounded-t-3xl pt-16 pb-16 min-h-screen">
         {/* Chevron pointing down (doesnt fade but whatever) */}
         <div ref={chevronRef} className="w-full flex flex-col items-center">
           <svg className="animate-bounce w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -139,20 +139,21 @@ export default function Home() {
         {/* About Arch-vim + essentials */}
         { menu === "Welcome" &&
         <div className="mx-auto w-[75vw] grid grid-cols-[2fr_1fr] items-center h-full gap-16">
-          <div className={`rounded-2xl p-8`}> {/* add a ${cardClass} for the border */}
-            <h1 className="text-center text-7xl font-bold mb-8">What is Arch-Vim?</h1>
-            <hr className={`mb-4 ${hrClass}`} />
-            <p>
-              Random text<br/>
-              More text<br/>
-              Even more text<br/>
-              You wanted more text<br/>
-              We go again<br/>
-              Random text<br/>
-              More text<br/>
-              Even more text<br/>
-              You wanted more text<br/>
-            </p>
+          <div>
+            <div className={`rounded-2xl p-8`}> {/* add a ${cardClass} for the border */}
+              <h1 className="text-center text-7xl font-bold mb-8">What is Arch-Vim?</h1>
+              <hr className={`mb-4 ${hrClass}`} />
+              <p className="text-center">
+                Arch-Vim is a webapp and game to help you learn how to use the terminal based text editor: VIM
+              </p>
+            </div>
+            <div className="rounded-2xl p-8">
+              <h1 className="text-center text-4xl font-bold mb-8">What is VIM?</h1>
+              <hr className={`mb-4 ${hrClass}`} />
+              <p className="text-[1vw] pl-6">
+                Vim (short for "Vi Improved") is a highly efficient, free, open-source, modal text editor designed for speed and navigation primarily via keyboard rather than a mouse. It offers extensive plugin support, keybind customization, syntax highlighting, and uses low memory. It is popular among developers because of these features, as well as the editing speed that experience can bring.
+              </p>
+            </div>
           </div>
           <div className={`w-[24vw] h-[15vh] min-w-[320px] min-h-[320px] rounded-2xl p-8 text-2xl transition duration-500 ease-in-out hover:scale-105 ${cardClass}`}>
             <h2 className="text-center mb-3 text-3xl font-bold">Getting Started</h2>
@@ -256,8 +257,8 @@ export default function Home() {
             <div className = "">
               <h1 className="text-center text-4xl font-bold mb-8">ATTENTION: Found a swap file...</h1>
               <hr className={`mb-4 ${hrClass}`} />
-              <p className="text-lg">
-                Vim creates a .swp file the moment you (or another process) opens a file using it. Vim puts any unsaved changes you make in this file at a set interval (default: 4 seconds). If your vim instance crashes, or you open another instance on the same file, you will see this warning.
+              <p className="text-[1vw]">
+                Vim creates a .swp file the moment you (or another process) opens a file using it. Vim puts any unsaved changes you make in this file at a set interval (default: 4 seconds). If your vim instance crashes, or you open a second VIM instance editing the same file, you will see this warning.
                 <br/>
                 <div className="pl-6">
                   [O]pen Read-Only: You know another vim instance has the file open. This avoids conflicts
