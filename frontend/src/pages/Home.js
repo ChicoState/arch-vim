@@ -250,30 +250,33 @@ export default function Home() {
         { menu === "FAQ" && 
         <div>
           <h1>
-            We need to show what to do when vim files crash. Can probably render the editor with no win conditions and give it the text that prints when vim crashes, to simulate it
+
           </h1>
           <div className="mx-auto w-[75vw] grid grid-cols-[1fr_1fr] items-center h-full gap-16">
-            <div className = "text-center">
-              Test
-              <br/>
-              Explain what each thing does:
-              <br/>
-              (O)pen Read-Only:
-              <br/>
-              (E)dit anyway:
-              <br/>
-              (R)ecover:
-              <br/>
-              (Q)uit:
-              <br/>
-              (A)bort:
-              <br/>
+            <div className = "">
+              <h1 className="text-center text-4xl font-bold mb-8">ATTENTION: Found a swap file...</h1>
+              <hr className={`mb-4 ${hrClass}`} />
+              <p className="text-lg">
+                Vim creates a .swp file the moment you (or another process) opens a file using it. Vim puts any unsaved changes you make in this file at a set interval (default: 4 seconds). If your vim instance crashes, or you open another instance on the same file, you will see this warning.
+                <br/>
+                <div className="pl-6">
+                  [O]pen Read-Only: You know another vim instance has the file open. This avoids conflicts
+                  <br/>
+                  (E)dit anyway: Dismisses the warning
+                  <br/>
+                  (R)ecover: Applies the changes saved in the .swp file to the file you're trying to open
+                  <br/>
+                  (Q)uit: Exits Vim normally. Permanently removes the message
+                  <br/>
+                  (A)bort: Exits Vim, used to signal to other processes that the edit was aborted
+                  <br/>
+                </div>                
+              </p>
             </div>
-
             <div>
               <VimEditor 
               width="650px" 
-              height="320px" 
+              height="360px" 
               defaultLang=""
               showResetLevel={false}
               showStatusNodes={false}
