@@ -20,7 +20,7 @@ function LevelCheck({ levelNum = 0, levelDesc = "", theme = "dark" }) {
 
   return (
     <Link to={`/levels/${levelNum}`} className={passed ? passedClass : defaultClass}>
-      Level {levelNum} - {levelDesc}
+      {levelDesc}
     </Link>
   );
 }
@@ -106,17 +106,17 @@ export default function Home() {
 
       {/* Title (static, fades when scrolled ) */}
       <div ref={titleRef} className="sticky top-0 h-screen z-0">        
-          <h1 className="sticky font-mono text-center text-[11rem] pt-[35vh] font-bold leading-none">
+          <h1 className="sticky font-mono text-center text-[11vw] pt-[35vh] font-bold leading-none">
           Arch-Vim
           </h1>
 
-        <p className={`text-center text-2xl mt-4 ${subtitleClass}`}>
+        <p className={`text-center text-[2vw] mt-4 ${subtitleClass}`}>
           Learn Vim, One step at a time
         </p>
       </div>
 
       {/* Bottom section for scrolling up CAN ADD bg-[color] TO THIS v DIV*/}
-      <div className="relative z-10 -mt-[15vh] rounded-t-3xl pt-16 pb-16 min-h-screen">
+      <div className="relative z-10 -mt-[14vh] rounded-t-3xl pt-16 pb-16 min-h-screen">
         {/* Chevron pointing down (doesnt fade but whatever) */}
         <div ref={chevronRef} className="w-full flex flex-col items-center">
           <svg className="animate-bounce w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -139,23 +139,24 @@ export default function Home() {
         {/* About Arch-vim + essentials */}
         { menu === "Welcome" &&
         <div className="mx-auto w-[75vw] grid grid-cols-[2fr_1fr] items-center h-full gap-16">
-          <div className={`rounded-2xl p-8`}> {/* add a ${cardClass} for the border */}
-            <h1 className="text-center text-7xl font-bold mb-8">What is Arch-Vim?</h1>
-            <hr className={`mb-4 ${hrClass}`} />
-            <p>
-              Random text<br/>
-              More text<br/>
-              Even more text<br/>
-              You wanted more text<br/>
-              We go again<br/>
-              Random text<br/>
-              More text<br/>
-              Even more text<br/>
-              You wanted more text<br/>
-            </p>
+          <div>
+            <div className={`rounded-2xl p-8`}> {/* add a ${cardClass} for the border */}
+              <h1 className="text-center text-7xl font-bold mb-8">What is Arch-Vim?</h1>
+              <hr className={`mb-4 ${hrClass}`} />
+              <p className="text-center">
+                Arch-Vim is a webapp and game to help you learn how to use the terminal based text editor: VIM
+              </p>
+            </div>
+            <div className="rounded-2xl p-8">
+              <h1 className="text-center text-4xl font-bold mb-8">What is VIM?</h1>
+              <hr className={`mb-4 ${hrClass}`} />
+              <p className="text-[1vw] pl-6">
+                Vim (short for "Vi Improved") is a highly efficient, free, open-source, modal text editor designed for speed and navigation primarily via keyboard rather than a mouse. It offers extensive plugin support, keybind customization, syntax highlighting, and uses low memory. It is popular among developers because of these features, as well as the editing speed that experience can bring.
+              </p>
+            </div>
           </div>
           <div className={`w-[24vw] h-[15vh] min-w-[320px] min-h-[320px] rounded-2xl p-8 text-2xl transition duration-500 ease-in-out hover:scale-105 ${cardClass}`}>
-            <h2 className="text-center mb-3 text-3xl font-bold">Basic Survival</h2>
+            <h2 className="text-center mb-3 text-3xl font-bold">Getting Started</h2>
             <hr className={`mb-4 ${hrClass}`} />
             <div className="pl-3 text-xl leading-10">
               <LevelCheck levelNum={1} levelDesc={"Learn Navigation"} theme={theme} /><br />
@@ -169,109 +170,114 @@ export default function Home() {
         }
 
         { menu === "Levels" && 
-        <div>
-          <div className="flex gap-16 justify-center flex-wrap mb-16">
-            <div className={`w-[24vw] h-[15vh] min-w-[320px] min-h-[320px] rounded-2xl p-8 text-2xl transition duration-500 ease-in-out hover:scale-105 ${cardClass}`}>
-              <h2 className="text-center mb-3 text-3xl font-bold">Navigation</h2>
+        <div className="mx-auto w-[75vw] flex flex-col gap-8">
+
+          <div className="grid grid-cols-3 gap-8">
+            <div className={`rounded-2xl p-8 text-2xl transition duration-500 ease-in-out hover:scale-105 ${cardClass}`}>
+              <h2 className="text-center mb-3 text-3xl font-bold">Normal Mode Basics</h2>
               <hr className={`mb-4 ${hrClass}`} />
-              <div className="pl-3 text-xl leading-10">
-                <LevelCheck levelNum={1} levelDesc={"Learn Navigation"} theme={theme} /><br />
-                <LevelCheck levelNum={2} levelDesc={"How to exit a vim file"} theme={theme} /><br />
-                <LevelCheck levelNum={3} levelDesc={"Insert Mode and typing"} theme={theme} /><br />
-                <LevelCheck levelNum={4} levelDesc={"How to save files"} theme={theme} /><br />
-                <LevelCheck levelNum={5} levelDesc={"Challenge!"} theme={theme} /><br />
+              <div className="pl-3 flex flex-col gap-3">
+                <LevelCheck levelNum={1} levelDesc={"Basic Navigation"} theme={theme} />
+                <LevelCheck levelNum={2} levelDesc={"How to exit a vim file"} theme={theme} />
+                <LevelCheck levelNum={4} levelDesc={"How to save files"} theme={theme} />
+                <LevelCheck levelNum={6} levelDesc={"Jump By Words"} theme={theme} />
+                <LevelCheck levelNum={7} levelDesc={"Line Navigation"} theme={theme} />
               </div>
             </div>
 
-            <div className={`w-[24vw] h-[15vh] min-w-[320px] min-h-[320px] rounded-2xl p-8 text-2xl transition duration-500 ease-in-out hover:scale-105 ${cardClass}`}>
-              <h2 className="text-center mb-3 text-3xl font-bold">Some other stuff</h2>
+            <div className={`rounded-2xl p-8 text-2xl transition duration-500 ease-in-out hover:scale-105 ${cardClass}`}>
+              <h2 className="text-center mb-3 text-3xl font-bold">Insert Mode</h2>
               <hr className={`mb-4 ${hrClass}`} />
-              <div className="pl-3 text-xl leading-10">
-                <LevelCheck levelNum={6} levelDesc={"More Navigation"} theme={theme} /><br />
-                <LevelCheck levelNum={7} levelDesc={"Even More Navigation!"} theme={theme} /><br />
-                <LevelCheck levelNum={8} levelDesc={"Delete a line"} theme={theme} /><br />
-                <LevelCheck levelNum={9} levelDesc={"Undo your mistakes"} theme={theme} /><br />
-                <LevelCheck levelNum={10} levelDesc={"Challenge!"} theme={theme} /><br />
+              <div className="pl-3 flex flex-col gap-3">
+                <LevelCheck levelNum={3} levelDesc={"Insert Mode and typing"} theme={theme} />
+                <LevelCheck levelNum={18} levelDesc={"Change a word"} theme={theme} />
+                <LevelCheck levelNum={19} levelDesc={"Replace a character"} theme={theme} />
+                <LevelCheck levelNum={22} levelDesc={"Text objects"} theme={theme} />
+                <LevelCheck levelNum={23} levelDesc={"Visual Mode"} theme={theme} />
               </div>
             </div>
 
-            <div className={`w-[24vw] h-[15vh] min-w-[320px] min-h-[320px] rounded-2xl p-8 text-2xl transition duration-500 ease-in-out hover:scale-105 ${cardClass}`}>
-              <h2 className="text-center mb-3 text-3xl font-bold">idk</h2>
+            <div className={`rounded-2xl p-8 text-2xl transition duration-500 ease-in-out hover:scale-105 ${cardClass}`}>
+              <h2 className="text-center mb-3 text-3xl font-bold">Search & Navigation</h2>
               <hr className={`mb-4 ${hrClass}`} />
-              <div className="pl-3 text-xl leading-10">
-                <LevelCheck levelNum={11} levelDesc={"Basic Search"} theme={theme} /><br />
-                <LevelCheck levelNum={12} levelDesc={"Comprehensive Commands"} theme={theme} /><br />
-                <LevelCheck levelNum={13} levelDesc={"Jump between brackets"} theme={theme} /><br />
-                <LevelCheck levelNum={14} levelDesc={"Jump up and down the file"} theme={theme} /><br />
-                <LevelCheck levelNum={15} levelDesc={"Challenge!"} theme={theme} /><br />
+              <div className="pl-3 flex flex-col gap-3">
+                <LevelCheck levelNum={11} levelDesc={"Basic Search"} theme={theme} />
+                <LevelCheck levelNum={13} levelDesc={"Jump between brackets"} theme={theme} />
+                <LevelCheck levelNum={14} levelDesc={"Jump up and down the file"} theme={theme} />
+                <LevelCheck levelNum={16} levelDesc={"Jump to a character"} theme={theme} />
+                <LevelCheck levelNum={17} levelDesc={"Jump between paragraphs"} theme={theme} />
               </div>
             </div>
           </div>
 
-          <div className="flex gap-16 justify-center flex-wrap">
-            <div className={`w-[24vw] h-[15vh] min-w-[320px] min-h-[320px] rounded-2xl p-8 text-2xl transition duration-500 ease-in-out hover:scale-105 ${cardClass}`}>
-              <h2 className="text-center mb-3 text-3xl font-bold">More Levels</h2>
+          <div className="grid grid-cols-3 gap-8">
+            <div className={`rounded-2xl p-8 text-2xl transition duration-500 ease-in-out hover:scale-105 ${cardClass}`}>
+              <h2 className="text-center mb-3 text-3xl font-bold">Editing Commands</h2>
               <hr className={`mb-4 ${hrClass}`} />
-              <div className="pl-3 text-xl leading-10">
-                <LevelCheck levelNum={16} levelDesc={"Jump to a character"} theme={theme} /><br />
-                <LevelCheck levelNum={17} levelDesc={"Jump between paragraphs"} theme={theme} /><br />
-                <LevelCheck levelNum={18} levelDesc={"Change a word"} theme={theme} /><br />
-                <LevelCheck levelNum={19} levelDesc={"Replace a character"} theme={theme} /><br />
+              <div className="pl-3 flex flex-col gap-3">
+                <LevelCheck levelNum={8} levelDesc={"Delete a line"} theme={theme} />
+                <LevelCheck levelNum={9} levelDesc={"Undo your mistakes"} theme={theme} />
+                <LevelCheck levelNum={12} levelDesc={"Comprehensive Commands"} theme={theme} />
+                <LevelCheck levelNum={20} levelDesc={"Repeat actions"} theme={theme} />
+                <LevelCheck levelNum={21} levelDesc={"Operators and motions"} theme={theme} />
               </div>
             </div>
 
-            <div className={`w-[24vw] h-[15vh] min-w-[320px] min-h-[320px] rounded-2xl p-8 text-2xl transition duration-500 ease-in-out hover:scale-105 ${cardClass}`}>
-              <h2 className="text-center mb-3 text-3xl font-bold">Really Gotta separate these properly</h2>
+            <div className={`rounded-2xl p-8 text-2xl transition duration-500 ease-in-out hover:scale-105 ${cardClass}`}>
+              <h2 className="text-center mb-3 text-3xl font-bold">Advanced Tools</h2>
               <hr className={`mb-4 ${hrClass}`} />
-              <div className="pl-3 text-xl leading-10">
-                <LevelCheck levelNum={20} levelDesc={"Repeat actions"} theme={theme} /><br />
-                <LevelCheck levelNum={21} levelDesc={"Operators and motions"} theme={theme} /><br />
-                <LevelCheck levelNum={22} levelDesc={"Text objects"} theme={theme} /><br />
-                <LevelCheck levelNum={23} levelDesc={"Visual Mode"} theme={theme} /><br />
+              <div className="pl-3 flex flex-col gap-3">
+                <LevelCheck levelNum={24} levelDesc={"Find and replace"} theme={theme} />
+                <LevelCheck levelNum={25} levelDesc={"Marking Locations"} theme={theme} />
+                <LevelCheck levelNum={26} levelDesc={"Macros"} theme={theme} />
               </div>
             </div>
 
-            <div className={`w-[24vw] h-[15vh] min-w-[320px] min-h-[320px] rounded-2xl p-8 text-2xl transition duration-500 ease-in-out hover:scale-105 ${cardClass}`}>
-              <h2 className="text-center mb-3 text-3xl font-bold">hi</h2>
+            <div className={`rounded-2xl p-8 text-2xl transition duration-500 ease-in-out hover:scale-105 ${cardClass}`}>
+              <h2 className="text-center mb-3 text-3xl font-bold">Challenges</h2>
               <hr className={`mb-4 ${hrClass}`} />
-              <div className="pl-3 text-xl leading-10">
-                <LevelCheck levelNum={24} levelDesc={"Find and replace"} theme={theme} /><br />
-                <LevelCheck levelNum={25} levelDesc={"Jump to marked locations"} theme={theme} /><br />
-                <LevelCheck levelNum={26} levelDesc={"Macros"} theme={theme} /><br />
-                <LevelCheck levelNum={27} levelDesc={"Challenge!"} theme={theme} /><br />
+              <div className="pl-3 flex flex-col gap-3">
+                <LevelCheck levelNum={5} levelDesc={"Challenge - Easy"} theme={theme} />
+                <LevelCheck levelNum={10} levelDesc={"Challenge - Medium"} theme={theme} />
+                <LevelCheck levelNum={15} levelDesc={"Challenge - Hard"} theme={theme} />
+                <LevelCheck levelNum={27} levelDesc={"Challenge - Expert"} theme={theme} />
               </div>
             </div>
           </div>
+
         </div>
         }
 
         { menu === "FAQ" && 
         <div>
           <h1>
-            We need to show what to do when vim files crash. Can probably render the editor with no win conditions and give it the text that prints when vim crashes, to simulate it
+
           </h1>
           <div className="mx-auto w-[75vw] grid grid-cols-[1fr_1fr] items-center h-full gap-16">
-            <div className = "text-center">
-              Test
-              <br/>
-              Explain what each thing does:
-              <br/>
-              (O)pen Read-Only:
-              <br/>
-              (E)dit anyway:
-              <br/>
-              (R)ecover:
-              <br/>
-              (Q)uit:
-              <br/>
-              (A)bort:
-              <br/>
+            <div className = "">
+              <h1 className="text-center text-4xl font-bold mb-8">ATTENTION: Found a swap file...</h1>
+              <hr className={`mb-4 ${hrClass}`} />
+              <p className="text-[1vw]">
+                Vim creates a .swp file the moment you (or another process) opens a file using it. Vim puts any unsaved changes you make in this file at a set interval (default: 4 seconds). If your vim instance crashes, or you open a second VIM instance editing the same file, you will see this warning.
+                <br/>
+                <div className="pl-6">
+                  [O]pen Read-Only: You know another vim instance has the file open. This avoids conflicts
+                  <br/>
+                  (E)dit anyway: Dismisses the warning
+                  <br/>
+                  (R)ecover: Applies the changes saved in the .swp file to the file you're trying to open
+                  <br/>
+                  (Q)uit: Exits Vim normally. Permanently removes the message
+                  <br/>
+                  (A)bort: Exits Vim, used to signal to other processes that the edit was aborted
+                  <br/>
+                </div>                
+              </p>
             </div>
-
             <div>
               <VimEditor 
               width="650px" 
-              height="320px" 
+              height="360px" 
               defaultLang=""
               showResetLevel={false}
               showStatusNodes={false}

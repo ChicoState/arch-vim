@@ -45,7 +45,7 @@ int main() {
                     <p className="text-lg leading-8">
                         Combine all the skills you've learned to complete the objective!<br></br><br></br>
                         <span className="font-medium">
-                            Objective: There is a type on line 4, and junk code on line 6. Fix the typo and delete the junk line, then save and quit.
+                            Objective: There is a typo on line 4, and junk code on line 6. Fix the typo and delete the junk line, then save and quit.
                         </span>
                     </p>
                 </div>
