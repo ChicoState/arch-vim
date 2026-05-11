@@ -1,0 +1,13 @@
+name: CI
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build docker images
+        run: docker compose build --no-cache
+
+      - name: Run Images
+        run: docker compose run
