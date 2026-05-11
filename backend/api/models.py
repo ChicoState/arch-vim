@@ -17,7 +17,6 @@ class UserProgress(models.Model):
         return f"{self.user.username}'s level progress"
 
 
-
 class Level(models.Model):
     COLOR_PALETTE = [
         ("#FFFFFF", "white",),

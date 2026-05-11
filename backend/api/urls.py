@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 from . import views
 from .views import StarView, ProgressView
 
@@ -10,4 +10,5 @@ urlpatterns = [
     path("api/stars/<int:level_id>/", StarView.as_view(), name="star-view"),
     path("api/progress/", ProgressView.as_view(), name="progress"),
     path("api/progress/save/", ProgressView.as_view(), name="progress-save"),
+    
 ]
