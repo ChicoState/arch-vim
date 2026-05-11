@@ -13,3 +13,6 @@ jobs:
 
       - name: Run Images
         run: docker compose up -d
+
+      - name: Run Migrations
+        run: docker compose exec backend python manage.py migrate
