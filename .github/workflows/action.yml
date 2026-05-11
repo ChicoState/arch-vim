@@ -17,10 +17,10 @@ jobs:
       - name: Run Migrations
         run: docker compose exec backend python manage.py migrate
 
-      - name: Run Django tests
+      - name: Run Django Tests
         run: docker compose exec backend coverage run manage.py test
 
-      - name: Coverage test results
+      - name: Backend Test Coverage Results
         run: docker compose exec backend coverage report
 
 #      - name: Run React tests
