@@ -1,0 +1,24 @@
+name: CI
+
+on: [ push, pull_request ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build docker images
+        run: docker compose build --no-cache
+
+      - name: Run Images
+        run: docker compose up -d
+
+      - name: Run Migrations
+        run: docker compose exec backend python manage.py migrate
+
+      - name: Run Django tests
+        run: docker compose exec backend python manage.py test
+
+#      - name: Run React tests
+#        run: docker compose exec frontend npm test -- --watchAll=false
