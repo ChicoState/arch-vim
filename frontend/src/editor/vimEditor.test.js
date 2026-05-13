@@ -182,7 +182,32 @@ describe('VimEditor', () => {
 		expect(monacoEditorMock._editor.setValue).toHaveBeenCalledWith('starting text');
 	});
 
-	it('calls onWin when finalText matches after a content change', async () => {
+    it('allows winning again after a reset', async () => {
+        const h = renderEditor({ value: 'correct', finalText: 'correct' });
+        h.triggerContentChange();
+        await waitFor(() => expect(h.onWin).toHaveBeenCalledTimes(1));
+
+        fireEvent.click(screen.getByRole('button', { name: /reset level/i }));
+
+        h.triggerContentChange();
+        await waitFor(() => expect(h.onWin).toHaveBeenCalledTimes(2));
+    });
+
+    it('resets command tracking so the command needs to be used again after reset', async () => {
+        const h = renderEditor({ value: 'correct', finalText: 'correct', commands: [':w'] });
+        h.triggerExCommand(':w');
+        await waitFor(() => expect(h.onWin).toHaveBeenCalledTimes(1));
+
+        fireEvent.click(screen.getByRole('button', { name: /reset level/i }));
+
+        h.triggerContentChange();
+        expect(h.onWin).toHaveBeenCalledTimes(1);
+
+        h.triggerExCommand(':w');
+        await waitFor(() => expect(h.onWin).toHaveBeenCalledTimes(2));
+    });
+
+	it('calls onWin when finalText matches user input', async () => {
 		const h = renderEditor({
 		value: 'correct answer',
 		finalText: 'correct answer',
@@ -194,4 +219,115 @@ describe('VimEditor', () => {
 		expect(h.onWin).toHaveBeenCalled();
 		});
 	});
+
+    it('doesn\'t call onWin when finalText doesn\'t match', () => {
+        const h = renderEditor({ value: 'wrong answer', finalText: 'correct answer' });
+        h.triggerContentChange();
+        expect(h.onWin).not.toHaveBeenCalled();
+    });
+
+    it('calls onWin when content contains target string', async () => {
+        const h = renderEditor({ value: 'hello world', finalTextContains: 'hello' });
+        h.triggerContentChange();
+        await waitFor(() => expect(h.onWin).toHaveBeenCalled());
+    });
+
+    it('doesnt call onWin when content doesnt contain target string', () => {
+        const h = renderEditor({ value: 'goodbye world', finalTextContains: 'hello' });
+        h.triggerContentChange();
+        expect(h.onWin).not.toHaveBeenCalled();
+    });
+
+    it('calls onWin when content matches the regex', async () => {
+        const h = renderEditor({ value: 'hello world', finalTextRegex: /hello/ });
+        h.triggerContentChange();
+        await waitFor(() => expect(h.onWin).toHaveBeenCalled());
+    });
+
+    it('does not call onWin when content does not match regex', () => {
+        const h = renderEditor({ value: 'goodbye world', finalTextRegex: /hello/ });
+        h.triggerContentChange();
+        expect(h.onWin).not.toHaveBeenCalled();
+    });
+
+    it('calls onWin when cursor reaches the required line and column', async () => {
+        const h = renderEditor({ cursorLine: 3, cursorCol: 5 });
+        h.triggerCursor(3, 5);
+        await waitFor(() => expect(h.onWin).toHaveBeenCalled());
+    });
+
+    it('does not call onWin when cursor is on the wrong line', () => {
+        const h = renderEditor({ cursorLine: 3, cursorCol: 5 });
+        h.triggerCursor(1, 5);
+        expect(h.onWin).not.toHaveBeenCalled();
+    });
+
+    it('does not call onWin when cursor is on the wrong column', () => {
+        const h = renderEditor({ cursorLine: 3, cursorCol: 5 });
+        h.triggerCursor(3, 1);
+        expect(h.onWin).not.toHaveBeenCalled();
+    });
+
+    it('calls onWin when the required mode is normal (the default)', async () => {
+        const h = renderEditor({ value: 'correct', finalText: 'correct', mode: 'normal' });
+        h.triggerContentChange();
+        await waitFor(() => expect(h.onWin).toHaveBeenCalled());
+    });
+
+    it('does not call onWin when mode requirement is not yet met', () => {
+        const h = renderEditor({ value: 'correct', finalText: 'correct', mode: 'insert' });
+        h.triggerContentChange();
+        expect(h.onWin).not.toHaveBeenCalled();
+    });
+
+    it('does not call onWin when canWin is false even if all conditions are met', () => {
+        const h = renderEditor({ value: 'correct', finalText: 'correct', canWin: false });
+        h.triggerContentChange();
+        expect(h.onWin).not.toHaveBeenCalled();
+    });
+    it('does not call onWin until the required command is used', async () => {
+        const h = renderEditor({ value: 'correct', finalText: 'correct', commands: [':w'] });
+        h.triggerContentChange();
+        expect(h.onWin).not.toHaveBeenCalled();
+
+        h.triggerExCommand(':w');
+        await waitFor(() => expect(h.onWin).toHaveBeenCalled());
+    });
+
+    it('does not call onWin if none of the possibleCommands have been used', () => {
+        const h = renderEditor({
+            value: 'correct',
+            finalText: 'correct',
+            possibleCommands: [':w', ':wq'],
+        });
+        h.triggerContentChange();
+        expect(h.onWin).not.toHaveBeenCalled();
+    });
+
+    it('calls onWin once any one of the possibleCommands is used', async () => {
+        const h = renderEditor({
+            value: 'correct',
+            finalText: 'correct',
+            possibleCommands: [':w', ':wq'],
+        });
+        h.triggerExCommand(':w');
+        await waitFor(() => expect(h.onWin).toHaveBeenCalled());
+    });
+
+    it('does not call onWin until the required keystroke is pressed', async () => {
+        const keystrokes = ['j'];
+        const h = renderEditor({ value: 'correct', finalText: 'correct', keystrokes });
+        h.triggerContentChange();
+        expect(h.onWin).not.toHaveBeenCalled();
+
+        h.triggerKeydown('j');
+        await waitFor(() => expect(h.onWin).toHaveBeenCalled());
+    });
+
+    it('does not call onWin when an unrelated key is pressed', () => {
+        const keystrokes = ['j'];
+        const h = renderEditor({ value: 'correct', finalText: 'correct', keystrokes });
+        h.triggerKeydown('k');
+        expect(h.onWin).not.toHaveBeenCalled();
+    });
 });
