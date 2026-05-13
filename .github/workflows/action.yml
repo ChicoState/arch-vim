@@ -22,3 +22,9 @@ jobs:
 
 #      - name: Run React tests
 #        run: docker compose exec frontend npm test -- --watchAll=false
+
+      - name: Frontend Cyclomatic complexity test
+        run: docker compose exec frontend npx eslint src/
+      
+      - name: Backend Cyclomatic Complexity test
+        run: docker compose exec backend radon cc api/ -s -a
