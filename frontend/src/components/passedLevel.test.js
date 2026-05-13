@@ -20,33 +20,33 @@ beforeEach(() => {
 
 describe('PassedLevel', () => {
     it('renders the passed message', () => {
-        render(<MemoryRouter><PassedLevel levelNum={3} /></MemoryRouter>);
+        render(<MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}><PassedLevel levelNum={3} /></MemoryRouter>);
         expect(screen.getByText('You passed!')).toBeInTheDocument();
     });
 
     it('links to the next level', () => {
-        render(<MemoryRouter><PassedLevel levelNum={3} /></MemoryRouter>);
+        render(<MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}><PassedLevel levelNum={3} /></MemoryRouter>);
         expect(screen.getByText('Level 4').closest('a')).toHaveAttribute('href', '/levels/4');
     });
 
     it('links back to home', () => {
-        render(<MemoryRouter><PassedLevel levelNum={3} /></MemoryRouter>);
+        render(<MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}><PassedLevel levelNum={3} /></MemoryRouter>);
         expect(screen.getByText('Home').closest('a')).toHaveAttribute('href', '/');
     });
 
     it('uses the correct next level number', () => {
-        render(<MemoryRouter><PassedLevel levelNum={10} /></MemoryRouter>);
+        render(<MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}><PassedLevel levelNum={10} /></MemoryRouter>);
         expect(screen.getByText('Level 11').closest('a')).toHaveAttribute('href', '/levels/11');
     });
 
     it('defaults to level 0 when no levelNum is passed', () => {
-        render(<MemoryRouter><PassedLevel /></MemoryRouter>);
+        render(<MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}><PassedLevel /></MemoryRouter>);
         expect(screen.getByText('Level 1').closest('a')).toHaveAttribute('href', '/levels/1');
     });
 
     it('renders correctly in light mode', () => {
         useTheme.mockReturnValue({ theme: 'light' });
-        render(<MemoryRouter><PassedLevel levelNum={1} /></MemoryRouter>);
+        render(<MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}><PassedLevel levelNum={1} /></MemoryRouter>);
         expect(screen.getByText('You passed!')).toBeInTheDocument();
     });
 });

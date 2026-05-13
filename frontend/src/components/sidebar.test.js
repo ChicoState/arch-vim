@@ -2,7 +2,10 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import Sidebar from "./sidebar";
 
-jest.mock("../components/checkLevelPassed", () => () => false);
+jest.mock("../components/checkLevelPassed", () => ({
+    __esModule: true,
+    default: () => false,
+}));
 
 jest.mock("./themeToggle", () => () => <button>Theme Toggle</button>);
 
@@ -23,7 +26,7 @@ jest.mock("../ThemeContext", () => ({
 
 test("renders the sidebar title", () => {
   render(
-    <MemoryRouter>
+    <MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
       <Sidebar />
     </MemoryRouter>
   );
@@ -33,7 +36,7 @@ test("renders the sidebar title", () => {
 
 test("renders the main sidebar sections", () => {
   render(
-    <MemoryRouter>
+    <MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
       <Sidebar />
     </MemoryRouter>
   );
@@ -50,7 +53,7 @@ test("renders the main sidebar sections", () => {
 
 test("renders level links", () => {
   render(
-    <MemoryRouter>
+    <MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
       <Sidebar />
     </MemoryRouter>
   );
@@ -66,7 +69,7 @@ test("renders level links", () => {
 
 test("level links go to the correct routes", () => {
   render(
-    <MemoryRouter>
+    <MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
       <Sidebar />
     </MemoryRouter>
   );
@@ -94,7 +97,7 @@ test("level links go to the correct routes", () => {
 
 test("can collapse and reopen a sidebar section", () => {
   render(
-    <MemoryRouter>
+    <MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
       <Sidebar />
     </MemoryRouter>
   );
@@ -112,7 +115,7 @@ test("can collapse and reopen a sidebar section", () => {
 
 test("renders the logged in user and logout button", () => {
   render(
-    <MemoryRouter>
+    <MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
       <Sidebar />
     </MemoryRouter>
   );
