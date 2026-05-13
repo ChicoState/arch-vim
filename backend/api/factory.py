@@ -1,7 +1,7 @@
-# your_app/tests/factories.py
+
 import factory
 from django.contrib.auth.models import User
-from ..models import Level, User_Level, UserLevelInstance, UserProfile
+from .models import Level, User_Level, UserLevelInstance, UserProfile
 
 
 class UserFactory(factory.django.DjangoModelFactory):

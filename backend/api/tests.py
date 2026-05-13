@@ -3,7 +3,7 @@ from django.test import TestCase
 from django.test import TestCase
 from django.contrib.auth.models import User
 from .models import Level, User_Level, UserLevelInstance
-from .factories import UserFactory, LevelFactory
+from .factory import UserFactory, LevelFactory
 
 
 class LevelModelTests(TestCase):
