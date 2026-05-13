@@ -2,27 +2,37 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import Sidebar from "./sidebar";
 
-jest.mock("../components/checkLevelPassed", () => ({
-    __esModule: true,
-    default: () => false,
+jest.mock("./themeToggle", () => () => <button>Theme Toggle</button>);
+const mockNavigate = jest.fn();
+
+jest.mock("react-router-dom", () => ({
+    ...jest.requireActual("react-router-dom"),
+    useNavigate: () => mockNavigate,
 }));
 
-jest.mock("./themeToggle", () => () => <button>Theme Toggle</button>);
+const mockUseAuth = jest.fn();
+const mockUseTheme = jest.fn();
+const mockUseCheckLevel = jest.fn();
 
 jest.mock("../AuthContext", () => ({
-  useAuth: () => ({
-    user: {
-      username: "testuser",
-    },
-    logout: jest.fn(),
-  }),
+    useAuth: () => mockUseAuth(),
 }));
 
 jest.mock("../ThemeContext", () => ({
-  useTheme: () => ({
-    theme: "dark",
-  }),
+    useTheme: () => mockUseTheme(),
 }));
+
+jest.mock("../components/checkLevelPassed", () => ({
+    __esModule: true,
+    default: () => mockUseCheckLevel(),
+}));
+
+beforeEach(() => {
+    mockNavigate.mockReset();
+    mockUseAuth.mockReturnValue({ user: { username: "testuser" }, logout: jest.fn() });
+    mockUseTheme.mockReturnValue({ theme: "dark" });
+    mockUseCheckLevel.mockReturnValue(false);
+});
 
 test("renders the sidebar title", () => {
   render(
@@ -122,4 +132,45 @@ test("renders the logged in user and logout button", () => {
 
   expect(screen.getByText("testuser")).toBeInTheDocument();
   expect(screen.getByText("Logout")).toBeInTheDocument();
+});
+
+test("renders a passed level link in green", () => {
+    mockUseCheckLevel.mockReturnValue(true);
+    render(
+        <MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+            <Sidebar />
+        </MemoryRouter>
+    );
+    const link = screen.getByText("Basic Navigation").closest("a");
+    expect(link.className).toContain("text-green");
+});
+
+test("renders correctly in light theme", () => {
+    mockUseTheme.mockReturnValue({ theme: "light" });
+    render(
+        <MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+            <Sidebar />
+        </MemoryRouter>
+    );
+    expect(screen.getByText("Navigation")).toBeInTheDocument();
+});
+
+test("logout button calls navigate to /login", () => {
+    render(
+        <MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+            <Sidebar />
+        </MemoryRouter>
+    );
+    fireEvent.click(screen.getByText("Logout"));
+    expect(mockNavigate).toHaveBeenCalledWith("/login");
+});
+
+test("renders Guest when no user is logged in", () => {
+    mockUseAuth.mockReturnValue({ user: null, logout: jest.fn() });
+    render(
+        <MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+            <Sidebar />
+        </MemoryRouter>
+    );
+    expect(screen.getByText("Guest")).toBeInTheDocument();
 });
