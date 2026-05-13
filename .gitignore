@@ -19,6 +19,7 @@ frontend/.env
 # vim
 *.swp
 *.*~
+/*~
 
 # OS files
 .DS_Store
