@@ -104,7 +104,10 @@ export default function VimEditor({
 			[`level_${level}`]: { passed: true }
 		});
 		levelPassed(level);
-		onWin();
+        onWin({
+        strokes: strokeCountRef.current,
+        ms: elapsedTimeRef.current,
+});
 	}
 
 	function checkWinConditions() {

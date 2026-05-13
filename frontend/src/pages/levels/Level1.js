@@ -7,6 +7,7 @@ import useCheckLevel from "../../components/checkLevelPassed";
 
 export default function Level1() {
     const levelNum = 1
+    const [result, setResult] = useState(null);
     const [passed, setPassed] = useState(useCheckLevel(levelNum));
     const startValue =
 `#include <stdio.h>
@@ -49,7 +50,10 @@ int main() {
                 value = {startValue}
                 cursorCol={15}
                 cursorLine={4}
-                onWin = {() => setPassed(true)}
+                onWin={(data) => {
+                    setPassed(true);
+                    setResult(data);
+                }}
                 />
                 </div>
 		        </>
@@ -63,7 +67,7 @@ int main() {
                 <DropDown title={"Testing 2"} contents={"Testtestest"} />*/}
             {passed && (
                 <div className="mt-6">
-                    <PassedLevel levelNum={levelNum} />
+                    <PassedLevel levelNum={levelNum} strokes={result?.strokes} ms={result?.ms} />
                 </div>
             )}
         </aside>
