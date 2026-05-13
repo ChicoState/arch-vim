@@ -1,13 +1,13 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import VimEditor from "../../editor/vimEditor";
-import { loadProgress } from "../../progress";
 import Sidebar from "../../components/sidebar"
 import DropDown from "../../components/hint";
 import PassedLevel from "../../components/passedLevel";
+import useCheckLevel from "../../components/checkLevelPassed";
 
 export default function Level2() {
     const levelNum = 2
-    const [passed, setPassed] = useState(false);
+    const [passed, setPassed] = useState(useCheckLevel(levelNum));
     const startValue =
 `#include <stdio.h>
 
@@ -17,34 +17,29 @@ int main() {
 }
 `
 
-    useEffect(() => {
-        loadProgress().then(
-            data=>{
-                if (data[`level_${levelNum}`]?.passed) 
-                    setPassed(true);
-                });
-            }, []);
 
     return (
     <div className="flex min-h-screen bg-gray-950 text-gray-200">
         {/* Sidebar (the left side) */}
-        <aside className="w-[16vw] bg-gray-950 p-4">
+        <aside className="w-[19vw] min-w-[320px] p-4">
             <Sidebar />
         </aside>
 
         {/* Middle section */}
-        <aside className="flex-1 pt-10 p-4">
-            <div style={{ padding: "10px" }}>
-                <div className="ml-[15vw] mb-10">
-                    <h1 className="text-7xl mb-2 pl-16">Level 2</h1>
-                    <h3 className="pl-16 text-4xl mb-2">How to exit a file</h3>
-                    <hr className="mb-4 border-gray-600 w-96 ml-16"/>
-                    <p className="pl-28">
+        <main className="flex-1 pt-10 p-4">
+            <div className="w-full max-w-[1100px] mx-auto">
+                <div className="w-[1100px] max-w-full mx-auto mb-8 text-left">
+                    <h1 className="text-6xl mb-2">Level 2</h1>
+                    <h3 className="text-4xl mb-2">How to exit a file</h3>
+                    <hr className="mb-4 border-gray-600 w-96" />
+                    <p className="text-lg leading-8">
                             When starting with vim it's not always clear how to exit.<br></br>
                             To open the console, press <kbd>:</kbd><br></br>
                             Typing <kbd>:q</kbd> will exit the vim editor.<br></br>
                             If you make an accidental change and want to quit without saving, type <kbd>:q!</kbd><br></br><br></br>
-                            Objective: Simply close the editor.
+                            <span className="font-medium">
+                                Objective: Simply close the editor.
+                            </span>
                     </p>  
                 </div>
                 <>
@@ -60,14 +55,14 @@ int main() {
                 )}
                 </div>
                 {passed && (
-                    <div className="flex items-center justify-center">
+                    <div className="flex items-center justify-center mt-4">
                         <PassedLevel levelNum={levelNum}/>
                     </div>
                     )
                 }
                 </>
             </div>
-        </aside>
+        </main>
 
         {/* Right side */}
         <aside className="w-[16vw] bg-gray-950 p-4 ">
