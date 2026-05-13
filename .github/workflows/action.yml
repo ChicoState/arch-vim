@@ -23,6 +23,4 @@ jobs:
       - name: Run React coverage test
         run:  docker compose exec -it frontend npm test -- --coverage
         
-      - name: Run React sidebar tests
-        run: docker compose exec -T frontend npm test -- --watchAll=false sidebar.test.js
 
