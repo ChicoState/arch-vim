@@ -264,7 +264,7 @@ export default function VimEditor({
 
 		//true just watching the statusNode with an eventListening, but it wasnt working
 		const observer = new MutationObserver(() => {
-			const modeText = statusNode.innerText.toLowerCase();
+            const modeText = (statusNode.textContent || "").toLowerCase();
 			currentModeRef.current = modeText.includes("insert")
 				? "insert"
 				: modeText.includes("visual")
