@@ -1,5 +1,5 @@
 import Editor from "@monaco-editor/react";
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import { initVimMode, VimMode } from "monaco-vim";
 import { vimCommands } from "./vimCommands.js";
 import { saveProgress, loadProgress } from "../progress.js";
@@ -81,6 +81,12 @@ export default function VimEditor({
     const strokeCountRef = useRef(0);
     const statsNodeRef = useRef(null);
 
+    // Timer Vars
+    const timerStartedRef = useRef(false);
+    const startTimeRef = useRef(null);
+    const elapsedTimeRef = useRef(0);
+    const refreshTimerRef = useRef(null);
+
 	const calledCommandsRef = useRef(
 		Object.fromEntries(commands.map((cmd) => [cmd, false]))
 	);
@@ -158,6 +164,7 @@ export default function VimEditor({
 		if(keystrokes.length !== 0) return;
 
 		wonRef.current = true;
+        stopTimer();
 		saveTest();
 	}
 
@@ -167,6 +174,7 @@ export default function VimEditor({
         strokeCountRef.current = 0;
         colonActiveRef.current = false;
         renderStats();
+        resetTimer();
 		calledCommandsRef.current = Object.fromEntries(
 			commands.map((cmd) => [cmd, false])
 		);
@@ -178,9 +186,59 @@ export default function VimEditor({
 
     function renderStats() {
         if (!statsNodeRef.current) return;
-        statsNodeRef.current.innerText = `Strokes: ${strokeCountRef.current}`;
+        statsNodeRef.current.innerText = `Strokes: ${strokeCountRef.current}\nTime: ${formatTimer(elapsedTimeRef.current)}`;
     }
 
+    // Return's string to place in stat render bar
+    function formatTimer(ms) {
+        const totalSec = Math.floor(ms /1000);
+        const min = String(Math.floor(totalSec / 60)).padStart(2, "0");
+        const sec = String(totalSec % 60).padStart(2, "0");
+
+        return `${min}:${sec}`;
+    }
+    // Starts on the user's first key press
+    function startTimer() {
+        if (timerStartedRef.current || wonRef.current) return;
+
+        timerStartedRef.current = true;
+        startTimeRef.current = Date.now();
+
+        refreshTimerRef.current = setInterval(() => {
+            elapsedTimeRef.current = Date.now() - startTimeRef.current;
+            renderStats();
+        }, 200);
+    }
+
+    function stopTimer() {
+        if (timerStartedRef.current && startTimeRef.current !== null) {
+            elapsedTimeRef.current = Date.now() - startTimeRef.current;
+        }
+        if (refreshTimerRef.current) {
+            clearInterval(refreshTimerRef.current);
+            refreshTimerRef.current = null;
+        }
+        renderStats();
+    }
+
+    function resetTimer() {
+        timerStartedRef.current = false;
+        startTimeRef.current = null;
+        elapsedTimeRef.current = 0;
+
+        if (refreshTimerRef.current) {
+            clearInterval(refreshTimerRef.current);
+            refreshTimerRef.current = null;
+        }
+    }
+
+    useEffect(() => {
+        return () => {
+            if (refreshTimerRef.current) {
+                clearInterval(refreshTimerRef.current);
+            }
+        };
+    }, []);
 	function handleMount(editor, monaco) {
 		editorRef.current = editor;
 		const editorDom = editor.getDomNode();
@@ -224,6 +282,7 @@ export default function VimEditor({
         statsNode.style.borderRadius = "6px";
         statsNode.style.textAlign = "left";
         statsNodeRef.current = statsNode;
+        statsNode.style.whiteSpace = "pre-line";
         renderStats();
 
 		if(showStatusNodes) {
@@ -333,6 +392,10 @@ export default function VimEditor({
 		editor.onKeyDown((e) => {
 			const key = e.browserEvent.key;
 			console.log("Key pressed: ", key);
+            // Start Timer on first keypress
+            if (!["Shift", "Control", "Alt", "Meta"].includes(key)) {
+                startTimer();
+            }
 			//Check if the keys in this have been pressed, if so, remove them (for not : commands)
 			const index = keystrokes.indexOf(key);
 			if (index !== -1) {
