@@ -1,0 +1,12 @@
+{
+	"parser": "@typescript-eslint/parser",
+	"parserOptions": {
+		"ecmaVersion": 2020,
+		"ecmaFeatures": {
+			"jsx": true
+		}
+	},
+	"rules": {
+		"complexity": ["warn", 1]
+	}
+}
