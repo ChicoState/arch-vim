@@ -2,7 +2,6 @@
  * @jest-environment jsdom
  */
 
-
 jest.mock('monaco-vim', () => ({
   initVimMode: jest.fn(() => ({
     on: jest.fn(),
@@ -14,31 +13,30 @@ jest.mock('monaco-vim', () => ({
   },
 }));
 
-import React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import '@testing-library/jest-dom';
-import VimEditor from './vimEditor';
-
 jest.mock('@monaco-editor/react', () => {
-    return function MockEditor({ onMount, defaultValue }) {
-        const editor = {
-        value: defaultValue,
-        getValue: jest.fn(() => editor.value),
-        setValue: jest.fn((newValue) => {
+  return function MockEditor({ onMount, defaultValue }) {
+    const mockEditorDomNode = {
+      style: {},
+      appendChild: jest.fn(),
+    };
+
+    const editor = {
+      value: defaultValue,
+      getValue: jest.fn(() => editor.value),
+      setValue: jest.fn((newValue) => {
         editor.value = newValue;
-        }),
-        getPosition: jest.fn(() => ({
-            lineNumber: 1,
-            column: 1,
-        })),
-        getDomNode: jest.fn(() => ({
-            style: {},
-            appendChild: jest.fn(),
-        })),
-        addCommand: jest.fn(),
-        onDidChangeCursorSelection: jest.fn(),
-        onDidChangeModelContent: jest.fn(),
-        onKeyDown: jest.fn(),
+      }),
+      getPosition: jest.fn(() => ({
+        lineNumber: 1,
+        column: 1,
+      })),
+      getDomNode: jest.fn(() => mockEditorDomNode),
+      addCommand: jest.fn(),
+      onDidChangeCursorSelection: jest.fn(),
+      onDidChangeModelContent: jest.fn((callback) => {
+        callback();
+      }),
+      onKeyDown: jest.fn(),
     };
 
     const monaco = {
@@ -52,7 +50,6 @@ jest.mock('@monaco-editor/react', () => {
     return <div data-testid="mock-editor">{defaultValue}</div>;
   };
 });
-
 
 jest.mock('../progress.js', () => ({
   saveProgress: jest.fn(() => Promise.resolve()),
@@ -68,6 +65,11 @@ jest.mock('../components/checkLevelPassed.js', () => ({
     levelPassed: jest.fn(),
   }),
 }));
+
+import React from 'react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import '@testing-library/jest-dom';
+import VimEditor from './vimEditor';
 
 describe('VimEditor', () => {
   it('renders the editor', () => {

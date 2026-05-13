@@ -20,5 +20,5 @@ jobs:
       - name: Run Django tests
         run: docker compose exec backend python manage.py test
 
-#      - name: Run React tests
-#        run: docker compose exec frontend npm test -- --watchAll=false
+      - name: Run React coverage test
+        run:  docker compose exec -it frontend npm test -- --coverage
