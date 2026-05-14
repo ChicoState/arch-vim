@@ -114,8 +114,8 @@ beforeEach(() => {
 		mockExHandlers[`:${abbrev}`] = cb;
 	});
 
-	progressMock.saveProgress.mockClear();
-	progressMock.loadProgress.mockClear();
+    progressMock.saveProgress.mockResolvedValue(undefined);
+    progressMock.loadProgress.mockResolvedValue({});
 });
 
 // Renders the editor and returns helpers for triggering editor events

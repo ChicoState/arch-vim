@@ -29,7 +29,19 @@ beforeEach(() => {
     const checkLevel = jest.requireMock('../../components/checkLevelPassed');
     checkLevel.default.mockReturnValue(false);
 });
-// Runs the same 3 tests against every level file
+jest.mock('../../components/checkLevelPassed', () => ({
+    __esModule: true,
+    default: jest.fn(() => false),
+    useProgress: jest.fn(() => ({ progress: {} })),
+}));
+beforeEach(() => {
+    const checkLevel = jest.requireMock('../../components/checkLevelPassed');
+    checkLevel.default.mockReturnValue(false);
+    checkLevel.useProgress.mockReturnValue({ progress: {} });
+    
+    const themeContext = jest.requireMock('../../ThemeContext');
+    themeContext.useTheme.mockReturnValue({ theme: 'dark' });
+});
 describe.each(
     Array.from({ length: 27 }, (_, i) => [i + 1])
 )('Level %i passed state', (num) => {
