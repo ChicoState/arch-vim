@@ -23,6 +23,14 @@ jobs:
       - name: Backend Test Coverage Results
         run: docker compose exec backend coverage report
 
+#      - name: Run React tests
+#        run: docker compose exec frontend npm test -- --watchAll=false
+
+      - name: Frontend Cyclomatic Complexity Test
+        run: docker compose exec frontend npx eslint src/
+      
+      - name: Backend Cyclomatic Complexity Test
+        run: docker compose exec backend radon cc api/ -s -a
       - name: Run React coverage test
         run:  docker compose exec -iT frontend npm test -- --coverage --watchAll=false
 
