@@ -1,13 +1,25 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import VimEditor from "../../editor/vimEditor";
 import Sidebar from "../../components/sidebar";
 import DropDown from "../../components/hint";
 import PassedLevel from "../../components/passedLevel";
-import useCheckLevel from "../../components/checkLevelPassed";
+import useCheckLevel, { useProgress } from "../../components/checkLevelPassed";
 
 export default function Level21() {
     const levelNum = 21;
-    const [passed, setPassed] = useState(useCheckLevel(levelNum));
+    const passedFromProgress = useCheckLevel(levelNum);
+    const [passed, setPassed] = useState(passedFromProgress);
+    const [result, setResult] = useState(null);
+    const { progress } = useProgress();
+
+    const savedResult = progress[`level_${levelNum}`];
+    const displayResult = result ?? savedResult;
+
+    useEffect(() => {
+        if (passedFromProgress) {
+            setPassed(true);
+        }
+    }, [passedFromProgress]);
 
     const startValue =
 `#include <stdio.h>
@@ -68,7 +80,10 @@ int main() {
                                 level={levelNum}
                                 value={startValue}
                                 finalText={finalValue}
-                                onWin={() => setPassed(true)}
+                                onWin={(data) => {
+                                    setPassed(true);
+                                    setResult(data);
+                                }}
                             />
                         </div>
                     </>
@@ -81,7 +96,7 @@ int main() {
                 <DropDown title={"Can I use dd instead?"} contents={"You could press dd four times, but the point of this level is to combine an operator with a motion to do it in one command."} />
                 {passed && (
                     <div className="mt-6">
-                        <PassedLevel levelNum={levelNum} />
+                        <PassedLevel levelNum={levelNum} result={displayResult} />
                     </div>
                 )}
             </aside>
