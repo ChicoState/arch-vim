@@ -8,6 +8,7 @@ backend/*.pyo
 backend/*.pyd
 backend/.env
 __pycache__
+backend/.coverage
 
 # Node / React
 frontend/node_modules/

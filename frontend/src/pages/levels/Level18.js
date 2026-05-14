@@ -1,13 +1,25 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import VimEditor from "../../editor/vimEditor";
 import Sidebar from "../../components/sidebar";
 import DropDown from "../../components/hint";
 import PassedLevel from "../../components/passedLevel";
-import useCheckLevel from "../../components/checkLevelPassed";
+import useCheckLevel, { useProgress } from "../../components/checkLevelPassed";
 
 export default function Level18() {
     const levelNum = 18;
-    const [passed, setPassed] = useState(useCheckLevel(levelNum));
+    const passedFromProgress = useCheckLevel(levelNum);
+    const [passed, setPassed] = useState(passedFromProgress);
+    const [result, setResult] = useState(null);
+    const { progress } = useProgress();
+
+    const savedResult = progress[`level_${levelNum}`];
+    const displayResult = result ?? savedResult;
+
+    useEffect(() => {
+        if (passedFromProgress) {
+            setPassed(true);
+        }
+    }, [passedFromProgress]);
 
     const startValue =
 `#include <stdio.h>
@@ -57,7 +69,10 @@ int main() {
                                 level={levelNum}
                                 value={startValue}
                                 finalText={finalValue}
-                                onWin={() => setPassed(true)}
+                                onWin={(data) => {
+                                    setPassed(true);
+                                    setResult(data);
+                                }}
                             />
                         </div>
                     </>
@@ -70,7 +85,7 @@ int main() {
                 <DropDown title={"Do I have to do it twice?"} contents={"Yes — navigate to each 'foo' and use cw each time. You'll learn a faster way to rename things later!"} />
                 {passed && (
                     <div className="mt-6">
-                        <PassedLevel levelNum={levelNum} />
+                        <PassedLevel levelNum={levelNum} result={displayResult} />
                     </div>
                 )}
             </aside>
