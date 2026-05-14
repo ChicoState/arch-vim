@@ -513,3 +513,4 @@ describe('VimEditor', () => {
         await waitFor(() => expect(h.onWin).toHaveBeenCalled());
     });
 });
+
