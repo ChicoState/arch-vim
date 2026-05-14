@@ -1,5 +1,12 @@
 ﻿# arch-vim
 
+# Cyclomatic Complexity Commands:
+While containers are running
+```
+docker compose exec -it frontend npx eslint src/
+docker compose exec -it backend radon cc api/ -s -a
+```
+
 
 ## Docker commands
 

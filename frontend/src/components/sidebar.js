@@ -17,8 +17,8 @@ function LevelCheck({ levelNum = 0, levelDesc = "", theme = "dark" }) {
           ? [
               "text-green-400",
               "hover:text-green-300",
-              "text-[1rem]",
-              "leading-8",
+              "text-sm",
+              "leading-6",
               "font-medium",
               "transition",
               "duration-300",
@@ -27,8 +27,8 @@ function LevelCheck({ levelNum = 0, levelDesc = "", theme = "dark" }) {
           : [
               "text-green-600",
               "hover:text-green-700",
-              "text-[1rem]",
-              "leading-8",
+              "text-sm",
+              "leading-6",
               "font-medium",
               "transition",
               "duration-300",
@@ -46,7 +46,7 @@ function LevelCheck({ levelNum = 0, levelDesc = "", theme = "dark" }) {
           ? [
               "text-white",
               "hover:text-gray-300",
-              "text-[1rem]",
+              "text-sm",
               "leading-8",
               "font-medium",
               "transition",
@@ -56,8 +56,8 @@ function LevelCheck({ levelNum = 0, levelDesc = "", theme = "dark" }) {
           : [
               "text-slate-800",
               "hover:text-slate-600",
-              "text-[1rem]",
-              "leading-8",
+              "text-sm",
+              "leading-6",
               "font-medium",
               "transition",
               "duration-300",
@@ -90,7 +90,7 @@ export default function Sidebar() {
     theme === "dark"
       ? [
           "w-full",
-          "h-[96vh]",
+          "max-h-[96dvh]",
           "rounded-3xl",
           "bg-gray-950",
           "border",
@@ -200,14 +200,14 @@ export default function Sidebar() {
     theme === "dark"
       ? [
           "pl-4",
-          "text-2xl",
+          "text-lg",
           "font-semibold",
           "text-white",
           "tracking-wide"
         ].join(" ")
       : [
           "pl-4",
-          "text-2xl",
+          "text-lg",
           "font-semibold",
           "text-slate-900",
           "tracking-wide"
@@ -241,6 +241,28 @@ export default function Sidebar() {
           "ease-in-out"
         ].join(" ");
 
+  const bottomClass =
+    theme === "dark"
+      ? [
+          "absolute",
+          "left-5",
+          "bottom-5",
+          "flex",
+          "items-center",
+          "gap-3",
+          "text-2xl",
+          "text-white"
+        ].join(" ")
+      : [
+          "absolute",
+          "left-5",
+          "bottom-5",
+          "flex",
+          "items-center",
+          "gap-3",
+          "text-lg",
+          "text-slate-900"
+        ].join(" ");
 
   return (
     <div className={wrapperClass}>
@@ -356,7 +378,7 @@ export default function Sidebar() {
           >
             <span>Challenges</span>
             <span className={arrowClass}>{challengesOpen ? "▾" : "▸"}</span>
-          </button><br/>
+          </button>
           {challengesOpen && (
             <div className={sectionContentClass}> 
               <LevelCheck levelNum={5} levelDesc={"Challenge - Easy"} theme={theme} /><br />
@@ -375,7 +397,7 @@ export default function Sidebar() {
               className="hover:text-red-400 transition"
             >
               Logout
-            </button>
+            </button><br/>
           </div>
         </div>
 
