@@ -23,5 +23,6 @@ jobs:
       - name: Backend Test Coverage Results
         run: docker compose exec backend coverage report
 
-#      - name: Run React tests
-#        run: docker compose exec frontend npm test -- --watchAll=false
+      - name: Run React coverage test
+        run:  docker compose exec -iT frontend npm test -- --coverage --watchAll=false
+
