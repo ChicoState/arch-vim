@@ -1,15 +1,27 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import VimEditor from "../../editor/vimEditor";
 import Sidebar from "../../components/sidebar";
 import DropDown from "../../components/hint";
 import PassedLevel from "../../components/passedLevel";
 import { useTheme } from "../../ThemeContext";
-import useCheckLevel from "../../components/checkLevelPassed";
+import useCheckLevel, { useProgress } from "../../components/checkLevelPassed";
 
 export default function Level4() {
     const levelNum = 4;
-    const [passed, setPassed] = useState(useCheckLevel(levelNum));
+    const passedFromProgress = useCheckLevel(levelNum);
+    const [passed, setPassed] = useState(passedFromProgress);
+    const [result, setResult] = useState(null);
+    const { progress } = useProgress();
     const { theme } = useTheme();
+
+    const savedResult = progress[`level_${levelNum}`];
+    const displayResult = result ?? savedResult;
+
+    useEffect(() => {
+        if (passedFromProgress) {
+            setPassed(true);
+        }
+    }, [passedFromProgress]);
 
     const defaultValue =
 `#include <stdio.h>
@@ -70,7 +82,10 @@ return 0;
                             level={levelNum}
                             value={defaultValue}
                             possibleCommands={[":w", ":wq"]}
-                            onWin={() => setPassed(true)}
+                            onWin={(data) => {
+                                setPassed(true);
+                                setResult(data);
+                            }}
                         />
                     </div>
                 </div>
@@ -85,7 +100,7 @@ return 0;
                 />
                 {passed && (
                     <div className="mt-6">
-                        <PassedLevel levelNum={levelNum} />
+                        <PassedLevel levelNum={levelNum} result={displayResult} />
                     </div>
                 )}
             </aside>

@@ -5,7 +5,6 @@ import ThemeToggle from "./themeToggle";
 import { useAuth } from "../AuthContext";
 import { useTheme } from "../ThemeContext";
 
-function callBackend() {}
 
 function LevelCheck({ levelNum = 0, levelDesc = "", theme = "dark" }) {
   const passed = useCheckLevel(levelNum);
@@ -242,28 +241,6 @@ export default function Sidebar() {
           "ease-in-out"
         ].join(" ");
 
-  const bottomClass =
-    theme === "dark"
-      ? [
-          "absolute",
-          "left-5",
-          "bottom-5",
-          "flex",
-          "items-center",
-          "gap-3",
-          "text-2xl",
-          "text-white"
-        ].join(" ")
-      : [
-          "absolute",
-          "left-5",
-          "bottom-5",
-          "flex",
-          "items-center",
-          "gap-3",
-          "text-2xl",
-          "text-slate-900"
-        ].join(" ");
 
   return (
     <div className={wrapperClass}>

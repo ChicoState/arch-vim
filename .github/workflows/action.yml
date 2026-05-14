@@ -31,3 +31,6 @@ jobs:
       
       - name: Backend Cyclomatic Complexity Test
         run: docker compose exec backend radon cc api/ -s -a
+      - name: Run React coverage test
+        run:  docker compose exec -iT frontend npm test -- --coverage --watchAll=false
+
