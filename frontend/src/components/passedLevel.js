@@ -1,8 +1,18 @@
 import { Link } from "react-router-dom";
 import { useTheme } from "../ThemeContext";
 
-export default function PassedLevel({ levelNum = 0, strokes = null, ms = null }) {
+export default function PassedLevel({
+  levelNum = 0,
+  result = null,
+  strokes = null,
+  ms = null,
+}) {
   const { theme } = useTheme();
+
+  const currentStrokes = result?.strokes ?? strokes;
+  const currentMs = result?.ms ?? ms;
+  const bestStrokes = result?.bestStrokes;
+  const bestMs = result?.bestMs;
 
   function formatTime(ms) {
     if (ms == null) return null;
@@ -13,7 +23,9 @@ export default function PassedLevel({ levelNum = 0, strokes = null, ms = null })
 
     return `${min}:${sec}`;
   }
-  const formattedTime = formatTime(ms);
+
+  const formattedTime = formatTime(currentMs);
+  const formattedBestTime = formatTime(bestMs);
 
   return (
     <div
@@ -32,7 +44,8 @@ export default function PassedLevel({ levelNum = 0, strokes = null, ms = null })
       >
         You passed!
       </h2>
-      {(strokes !== null || formattedTime !== null) && (
+
+      {(currentStrokes !== null || formattedTime !== null) && (
         <div
           className={
             theme === "dark"
@@ -40,19 +53,40 @@ export default function PassedLevel({ levelNum = 0, strokes = null, ms = null })
               : "mb-4 text-green-700"
           }
         >
-          {strokes !== null && (
+          <p className="text-lg font-semibold mb-1">Current High Scores!</p>
+
+          {currentStrokes !== null && (
             <p className="text-lg">
-              Strokes: <span className="font-semibold">{strokes}</span>
+              Strokes: <span className="font-semibold">{currentStrokes}</span>
             </p>
           )}
 
           {formattedTime !== null && (
-            <p className="text-lg">
+            <p className="text-lg mb-3">
               Time: <span className="font-semibold">{formattedTime}</span>
             </p>
           )}
+
+          {(bestStrokes !== undefined || formattedBestTime !== null) && (
+            <>
+              <p className="text-lg font-semibold mb-1">Best Clear</p>
+
+              {bestStrokes !== undefined && (
+                <p className="text-lg">
+                  Best Strokes: <span className="font-semibold">{bestStrokes}</span>
+                </p>
+              )}
+
+              {formattedBestTime !== null && (
+                <p className="text-lg">
+                  Best Time: <span className="font-semibold">{formattedBestTime}</span>
+                </p>
+              )}
+            </>
+          )}
         </div>
       )}
+
       <p className={theme === "dark" ? "text-lg mb-2 text-white" : "text-lg mb-2 text-slate-900"}>
         Move on to the next level:{" "}
         <Link

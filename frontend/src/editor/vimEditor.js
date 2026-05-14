@@ -98,17 +98,36 @@ export default function VimEditor({
 	const { levelPassed } = useProgress();
 
 	async function saveTest() {
-		const existing = await loadProgress();
-		await saveProgress({
-			...existing,
-			[`level_${level}`]: { passed: true }
-		});
-		levelPassed(level);
-        onWin({
-        strokes: strokeCountRef.current,
-        ms: elapsedTimeRef.current,
-});
-	}
+        const existing = await loadProgress();
+        const previousResult = existing[`level_${level}`] ?? {};
+
+        const currentStrokes = strokeCountRef.current;
+        const currentMs = elapsedTimeRef.current;
+
+        const bestStrokes =
+            previousResult.strokes == null
+                ? currentStrokes
+                : Math.min(previousResult.strokes, currentStrokes);
+
+        const bestMs =
+            previousResult.ms == null
+                ? currentMs
+                : Math.min(previousResult.ms, currentMs);
+
+        const result = {
+            passed: true,
+            strokes: bestStrokes,
+            ms: bestMs,
+        };
+
+        await saveProgress({
+            ...existing,
+            [`level_${level}`]: result,
+        });
+
+        levelPassed(level, result);
+        onWin(result);
+    }
 
 	function checkWinConditions() {
 		if(!canWin) return;
@@ -176,8 +195,8 @@ export default function VimEditor({
 		currentModeRef.current = "normal";
         strokeCountRef.current = 0;
         colonActiveRef.current = false;
-        renderStats();
         resetTimer();
+        renderStats();
 		calledCommandsRef.current = Object.fromEntries(
 			commands.map((cmd) => [cmd, false])
 		);
