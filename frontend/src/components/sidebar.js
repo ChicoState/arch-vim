@@ -5,7 +5,6 @@ import ThemeToggle from "./themeToggle";
 import { useAuth } from "../AuthContext";
 import { useTheme } from "../ThemeContext";
 
-function callBackend() {}
 
 function LevelCheck({ levelNum = 0, levelDesc = "", theme = "dark" }) {
   const passed = useCheckLevel(levelNum);
