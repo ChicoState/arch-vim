@@ -21,6 +21,5 @@ jobs:
         run: docker compose exec backend python manage.py test
 
       - name: Run React coverage test
-        run:  docker compose exec -iT frontend npm test -- --coverage --watchAll=false --testPathIgnorePatterns="src/components/sidebar.test.js"
-        
+        run:  docker compose exec -iT frontend npm test -- --coverage --watchAll=false
 
