@@ -247,4 +247,34 @@ describe("Home page", () => {
     const link = screen.getByText("Learn Navigation").closest("a");
     expect(link.className).toContain("text-green-600");
   });
+
+  it("updates title and chevron styles when home page scrolls", () => {
+    Object.defineProperty(window, "innerHeight", {
+      writable: true,
+      configurable: true,
+      value: 1000,
+    });
+  
+    const { container } = render(
+      <MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+        <Home />
+      </MemoryRouter>
+    );
+  
+    const scrollContainer = container.firstChild;
+    const titleCard = screen.getByText("Arch-Vim").closest("div");
+    const chevron = container.querySelector("svg").closest("div");
+  
+    Object.defineProperty(scrollContainer, "scrollTop", {
+      writable: true,
+      configurable: true,
+      value: 300,
+    });
+  
+    fireEvent.scroll(scrollContainer);
+  
+    expect(titleCard.style.opacity).not.toBe("");
+    expect(chevron.style.opacity).not.toBe("");
+    expect(chevron.style.transform).toContain("rotate");
+  });
 });
