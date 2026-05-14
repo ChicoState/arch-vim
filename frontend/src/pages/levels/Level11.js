@@ -1,13 +1,26 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import VimEditor from "../../editor/vimEditor";
 import Sidebar from "../../components/sidebar";
 import DropDown from "../../components/hint";
 import PassedLevel from "../../components/passedLevel";
-import useCheckLevel from "../../components/checkLevelPassed";
+import useCheckLevel, { useProgress } from "../../components/checkLevelPassed";
 
 export default function Level11() {
     const levelNum = 11
-    const [passed, setPassed] = useState(useCheckLevel(levelNum));
+    const passedFromProgress = useCheckLevel(levelNum);
+    const [passed, setPassed] = useState(passedFromProgress);
+    const [result, setResult] = useState(null);
+    const { progress } = useProgress();
+
+    const savedResult = progress[`level_${levelNum}`];
+    const displayResult = result ?? savedResult;
+
+    useEffect(() => {
+        if (passedFromProgress) {
+            setPassed(true);
+        }
+    }, [passedFromProgress]);
+
     const startValue =
 `#include <stdio.h>
 
@@ -47,7 +60,7 @@ int main() {
                     <h3 className="text-4xl mb-2">Basic Search</h3>
                     <hr className="mb-4 border-gray-600 w-96"/>
                     <div className="text-lg leading-8">
-                        <p>Beyond using <kbd>h</kbd>, <kbd>j</kbd>, <kbd>k</kbd>, and <kbd>l</kbd> to navigate character by character, you can jump word to word.<br></br><br></br></p>
+                        <p>Beyond using <kbd>h</kbd>, <kbd>j</kbd>, and <kbd>l</kbd> to navigate character by character, you can jump word to word.<br></br><br></br></p>
                         <div className="pl-4">
                             <kbd>/</kbd> is the search key. Following it with a phrase and pressing <kbd>Enter</kbd> will jump to the first instance of that word.<br></br>
                             <kbd>n</kbd> jumps to the next match<br></br>
@@ -67,7 +80,10 @@ int main() {
                 value = {startValue}
                 cursorCol={13}
                 cursorLine={17}
-                onWin = {() => setPassed(true)}
+                onWin={(data) => {
+                    setPassed(true);
+                    setResult(data);
+                }}
                 />
                 </div>
                 </>
@@ -81,7 +97,7 @@ int main() {
                 <DropDown title={"Testing 2"} contents={"Testtestest"} />
                 {passed && (
                     <div className="mt-6">
-                        <PassedLevel levelNum={levelNum}/>
+                        <PassedLevel levelNum={levelNum} result={displayResult}/>
                     </div>
                     )
                 }
